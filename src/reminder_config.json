@@ -1,0 +1,129 @@
+{
+    "target_ids": [
+        "C1234567890abcdef1234567890abcdef"
+    ],
+    "fallback_user_id": "U2b1bb2a638b714727085c7317a3b54a0",
+    "auto_discovery": true,
+    "notification_times": [
+        {
+            "hour": 13,
+            "minute": 40
+        },
+        {
+            "hour": 13,
+            "minute": 45
+        },
+        {
+            "hour": 13,
+            "minute": 50
+        },
+        {
+            "hour": 13,
+            "minute": 55
+        },
+        {
+            "hour": 14,
+            "minute": 0
+        },
+        {
+            "hour": 14,
+            "minute": 5
+        },
+        {
+            "hour": 14,
+            "minute": 10
+        },
+        {
+            "hour": 14,
+            "minute": 15
+        },
+        {
+            "hour": 14,
+            "minute": 20
+        },
+        {
+            "hour": 14,
+            "minute": 25
+        },
+        {
+            "hour": 14,
+            "minute": 30
+        },
+        {
+            "hour": 14,
+            "minute": 35
+        },
+        {
+            "hour": 14,
+            "minute": 40
+        },
+        {
+            "hour": 14,
+            "minute": 45
+        },
+        {
+            "hour": 14,
+            "minute": 50
+        },
+        {
+            "hour": 14,
+            "minute": 55
+        },
+        {
+            "hour": 15,
+            "minute": 0
+        },
+        {
+            "hour": 15,
+            "minute": 5
+        },
+        {
+            "hour": 15,
+            "minute": 10
+        },
+        {
+            "hour": 15,
+            "minute": 15
+        },
+        {
+            "hour": 15,
+            "minute": 20
+        },
+        {
+            "hour": 15,
+            "minute": 25
+        },
+        {
+            "hour": 15,
+            "minute": 30
+        },
+        {
+            "hour": 15,
+            "minute": 35
+        },
+        {
+            "hour": 15,
+            "minute": 40
+        },
+        {
+            "hour": 15,
+            "minute": 45
+        },
+        {
+            "hour": 15,
+            "minute": 50
+        },
+        {
+            "hour": 15,
+            "minute": 55
+        },
+        {
+            "hour": 16,
+            "minute": 0
+        },
+        {
+            "hour": 21,
+            "minute": 30
+        }
+    ]
+}

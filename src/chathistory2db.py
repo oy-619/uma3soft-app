@@ -36,7 +36,7 @@ def load_chathistory_to_chromadb(
     chathistory_path=DEFAULT_CHATHISTORY_PATH,  # 読み込み対象のチャット履歴ファイルパス
     persist_directory=PERSIST_DIRECTORY,  # ChromaDB保存先ディレクトリ
     embedding_model_name="sentence-transformers/all-MiniLM-L6-v2",  # 埋め込みモデル名
-    verbose=True,  # 詳細ログ出力フラグ
+    verbose=os.getenv("DEBUG"),  # 詳細ログ出力フラグ
 ):
     """
     チャット履歴をChromaDBにロードする関数。
@@ -93,7 +93,11 @@ def load_chathistory_to_chromadb(
                 # ChromaDBから既存の全ドキュメントを取得
                 docs = vector_db.get()  # 全ドキュメント取得
 
-                if docs and docs.get("documents") and len(docs["documents"]) > 0:
+                if (
+                    docs is not None
+                    and docs.get("documents")
+                    and len(docs["documents"]) > 0
+                ):
                     print(
                         f"[INFO] Loading {len(docs['documents'])} existing documents for duplicate check..."
                     )
@@ -101,11 +105,15 @@ def load_chathistory_to_chromadb(
                     # 各既存ドキュメントから重複チェック用キーを生成
                     for i in range(len(docs["documents"])):
                         msg = docs["documents"][i]  # メッセージ本文
-                        meta = (
-                            docs.get("metadatas", [{}])[i]
-                            if i < len(docs.get("metadatas", []))
-                            else {}
-                        )
+                        metadatas = docs.get("metadatas", [])
+                        if (
+                            metadatas is not None
+                            and i < len(metadatas)
+                            and metadatas[i] is not None
+                        ):
+                            meta = metadatas[i]
+                        else:
+                            meta = {}
                         timestamp = meta.get("timestamp", "")
 
                         # 重複チェック用の複合キー（メッセージ内容 + タイムスタンプ）
@@ -266,7 +274,18 @@ def load_chathistory_to_chromadb(
                     )
                 skip_count += 1
 
-        # ステップ11: 処理結果のサマリー表示
+        # ステップ11: ChromaDBの永続化（メモリからディスクに保存）
+        if new_count > 0:  # 新規データが追加された場合のみ永続化実行
+            try:
+                print("[INFO] Persisting ChromaDB to disk...")
+                # langchain_chroma v0.1.x系では明示的なpersistは不要
+                # データはadd_texts時に自動的にpersist_directoryに保存される
+                print("[INFO] ChromaDB data automatically persisted.")
+            except Exception as e:
+                print(f"[ERROR] Failed to persist ChromaDB: {e}")
+                return False
+
+        # ステップ12: 処理結果のサマリー表示
         print(f"[INFO] === Processing Summary ===")
         print(f"[INFO] Total messages processed: {len(messages_to_save)}")
         print(f"[INFO] New messages added: {new_count}")
@@ -275,7 +294,7 @@ def load_chathistory_to_chromadb(
             print(f"[WARNING] Errors encountered: {error_count}")
         print(f"[INFO] Differential registration completed successfully.")
 
-        # ステップ12: ファイル移動処理（新しいデータが追加された場合のみ実行）
+        # ステップ13: ファイル移動処理（新しいデータが追加された場合のみ実行）
         if new_count > 0:  # 新規データが1件以上追加された場合
             try:
                 now = datetime.now()  # 現在日時取得
@@ -314,7 +333,7 @@ def load_chathistory_to_chromadb(
         print("[SUCCESS] All chat history loaded into ChromaDB.")  # 処理完了メッセージ
         return True  # 成功を返す
 
-    # ステップ13: 例外処理（各種エラーに対応）
+    # ステップ14: 例外処理（各種エラーに対応）
     except FileNotFoundError as e:
         print(f"[ERROR] File not found: {e}")  # ファイルが見つからない場合
         return False  # 失敗を返す

@@ -1,0 +1,1250 @@
+{
+  "system_info": {
+    "version": "3.0_batch_updated",
+    "last_updated": "2025-10-28T08:56:42.873337",
+    "team_name": "馬三ソフト",
+    "expandable": true,
+    "auto_learning_enabled": true,
+    "batch_update_info": {
+      "update_date": "2025-10-28T08:56:42.873337",
+      "new_players_added": 14,
+      "status_changes": 1,
+      "duplicates_handled": 2
+    }
+  },
+  "player_categories": {
+    "confirmed_players": {
+      "count": 28,
+      "players": [
+        "陸功",
+        "湊",
+        "錬",
+        "南",
+        "統司",
+        "春輝",
+        "新",
+        "由眞",
+        "心寧",
+        "唯浬",
+        "朋樹",
+        "佑多",
+        "穂美",
+        "翔平",
+        "尚真",
+        "柚希",
+        "心翔",
+        "広起",
+        "想真",
+        "奏",
+        "英汰",
+        "聡太",
+        "暖大",
+        "悠琉",
+        "陽",
+        "美玖里",
+        "優",
+        "勘太"
+      ],
+      "status": "verified_from_user_input"
+    },
+    "potential_players": {
+      "count": 0,
+      "players": [],
+      "status": "detected_from_analysis_high_confidence"
+    },
+    "total_current": {
+      "count": 28,
+      "players": [
+        "陸功",
+        "湊",
+        "錬",
+        "南",
+        "統司",
+        "春輝",
+        "新",
+        "由眞",
+        "心寧",
+        "唯浬",
+        "朋樹",
+        "佑多",
+        "穂美",
+        "翔平",
+        "尚真",
+        "柚希",
+        "心翔",
+        "広起",
+        "想真",
+        "奏",
+        "英汰",
+        "聡太",
+        "暖大",
+        "悠琉",
+        "陽",
+        "美玖里",
+        "優",
+        "勘太"
+      ]
+    }
+  },
+  "player_details": [
+    {
+      "id": 1,
+      "name": "陸功",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 1,
+      "name_length": 2,
+      "characters": [
+        "陸",
+        "功"
+      ],
+      "search_patterns": [
+        "陸功",
+        "陸功選手",
+        "陸功君",
+        "陸功さん",
+        "陸功ちゃん",
+        "陸功について",
+        "陸功の",
+        "陸功は",
+        "陸功が",
+        "陸功を",
+        "陸功に",
+        "陸功で",
+        "陸功と",
+        "陸功はどんな選手？",
+        "陸功について教えて",
+        "陸功の情報",
+        "陸功のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 2,
+      "name": "湊",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 2,
+      "name_length": 1,
+      "characters": [
+        "湊"
+      ],
+      "search_patterns": [
+        "湊",
+        "湊選手",
+        "湊君",
+        "湊さん",
+        "湊ちゃん",
+        "湊について",
+        "湊の",
+        "湊は",
+        "湊が",
+        "湊を",
+        "湊に",
+        "湊で",
+        "湊と",
+        "湊はどんな選手？",
+        "湊について教えて",
+        "湊の情報",
+        "湊のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 3,
+      "name": "錬",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 3,
+      "name_length": 1,
+      "characters": [
+        "錬"
+      ],
+      "search_patterns": [
+        "錬",
+        "錬選手",
+        "錬君",
+        "錬さん",
+        "錬ちゃん",
+        "錬について",
+        "錬の",
+        "錬は",
+        "錬が",
+        "錬を",
+        "錬に",
+        "錬で",
+        "錬と",
+        "錬はどんな選手？",
+        "錬について教えて",
+        "錬の情報",
+        "錬のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 4,
+      "name": "南",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 4,
+      "name_length": 1,
+      "characters": [
+        "南"
+      ],
+      "search_patterns": [
+        "南",
+        "南選手",
+        "南君",
+        "南さん",
+        "南ちゃん",
+        "南について",
+        "南の",
+        "南は",
+        "南が",
+        "南を",
+        "南に",
+        "南で",
+        "南と",
+        "南はどんな選手？",
+        "南について教えて",
+        "南の情報",
+        "南のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 5,
+      "name": "統司",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 5,
+      "name_length": 2,
+      "characters": [
+        "統",
+        "司"
+      ],
+      "search_patterns": [
+        "統司",
+        "統司選手",
+        "統司君",
+        "統司さん",
+        "統司ちゃん",
+        "統司について",
+        "統司の",
+        "統司は",
+        "統司が",
+        "統司を",
+        "統司に",
+        "統司で",
+        "統司と",
+        "統司はどんな選手？",
+        "統司について教えて",
+        "統司の情報",
+        "統司のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 6,
+      "name": "春輝",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 6,
+      "name_length": 2,
+      "characters": [
+        "春",
+        "輝"
+      ],
+      "search_patterns": [
+        "春輝",
+        "春輝選手",
+        "春輝君",
+        "春輝さん",
+        "春輝ちゃん",
+        "春輝について",
+        "春輝の",
+        "春輝は",
+        "春輝が",
+        "春輝を",
+        "春輝に",
+        "春輝で",
+        "春輝と",
+        "春輝はどんな選手？",
+        "春輝について教えて",
+        "春輝の情報",
+        "春輝のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 7,
+      "name": "新",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 7,
+      "name_length": 1,
+      "characters": [
+        "新"
+      ],
+      "search_patterns": [
+        "新",
+        "新選手",
+        "新君",
+        "新さん",
+        "新ちゃん",
+        "新について",
+        "新の",
+        "新は",
+        "新が",
+        "新を",
+        "新に",
+        "新で",
+        "新と",
+        "新はどんな選手？",
+        "新について教えて",
+        "新の情報",
+        "新のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 8,
+      "name": "由眞",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 8,
+      "name_length": 2,
+      "characters": [
+        "由",
+        "眞"
+      ],
+      "search_patterns": [
+        "由眞",
+        "由眞選手",
+        "由眞君",
+        "由眞さん",
+        "由眞ちゃん",
+        "由眞について",
+        "由眞の",
+        "由眞は",
+        "由眞が",
+        "由眞を",
+        "由眞に",
+        "由眞で",
+        "由眞と",
+        "由眞はどんな選手？",
+        "由眞について教えて",
+        "由眞の情報",
+        "由眞のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 9,
+      "name": "心寧",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 9,
+      "name_length": 2,
+      "characters": [
+        "心",
+        "寧"
+      ],
+      "search_patterns": [
+        "心寧",
+        "心寧選手",
+        "心寧君",
+        "心寧さん",
+        "心寧ちゃん",
+        "心寧について",
+        "心寧の",
+        "心寧は",
+        "心寧が",
+        "心寧を",
+        "心寧に",
+        "心寧で",
+        "心寧と",
+        "心寧はどんな選手？",
+        "心寧について教えて",
+        "心寧の情報",
+        "心寧のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.873337",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 10,
+      "name": "唯浬",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 10,
+      "name_length": 2,
+      "characters": [
+        "唯",
+        "浬"
+      ],
+      "search_patterns": [
+        "唯浬",
+        "唯浬選手",
+        "唯浬君",
+        "唯浬さん",
+        "唯浬ちゃん",
+        "唯浬について",
+        "唯浬の",
+        "唯浬は",
+        "唯浬が",
+        "唯浬を",
+        "唯浬に",
+        "唯浬で",
+        "唯浬と",
+        "唯浬はどんな選手？",
+        "唯浬について教えて",
+        "唯浬の情報",
+        "唯浬のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 11,
+      "name": "朋樹",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 11,
+      "name_length": 2,
+      "characters": [
+        "朋",
+        "樹"
+      ],
+      "search_patterns": [
+        "朋樹",
+        "朋樹選手",
+        "朋樹君",
+        "朋樹さん",
+        "朋樹ちゃん",
+        "朋樹について",
+        "朋樹の",
+        "朋樹は",
+        "朋樹が",
+        "朋樹を",
+        "朋樹に",
+        "朋樹で",
+        "朋樹と",
+        "朋樹はどんな選手？",
+        "朋樹について教えて",
+        "朋樹の情報",
+        "朋樹のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 12,
+      "name": "佑多",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 12,
+      "name_length": 2,
+      "characters": [
+        "佑",
+        "多"
+      ],
+      "search_patterns": [
+        "佑多",
+        "佑多選手",
+        "佑多君",
+        "佑多さん",
+        "佑多ちゃん",
+        "佑多について",
+        "佑多の",
+        "佑多は",
+        "佑多が",
+        "佑多を",
+        "佑多に",
+        "佑多で",
+        "佑多と",
+        "佑多はどんな選手？",
+        "佑多について教えて",
+        "佑多の情報",
+        "佑多のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 13,
+      "name": "穂美",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 13,
+      "name_length": 2,
+      "characters": [
+        "穂",
+        "美"
+      ],
+      "search_patterns": [
+        "穂美",
+        "穂美選手",
+        "穂美君",
+        "穂美さん",
+        "穂美ちゃん",
+        "穂美について",
+        "穂美の",
+        "穂美は",
+        "穂美が",
+        "穂美を",
+        "穂美に",
+        "穂美で",
+        "穂美と",
+        "穂美はどんな選手？",
+        "穂美について教えて",
+        "穂美の情報",
+        "穂美のこと"
+      ],
+      "learning_metadata": {
+        "source": "initial_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": null,
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 14,
+      "name": "翔平",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 14,
+      "name_length": 2,
+      "characters": [
+        "翔",
+        "平"
+      ],
+      "search_patterns": [
+        "翔平",
+        "翔平選手",
+        "翔平君",
+        "翔平さん",
+        "翔平ちゃん",
+        "翔平について",
+        "翔平の",
+        "翔平は",
+        "翔平が",
+        "翔平を",
+        "翔平に",
+        "翔平で",
+        "翔平と",
+        "翔平はどんな選手？",
+        "翔平について教えて",
+        "翔平の情報",
+        "翔平のこと"
+      ],
+      "learning_metadata": {
+        "source": "promoted_from_potential",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 1,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": false
+        }
+      }
+    },
+    {
+      "id": 15,
+      "name": "尚真",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 15,
+      "name_length": 2,
+      "characters": [
+        "尚",
+        "真"
+      ],
+      "search_patterns": [
+        "尚真",
+        "尚真選手",
+        "尚真君",
+        "尚真さん",
+        "尚真ちゃん",
+        "尚真について",
+        "尚真の",
+        "尚真は",
+        "尚真が",
+        "尚真を",
+        "尚真に",
+        "尚真で",
+        "尚真と",
+        "尚真はどんな選手？",
+        "尚真について教えて",
+        "尚真の情報",
+        "尚真のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 16,
+      "name": "柚希",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 16,
+      "name_length": 2,
+      "characters": [
+        "柚",
+        "希"
+      ],
+      "search_patterns": [
+        "柚希",
+        "柚希選手",
+        "柚希君",
+        "柚希さん",
+        "柚希ちゃん",
+        "柚希について",
+        "柚希の",
+        "柚希は",
+        "柚希が",
+        "柚希を",
+        "柚希に",
+        "柚希で",
+        "柚希と",
+        "柚希はどんな選手？",
+        "柚希について教えて",
+        "柚希の情報",
+        "柚希のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 17,
+      "name": "心翔",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 17,
+      "name_length": 2,
+      "characters": [
+        "心",
+        "翔"
+      ],
+      "search_patterns": [
+        "心翔",
+        "心翔選手",
+        "心翔君",
+        "心翔さん",
+        "心翔ちゃん",
+        "心翔について",
+        "心翔の",
+        "心翔は",
+        "心翔が",
+        "心翔を",
+        "心翔に",
+        "心翔で",
+        "心翔と",
+        "心翔はどんな選手？",
+        "心翔について教えて",
+        "心翔の情報",
+        "心翔のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 18,
+      "name": "広起",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 18,
+      "name_length": 2,
+      "characters": [
+        "広",
+        "起"
+      ],
+      "search_patterns": [
+        "広起",
+        "広起選手",
+        "広起君",
+        "広起さん",
+        "広起ちゃん",
+        "広起について",
+        "広起の",
+        "広起は",
+        "広起が",
+        "広起を",
+        "広起に",
+        "広起で",
+        "広起と",
+        "広起はどんな選手？",
+        "広起について教えて",
+        "広起の情報",
+        "広起のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 19,
+      "name": "想真",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 19,
+      "name_length": 2,
+      "characters": [
+        "想",
+        "真"
+      ],
+      "search_patterns": [
+        "想真",
+        "想真選手",
+        "想真君",
+        "想真さん",
+        "想真ちゃん",
+        "想真について",
+        "想真の",
+        "想真は",
+        "想真が",
+        "想真を",
+        "想真に",
+        "想真で",
+        "想真と",
+        "想真はどんな選手？",
+        "想真について教えて",
+        "想真の情報",
+        "想真のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 20,
+      "name": "奏",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 20,
+      "name_length": 1,
+      "characters": [
+        "奏"
+      ],
+      "search_patterns": [
+        "奏",
+        "奏選手",
+        "奏君",
+        "奏さん",
+        "奏ちゃん",
+        "奏について",
+        "奏の",
+        "奏は",
+        "奏が",
+        "奏を",
+        "奏に",
+        "奏で",
+        "奏と",
+        "奏はどんな選手？",
+        "奏について教えて",
+        "奏の情報",
+        "奏のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 21,
+      "name": "英汰",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 21,
+      "name_length": 2,
+      "characters": [
+        "英",
+        "汰"
+      ],
+      "search_patterns": [
+        "英汰",
+        "英汰選手",
+        "英汰君",
+        "英汰さん",
+        "英汰ちゃん",
+        "英汰について",
+        "英汰の",
+        "英汰は",
+        "英汰が",
+        "英汰を",
+        "英汰に",
+        "英汰で",
+        "英汰と",
+        "英汰はどんな選手？",
+        "英汰について教えて",
+        "英汰の情報",
+        "英汰のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 22,
+      "name": "聡太",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 22,
+      "name_length": 2,
+      "characters": [
+        "聡",
+        "太"
+      ],
+      "search_patterns": [
+        "聡太",
+        "聡太選手",
+        "聡太君",
+        "聡太さん",
+        "聡太ちゃん",
+        "聡太について",
+        "聡太の",
+        "聡太は",
+        "聡太が",
+        "聡太を",
+        "聡太に",
+        "聡太で",
+        "聡太と",
+        "聡太はどんな選手？",
+        "聡太について教えて",
+        "聡太の情報",
+        "聡太のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 23,
+      "name": "暖大",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 23,
+      "name_length": 2,
+      "characters": [
+        "暖",
+        "大"
+      ],
+      "search_patterns": [
+        "暖大",
+        "暖大選手",
+        "暖大君",
+        "暖大さん",
+        "暖大ちゃん",
+        "暖大について",
+        "暖大の",
+        "暖大は",
+        "暖大が",
+        "暖大を",
+        "暖大に",
+        "暖大で",
+        "暖大と",
+        "暖大はどんな選手？",
+        "暖大について教えて",
+        "暖大の情報",
+        "暖大のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 24,
+      "name": "悠琉",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 24,
+      "name_length": 2,
+      "characters": [
+        "悠",
+        "琉"
+      ],
+      "search_patterns": [
+        "悠琉",
+        "悠琉選手",
+        "悠琉君",
+        "悠琉さん",
+        "悠琉ちゃん",
+        "悠琉について",
+        "悠琉の",
+        "悠琉は",
+        "悠琉が",
+        "悠琉を",
+        "悠琉に",
+        "悠琉で",
+        "悠琉と",
+        "悠琉はどんな選手？",
+        "悠琉について教えて",
+        "悠琉の情報",
+        "悠琉のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 25,
+      "name": "陽",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 25,
+      "name_length": 1,
+      "characters": [
+        "陽"
+      ],
+      "search_patterns": [
+        "陽",
+        "陽選手",
+        "陽君",
+        "陽さん",
+        "陽ちゃん",
+        "陽について",
+        "陽の",
+        "陽は",
+        "陽が",
+        "陽を",
+        "陽に",
+        "陽で",
+        "陽と",
+        "陽はどんな選手？",
+        "陽について教えて",
+        "陽の情報",
+        "陽のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 26,
+      "name": "美玖里",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 26,
+      "name_length": 3,
+      "characters": [
+        "美",
+        "玖",
+        "里"
+      ],
+      "search_patterns": [
+        "美玖里",
+        "美玖里選手",
+        "美玖里君",
+        "美玖里さん",
+        "美玖里ちゃん",
+        "美玖里について",
+        "美玖里の",
+        "美玖里は",
+        "美玖里が",
+        "美玖里を",
+        "美玖里に",
+        "美玖里で",
+        "美玖里と",
+        "美玖里はどんな選手？",
+        "美玖里について教えて",
+        "美玖里の情報",
+        "美玖里のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 27,
+      "name": "優",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 27,
+      "name_length": 1,
+      "characters": [
+        "優"
+      ],
+      "search_patterns": [
+        "優",
+        "優選手",
+        "優君",
+        "優さん",
+        "優ちゃん",
+        "優について",
+        "優の",
+        "優は",
+        "優が",
+        "優を",
+        "優に",
+        "優で",
+        "優と",
+        "優はどんな選手？",
+        "優について教えて",
+        "優の情報",
+        "優のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    },
+    {
+      "id": 28,
+      "name": "勘太",
+      "status": "confirmed",
+      "confidence_score": 1.0,
+      "registration_order": 28,
+      "name_length": 2,
+      "characters": [
+        "勘",
+        "太"
+      ],
+      "search_patterns": [
+        "勘太",
+        "勘太選手",
+        "勘太君",
+        "勘太さん",
+        "勘太ちゃん",
+        "勘太について",
+        "勘太の",
+        "勘太は",
+        "勘太が",
+        "勘太を",
+        "勘太に",
+        "勘太で",
+        "勘太と",
+        "勘太はどんな選手？",
+        "勘太について教えて",
+        "勘太の情報",
+        "勘太のこと"
+      ],
+      "learning_metadata": {
+        "source": "batch_user_input",
+        "verification_date": "2025-10-28T08:56:42.874449",
+        "update_count": 0,
+        "batch_info": {
+          "batch_id": "batch_001",
+          "is_new_in_batch": true
+        }
+      }
+    }
+  ],
+  "expansion_capability": {
+    "can_add_new_players": true,
+    "can_update_existing": true,
+    "supports_batch_import": true,
+    "supports_user_correction": true,
+    "learning_sources": [
+      "user_direct_input",
+      "conversation_analysis",
+      "mention_detection",
+      "context_learning",
+      "batch_import"
+    ]
+  },
+  "batch_update_history": [
+    {
+      "update_id": "batch_001",
+      "date": "2025-10-28T08:56:42.873337",
+      "type": "user_provided_batch",
+      "players_added": [
+        "尚真",
+        "柚希",
+        "心翔",
+        "広起",
+        "想真",
+        "奏",
+        "英汰",
+        "聡太",
+        "暖大",
+        "悠琉",
+        "陽",
+        "美玖里",
+        "優",
+        "勘太"
+      ],
+      "status_changes": [
+        {
+          "player": "翔平",
+          "from": "potential",
+          "to": "confirmed"
+        }
+      ],
+      "total_before": 14,
+      "total_after": 28
+    }
+  ]
+}

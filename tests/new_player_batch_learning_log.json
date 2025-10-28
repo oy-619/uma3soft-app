@@ -1,0 +1,128 @@
+{
+  "log_info": {
+    "created_date": "2025-10-28T08:56:42.884762",
+    "version": "1.1_batch_update",
+    "purpose": "track_batch_player_learning",
+    "batch_id": "batch_001"
+  },
+  "batch_learning_session": {
+    "session_id": "batch_001_user_provided",
+    "date": "2025-10-28T08:56:42.884762",
+    "type": "user_batch_input",
+    "action": "integrate_new_player_list",
+    "input_data": {
+      "provided_players": [
+        "尚真",
+        "柚希",
+        "穂美",
+        "心翔",
+        "広起",
+        "想真",
+        "奏",
+        "英汰",
+        "聡太",
+        "暖大",
+        "悠琉",
+        "陽",
+        "美玖里",
+        "優",
+        "翔平",
+        "勘太"
+      ],
+      "player_count": 16
+    },
+    "processing_results": {
+      "truly_new_players": [
+        "尚真",
+        "柚希",
+        "心翔",
+        "広起",
+        "想真",
+        "奏",
+        "英汰",
+        "聡太",
+        "暖大",
+        "悠琉",
+        "陽",
+        "美玖里",
+        "優",
+        "勘太"
+      ],
+      "duplicates": [
+        "穂美",
+        "翔平"
+      ],
+      "翔平_status_change": true,
+      "穂美_duplicate_confirmation": true
+    },
+    "final_state": {
+      "confirmed_players_count": 28,
+      "confirmed_players": [
+        "陸功",
+        "湊",
+        "錬",
+        "南",
+        "統司",
+        "春輝",
+        "新",
+        "由眞",
+        "心寧",
+        "唯浬",
+        "朋樹",
+        "佑多",
+        "穂美",
+        "翔平",
+        "尚真",
+        "柚希",
+        "心翔",
+        "広起",
+        "想真",
+        "奏",
+        "英汰",
+        "聡太",
+        "暖大",
+        "悠琉",
+        "陽",
+        "美玖里",
+        "優",
+        "勘太"
+      ],
+      "total_players": 28
+    }
+  },
+  "learning_improvements": {
+    "翔平_promotion": {
+      "action": "status_promotion",
+      "from_status": "potential",
+      "to_status": "confirmed",
+      "reason": "user_provided_confirmation"
+    },
+    "new_players_added": {
+      "count": 14,
+      "players": [
+        "尚真",
+        "柚希",
+        "心翔",
+        "広起",
+        "想真",
+        "奏",
+        "英汰",
+        "聡太",
+        "暖大",
+        "悠琉",
+        "陽",
+        "美玖里",
+        "優",
+        "勘太"
+      ],
+      "source": "user_direct_input"
+    }
+  },
+  "statistics": {
+    "batch_size": 16,
+    "duplicates_found": 2,
+    "new_unique_players": 14,
+    "status_promotions": 1,
+    "learning_accuracy": "high_confidence_user_input"
+  }
+}

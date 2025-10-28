@@ -86,6 +86,10 @@ class Uma3ChromaDBImprover:
                                 target_date = datetime(
                                     current_date.year + 1, month, day
                                 )
+                            # 同月内で過去の日付の場合は、確実に過去として扱う
+                            elif month == current_date.month and day < current_date.day:
+                                # 同月の過去の日付は未来ではない
+                                continue
                             # else: 今年の過去の日付なので、未来ではない（そのまま）
 
                         # 未来の日付かチェック（今日も含めない）
@@ -337,6 +341,32 @@ class Uma3ChromaDBImprover:
         「今後の予定」などのクエリを効果的に[ノート]データに導く
         future_only=Trueの場合、現在日時より未来の予定のみを返す
         """
+        # 今週の予定専用処理
+        weekly_patterns = [
+            r"今週.*予定",
+            r"今週.*何",
+            r"今週.*スケジュール",
+            r"週.*予定.*教え",
+            r"週.*何.*ある",
+            r"今週.*イベント",
+        ]
+
+        is_weekly_query = any(re.search(pattern, query) for pattern in weekly_patterns)
+        if is_weekly_query:
+            print(f"[SCHEDULE] 今週の予定クエリ検出: {query}")
+            # 現在日時を取得
+            current_time = datetime.now()
+            # 質問された日時以降のイベントのみを取得
+            weekly_events = self.search_weekly_schedule(query, current_date=current_time, future_only=True)
+
+            # 結果が少ない場合は補完検索
+            if len(weekly_events) < k:
+                print(f"[SCHEDULE] 今週の予定 {len(weekly_events)}件、補完検索実行")
+                supplement_results = self.smart_similarity_search("[ノート]", k=k-len(weekly_events))
+                weekly_events.extend(supplement_results[:k-len(weekly_events)])
+
+            return weekly_events[:k]
+
         # 明日の予定専用処理
         if self._is_tomorrow_query(query):
             return self._search_tomorrow_schedule(k)
@@ -401,13 +431,22 @@ class Uma3ChromaDBImprover:
             r"いつ.*練習",
             r"明日.*予定",
             r"明日.*何",
+            r"週末.*予定",
         ]
 
         is_schedule_query = any(
             re.search(pattern, query) for pattern in schedule_patterns
-        )  # 「今後の予定」系クエリの場合は必ず未来のみフィルタ
+        )  # 「今後の予定」系クエリや「今週の予定」の場合は必ず未来のみフィルタ
         is_future_query = any(
-            keyword in query for keyword in ["今後", "これから", "将来", "次の", "今度"]
+            keyword in query
+            for keyword in [
+                "今後",
+                "これから",
+                "将来",
+                "次の",
+                "今度",
+                "週末",
+            ]
         )
 
         if is_future_query:
@@ -491,6 +530,16 @@ class Uma3ChromaDBImprover:
                 if not is_recent_message and any(
                     word in doc.page_content for word in ["予定", "参加", "向かう"]
                 ):
+                    continue
+
+                # 過去の日付を明確に含むものを除外
+                contains_past_dates = self._contains_past_dates(
+                    doc.page_content, current_time
+                )
+                if contains_past_dates:
+                    print(
+                        f"[PAST_FILTER] Excluding past date content: {doc.page_content[:50]}..."
+                    )
                     continue
 
                 # メッセージ内容に未来の日付が含まれているかチェック（優先）
@@ -577,6 +626,57 @@ class Uma3ChromaDBImprover:
                     # 来年の前半（1-3月）のみ例外的に予定として扱う
                     elif month <= 3:
                         return True
+                except (ValueError, TypeError):
+                    continue
+
+        return False
+
+    def _contains_past_dates(self, text: str, current_date: datetime) -> bool:
+        """過去の日付が含まれているかチェック
+
+        Args:
+            text: チェック対象テキスト
+            current_date: 基準日時
+
+        Returns:
+            過去の日付が含まれている場合True
+        """
+        # 過去の日付パターン（曜日付きでより正確に判定）
+        past_date_patterns = [
+            r"10月25日",  # 具体的な過去日付
+            r"10月26日",
+            r"10/25",
+            r"10/26",
+            r"(\d{1,2})月(\d{1,2})日（([月火水木金土日])）",  # MM月DD日（曜日）
+        ]
+
+        for pattern in past_date_patterns:
+            matches = re.finditer(pattern, text)
+            for match in matches:
+                try:
+                    if "/" in pattern or "月" in pattern and "日" in pattern:
+                        # 具体的な日付をチェック
+                        if (
+                            "10月25日" in text
+                            or "10月26日" in text
+                            or "10/25" in text
+                            or "10/26" in text
+                        ):
+                            return True
+
+                        # 曜日付きパターンの場合
+                        if len(match.groups()) == 3:
+                            month = int(match.group(1))
+                            day = int(match.group(2))
+                            weekday_text = match.group(3)
+
+                            # 現在年で日付を構築
+                            target_date = datetime(current_date.year, month, day)
+
+                            # 過去の日付かチェック
+                            if target_date.date() < current_date.date():
+                                return True
+
                 except (ValueError, TypeError):
                     continue
 
@@ -1347,6 +1447,150 @@ class Uma3ChromaDBImprover:
                 unique_results.append((doc, score))
 
         return unique_results
+
+    def get_weekly_schedule(self, current_date: datetime = None, future_only: bool = True) -> List[Document]:
+        """今週の予定を取得する（月曜日から日曜日）
+
+        Args:
+            current_date: 基準日時（Noneの場合は現在時刻）
+            future_only: Trueの場合、current_date以降のイベントのみ返す
+
+        Returns:
+            今週のイベントドキュメントのリスト（日付順）
+        """
+        if current_date is None:
+            current_date = datetime.now()
+
+        # 今週の月曜日を取得（weekday()は月曜=0, 日曜=6）
+        days_since_monday = current_date.weekday()
+        monday = current_date.date() - timedelta(days=days_since_monday)
+        sunday = monday + timedelta(days=6)
+
+        print(f"[WEEKLY] 今週の範囲: {monday} ～ {sunday}")
+        if future_only:
+            print(f"[WEEKLY] 基準日時: {current_date} 以降のイベントのみ取得")
+
+        # 全データを取得
+        all_docs = self.vector_db.get()
+        weekly_events = []
+
+        # 今週の予定を検索するための日付パターン
+        date_patterns = [
+            r"(\d{4})/(\d{1,2})/(\d{1,2})",  # YYYY/MM/DD
+            r"(\d{1,2})月(\d{1,2})日",  # MM月DD日
+            r"(\d{1,2})/(\d{1,2})",  # MM/DD
+        ]
+
+        for i, doc_content in enumerate(all_docs["documents"]):
+            # [ノート]データと通常のメッセージの両方をチェック
+            found_dates = []
+
+            # 各日付パターンで検索
+            for pattern in date_patterns:
+                matches = re.finditer(pattern, doc_content)
+                for match in matches:
+                    try:
+                        if len(match.groups()) == 3:  # YYYY/MM/DD
+                            year = int(match.group(1))
+                            month = int(match.group(2))
+                            day = int(match.group(3))
+                            event_date = datetime(year, month, day).date()
+                        elif len(match.groups()) == 2:
+                            month = int(match.group(1))
+                            day = int(match.group(2))
+                            # 年を推定（現在年または来年）
+                            year = current_date.year
+                            try:
+                                event_date = datetime(year, month, day).date()
+                                # 過去の日付の場合は来年として扱う
+                                if event_date < current_date.date():
+                                    event_date = datetime(year + 1, month, day).date()
+                            except ValueError:
+                                continue
+                        else:
+                            continue
+
+                        # 今週の範囲内かチェック
+                        if monday <= event_date <= sunday:
+                            # future_onlyが有効な場合、現在日時以降のイベントのみ追加
+                            if future_only:
+                                # 同日の場合は時間を考慮せず含める（一日中の予定として扱う）
+                                if event_date >= current_date.date():
+                                    found_dates.append(event_date)
+                                    print(f"[WEEKLY] 追加: {event_date} (基準日以降)")
+                                else:
+                                    print(f"[WEEKLY] スキップ: {event_date} (基準日より前)")
+                            else:
+                                found_dates.append(event_date)
+                                print(f"[WEEKLY] 追加: {event_date} (全期間)")
+
+                    except (ValueError, IndexError):
+                        continue
+
+            # 今週の日付が見つかった場合、ドキュメントを追加
+            if found_dates:
+                # メタデータを取得
+                metadata = {}
+                if i < len(all_docs.get("metadatas", [])) and all_docs["metadatas"][i]:
+                    metadata = all_docs["metadatas"][i]
+
+                # 最も早い日付を代表日として使用
+                representative_date = min(found_dates)
+                metadata["event_date"] = representative_date.isoformat()
+                metadata["weekday"] = representative_date.strftime("%A")
+                metadata["weekday_jp"] = ["月", "火", "水", "木", "金", "土", "日"][representative_date.weekday()]
+
+                doc = Document(page_content=doc_content, metadata=metadata)
+                weekly_events.append(doc)
+
+        # 日付順でソート
+        weekly_events.sort(key=lambda x: x.metadata.get("event_date", ""))
+
+        print(f"[WEEKLY] 今週の予定: {len(weekly_events)}件")
+        for event in weekly_events:
+            event_date = event.metadata.get("event_date", "不明")
+            weekday = event.metadata.get("weekday_jp", "")
+            content_preview = event.page_content[:50].replace("\n", " ")
+            print(f"  - {event_date}({weekday}): {content_preview}...")
+
+        return weekly_events
+
+    def search_weekly_schedule(self, query: str, current_date: datetime = None, future_only: bool = True) -> List[Document]:
+        """今週の予定に関する質問に対する検索
+
+        Args:
+            query: 検索クエリ
+            current_date: 基準日時
+            future_only: Trueの場合、current_date以降のイベントのみ返す
+
+        Returns:
+            今週の予定関連ドキュメント
+        """
+        # 今週の予定を取得（質問された日時以降のイベントのみ）
+        weekly_events = self.get_weekly_schedule(current_date, future_only=future_only)
+
+        # クエリに応じてフィルタリング
+        if not weekly_events:
+            return []
+
+        # 特定の曜日の質問かチェック
+        weekday_patterns = {
+            "月曜": 0, "火曜": 1, "水曜": 2, "木曜": 3, "金曜": 4, "土曜": 5, "日曜": 6,
+            "月": 0, "火": 1, "水": 2, "木": 3, "金": 4, "土": 5, "日": 6
+        }
+
+        for weekday_name, weekday_num in weekday_patterns.items():
+            if weekday_name in query:
+                filtered_events = [
+                    event for event in weekly_events
+                    if event.metadata.get("event_date") and
+                    datetime.fromisoformat(event.metadata["event_date"]).weekday() == weekday_num
+                ]
+                print(f"[WEEKLY] {weekday_name}曜日の予定: {len(filtered_events)}件")
+                return filtered_events
+
+        # 全体の今週の予定を返す
+        return weekly_events
 
     def get_search_analytics(self, query: str) -> dict:
         """検索分析情報取得"""

@@ -1,0 +1,304 @@
+{
+  "team_info": {
+    "total_players": 13,
+    "team_name": "馬三ソフト",
+    "last_updated": "2025-10-28T08:36:54.996697"
+  },
+  "players": [
+    {
+      "id": 1,
+      "name": "陸功",
+      "name_length": 2,
+      "position_number": 1,
+      "characters": [
+        "陸",
+        "功"
+      ],
+      "possible_readings": [
+        "りくこう"
+      ],
+      "search_patterns": [
+        "陸功",
+        "陸功選手",
+        "陸功君",
+        "陸功さん",
+        "陸功について",
+        "陸功の",
+        "陸功は",
+        "陸功が"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "湊",
+      "name_length": 1,
+      "position_number": 2,
+      "characters": [
+        "湊"
+      ],
+      "possible_readings": [
+        "みなと"
+      ],
+      "search_patterns": [
+        "湊",
+        "湊選手",
+        "湊君",
+        "湊さん",
+        "湊について",
+        "湊の",
+        "湊は",
+        "湊が"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "錬",
+      "name_length": 1,
+      "position_number": 3,
+      "characters": [
+        "錬"
+      ],
+      "possible_readings": [
+        "れん"
+      ],
+      "search_patterns": [
+        "錬",
+        "錬選手",
+        "錬君",
+        "錬さん",
+        "錬について",
+        "錬の",
+        "錬は",
+        "錬が"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "南",
+      "name_length": 1,
+      "position_number": 4,
+      "characters": [
+        "南"
+      ],
+      "possible_readings": [
+        "みなみ"
+      ],
+      "search_patterns": [
+        "南",
+        "南選手",
+        "南君",
+        "南さん",
+        "南について",
+        "南の",
+        "南は",
+        "南が"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "統司",
+      "name_length": 2,
+      "position_number": 5,
+      "characters": [
+        "統",
+        "司"
+      ],
+      "possible_readings": [
+        "とうし"
+      ],
+      "search_patterns": [
+        "統司",
+        "統司選手",
+        "統司君",
+        "統司さん",
+        "統司について",
+        "統司の",
+        "統司は",
+        "統司が"
+      ]
+    },
+    {
+      "id": 6,
+      "name": "春輝",
+      "name_length": 2,
+      "position_number": 6,
+      "characters": [
+        "春",
+        "輝"
+      ],
+      "possible_readings": [
+        "はるき"
+      ],
+      "search_patterns": [
+        "春輝",
+        "春輝選手",
+        "春輝君",
+        "春輝さん",
+        "春輝について",
+        "春輝の",
+        "春輝は",
+        "春輝が"
+      ]
+    },
+    {
+      "id": 7,
+      "name": "新",
+      "name_length": 1,
+      "position_number": 7,
+      "characters": [
+        "新"
+      ],
+      "possible_readings": [
+        "しん"
+      ],
+      "search_patterns": [
+        "新",
+        "新選手",
+        "新君",
+        "新さん",
+        "新について",
+        "新の",
+        "新は",
+        "新が"
+      ]
+    },
+    {
+      "id": 8,
+      "name": "由眞",
+      "name_length": 2,
+      "position_number": 8,
+      "characters": [
+        "由",
+        "眞"
+      ],
+      "possible_readings": [
+        "ゆま"
+      ],
+      "search_patterns": [
+        "由眞",
+        "由眞選手",
+        "由眞君",
+        "由眞さん",
+        "由眞について",
+        "由眞の",
+        "由眞は",
+        "由眞が"
+      ]
+    },
+    {
+      "id": 9,
+      "name": "心寧",
+      "name_length": 2,
+      "position_number": 9,
+      "characters": [
+        "心",
+        "寧"
+      ],
+      "possible_readings": [
+        "こころねい"
+      ],
+      "search_patterns": [
+        "心寧",
+        "心寧選手",
+        "心寧君",
+        "心寧さん",
+        "心寧について",
+        "心寧の",
+        "心寧は",
+        "心寧が"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "唯浬",
+      "name_length": 2,
+      "position_number": 10,
+      "characters": [
+        "唯",
+        "浬"
+      ],
+      "possible_readings": [
+        "ゆいり"
+      ],
+      "search_patterns": [
+        "唯浬",
+        "唯浬選手",
+        "唯浬君",
+        "唯浬さん",
+        "唯浬について",
+        "唯浬の",
+        "唯浬は",
+        "唯浬が"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "朋樹",
+      "name_length": 2,
+      "position_number": 11,
+      "characters": [
+        "朋",
+        "樹"
+      ],
+      "possible_readings": [
+        "ともき"
+      ],
+      "search_patterns": [
+        "朋樹",
+        "朋樹選手",
+        "朋樹君",
+        "朋樹さん",
+        "朋樹について",
+        "朋樹の",
+        "朋樹は",
+        "朋樹が"
+      ]
+    },
+    {
+      "id": 12,
+      "name": "佑多",
+      "name_length": 2,
+      "position_number": 12,
+      "characters": [
+        "佑",
+        "多"
+      ],
+      "possible_readings": [
+        "ゆうた"
+      ],
+      "search_patterns": [
+        "佑多",
+        "佑多選手",
+        "佑多君",
+        "佑多さん",
+        "佑多について",
+        "佑多の",
+        "佑多は",
+        "佑多が"
+      ]
+    },
+    {
+      "id": 13,
+      "name": "穂美",
+      "name_length": 2,
+      "position_number": 13,
+      "characters": [
+        "穂",
+        "美"
+      ],
+      "possible_readings": [
+        "ほみ"
+      ],
+      "search_patterns": [
+        "穂美",
+        "穂美選手",
+        "穂美君",
+        "穂美さん",
+        "穂美について",
+        "穂美の",
+        "穂美は",
+        "穂美が"
+      ]
+    }
+  ]
+}

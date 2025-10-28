@@ -1,9 +1,127 @@
 """
 FlaskとLINE Bot SDKを使用したLINE Botアプリケーション。
-
-このモジュールは、メッセージを受信してコンソールに出力する
-シンプルなLINE Botを提供します。
+学習済み選手情報統合
 """
+
+from typing import Optional
+
+class ExpandablePlayerInfoHandler:
+    """拡張可能選手情報ハンドラー 28名対応"""
+
+    def __init__(self):
+        # 確認済み選手（更新版 - 28名）
+        self.confirmed_players = [
+            "陸功", "湊", "錬", "南", "統司", "春輝", "新", "由眞", "心寧", "唯浬", "朋樹", "佑多", "穂美",
+            "翔平", "尚真", "柚希", "心翔", "広起", "想真", "奏", "英汰", "聡太", "暖大", "悠琉", "陽", "美玖里", "優", "勘太"
+        ]
+
+        # 候補選手（更新版 - 0名）
+        self.potential_players = []
+
+        # 全選手
+        self.all_players = self.confirmed_players + self.potential_players
+        self.total_players = len(self.all_players)
+        self.team_name = "馬三ソフト"
+
+        # 学習・更新機能
+        self.expandable = True
+        self.can_learn_new_players = True
+        self.batch_learning_supported = True
+
+        # 一括更新情報
+        self.last_batch_update = "2025-10-28T08:56:42"
+        self.batch_update_count = 16
+
+    def find_player_in_message(self, message: str) -> Optional[str]:
+        """メッセージから選手名を検出（拡張版）"""
+        for player in self.all_players:
+            # 直接マッチング
+            patterns = [
+                player,
+                f'{player}選手',
+                f'{player}君',
+                f'{player}さん',
+                f'{player}について',
+                f'{player}の',
+                f'{player}は',
+                f'{player}が'
+            ]
+
+            for pattern in patterns:
+                if pattern in message:
+                    return player
+
+        return None
+
+    def get_player_status(self, player_name: str) -> str:
+        """選手のステータス取得"""
+        if player_name in self.confirmed_players:
+            return 'confirmed'
+        elif player_name in self.potential_players:
+            return 'potential'
+        else:
+            return 'unknown'
+
+    def handle_message(self, message: str) -> Optional[str]:
+        """メッセージハンドリング（拡張版）"""
+        detected_player = self.find_player_in_message(message)
+
+        if detected_player:
+            status = self.get_player_status(detected_player)
+            player_index = self.all_players.index(detected_player) + 1
+
+            if status == 'confirmed':
+                # 翔平の特別処理（候補から確認済みに昇格）
+                if detected_player == "翔平":
+                    return f"{detected_player}選手についてお答えします。{detected_player}選手は{self.team_name}の確認済み選手として新たに正式登録されました。"
+                else:
+                    return f"{detected_player}選手についてお答えします。{detected_player}選手は{self.team_name}の確認済み選手で、{player_index}番目に登録されています。"
+            elif status == 'potential':
+                return f"{detected_player}選手についてお答えします。{detected_player}選手は分析により発見された{self.team_name}のメンバーの可能性があります。詳細情報をお持ちでしたら教えてください。"
+
+        # チーム全体への質問
+        team_keywords = ['選手', 'チーム', '馬三ソフト', 'メンバー', '参加者']
+        if any(keyword in message for keyword in team_keywords):
+            if '一覧' in message or 'リスト' in message:
+                confirmed_list = ', '.join(self.confirmed_players)
+                if self.potential_players:
+                    potential_list = ', '.join(self.potential_players)
+                    return f"選手一覧：\n確認済み選手（{len(self.confirmed_players)}名）: {confirmed_list}\n候補選手（{len(self.potential_players)}名）: {potential_list}"
+                else:
+                    return f"確認済み選手一覧（{len(self.confirmed_players)}名）: {confirmed_list}"
+            elif '何人' in message or '人数' in message:
+                return f"{self.team_name}の現在の選手情報は{self.total_players}名です（確認済み{len(self.confirmed_players)}名、候補{len(self.potential_players)}名）。"
+            elif '更新' in message or '新しい' in message:
+                return f"最新の一括更新で{self.batch_update_count}名の選手情報をいただき、システムに統合いたしました。現在{self.total_players}名の選手情報があります。"
+            else:
+                return f"{self.team_name}には現在{self.total_players}名の選手情報があります。確認済み{len(self.confirmed_players)}名、候補{len(self.potential_players)}名です。どの選手について詳しく知りたいですか？"
+
+        return None
+
+    def add_new_player(self, player_name: str, status: str = 'confirmed') -> bool:
+        """新規選手追加（拡張機能）"""
+        if player_name not in self.all_players:
+            if status == 'confirmed':
+                self.confirmed_players.append(player_name)
+            else:
+                self.potential_players.append(player_name)
+
+            self.all_players = self.confirmed_players + self.potential_players
+            self.total_players = len(self.all_players)
+            return True
+        return False
+
+    def confirm_potential_player(self, player_name: str) -> bool:
+        """候補選手を確認済みに変更"""
+        if player_name in self.potential_players:
+            self.potential_players.remove(player_name)
+            self.confirmed_players.append(player_name)
+            self.all_players = self.confirmed_players + self.potential_players
+            return True
+        return False
+
+# グローバル拡張選手情報ハンドラー
+player_info_handler = ExpandablePlayerInfoHandler()
 
 import os
 import re
@@ -12,23 +130,57 @@ import sys
 import traceback
 from datetime import datetime, timedelta
 
-# 環境変数の読み込み（実行ディレクトリに応じた.envファイルパス）
+# 環境変数の読み込み（ルートディレクトリからの実行を前提）
 from dotenv import load_dotenv
 
-# .envファイルのパスを動的に設定
+# .envファイルのパスを設定（ルートディレクトリからの相対パス）
 current_dir = os.getcwd()
+root_dir = current_dir
+
+# ルートディレクトリかどうかの判定
+if os.path.basename(current_dir) == "src":
+    # srcディレクトリから実行された場合はルートディレクトリに移動
+    root_dir = os.path.join(current_dir, "..", "..", "..")
+    root_dir = os.path.abspath(root_dir)
+    os.chdir(root_dir)
+    print(f"[INFO] Working directory changed to root: {root_dir}")
+
+# .envファイルのパス設定
 env_file_path = os.path.join("Lesson25", "uma3soft-app", ".env")
 if os.path.exists(env_file_path):
     load_dotenv(env_file_path)
+    print(f"[INFO] Loaded .env from: {env_file_path}")
 else:
     load_dotenv()  # 通常のロード
+    print("[INFO] Loaded .env from default location")
+
+# パスの設定（ルートディレクトリからの実行を前提）
+src_path = os.path.join("Lesson25", "uma3soft-app", "src")
+if src_path not in sys.path:
+    sys.path.insert(0, src_path)
 
 from chathistory2db import load_chathistory_to_chromadb
 from flask import Flask, request
+from integrated_conversation_system import IntegratedConversationSystem
 from langchain_chroma import Chroma
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
+
+# LangChain verbose属性エラー回避のための設定
+import os
+os.environ.setdefault("LANGCHAIN_VERBOSE", "false")
+
+# LangChainのverbose属性問題を事前に解決
+try:
+    import langchain
+    if not hasattr(langchain, 'verbose'):
+        # verbose属性が存在しない場合は追加
+        langchain.verbose = False
+        print("[INIT] Set langchain.verbose = False")
+except ImportError:
+    print("[INIT] langchain module not available for verbose setting")
+
 from langchain_openai import ChatOpenAI
 from linebot.v3.messaging import ApiClient, Configuration, MessagingApi
 from linebot.v3.messaging.models import ReplyMessageRequest, TextMessage
@@ -49,6 +201,7 @@ if "OPENAI_API_KEY" not in os.environ:
 # 実行ディレクトリが C:\work\ws_python\GenerationAiCamp の場合を想定
 # ChromaDBの保存ディレクトリ定数（C:\work\ws_python\GenerationAiCamp>から実行）
 PERSIST_DIRECTORY = "Lesson25/uma3soft-app/db/chroma_store"
+CONVERSATION_DB_PATH = "Lesson25/uma3soft-app/db/conversation_history.db"
 
 # BotのユーザーID（環境変数から取得）
 BOT_USER_ID = os.getenv("BOT_USER_ID", "U2b1bb2a638b714727085c7317a3b54a0")
@@ -61,10 +214,16 @@ app = Flask(__name__)
 # LINE Bot設定（環境変数から取得）
 ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
 CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET")
+DEBUG_SKIP_SIGNATURE = os.getenv("DEBUG_SKIP_SIGNATURE", "false").lower() == "true"
 
 if not ACCESS_TOKEN or not CHANNEL_SECRET:
     print("⚠️ LINE_ACCESS_TOKENまたはLINE_CHANNEL_SECRETの環境変数を設定してください")
     sys.exit(1)
+
+if DEBUG_SKIP_SIGNATURE:
+    print(
+        "⚠️ [DEBUG MODE] 署名検証をスキップしています。本番環境では使用しないでください。"
+    )
 
 # LINE Bot SDKの初期化
 configuration = Configuration(access_token=ACCESS_TOKEN)
@@ -81,6 +240,17 @@ vector_db = Chroma(
 
 # ChromaDB精度向上機能の初期化
 chroma_improver = Uma3ChromaDBImprover(vector_db)
+
+# 統合会話システムの初期化
+integrated_conversation_system = IntegratedConversationSystem(
+    chroma_persist_directory=PERSIST_DIRECTORY,
+    conversation_db_path=CONVERSATION_DB_PATH,
+    embeddings_model=embedding_model
+)
+
+print(f"[INIT] Integrated conversation system initialized")
+print(f"[INIT] ChromaDB path: {PERSIST_DIRECTORY}")
+print(f"[INIT] ConversationDB path: {CONVERSATION_DB_PATH}")
 
 
 def format_message_for_mobile(text):
@@ -260,16 +430,63 @@ def callback():
     print(f"[HEADERS] Request headers: {dict(request.headers)}")
 
     try:
-        # 署名を安全に取得
+        body = request.get_data(as_text=True)
+        print(f"[BODY] Received body length: {len(body)}")
+        print(f"[BODY] Content: {body[:200]}...")  # 最初の200文字をログ出力
+
+        # DEBUG_SKIP_SIGNATURE環境変数が設定されている場合は署名検証をスキップ
+        if DEBUG_SKIP_SIGNATURE:
+            print("⚠️ [DEBUG MODE] 署名検証をスキップしています")
+            # 署名検証をスキップして直接メッセージを処理
+            import json
+
+            webhook_body = json.loads(body)
+            events = webhook_body.get("events", [])
+
+            for event in events:
+                if (
+                    event.get("type") == "message"
+                    and event.get("message", {}).get("type") == "text"
+                ):
+                    user_message = event["message"]["text"]
+                    user_id = event["source"]["userId"]
+                    print(f"[MESSAGE] User {user_id}: {user_message}")
+
+                    # メッセージ処理を呼び出し
+                    handle_message_event_direct(event)
+
+            print(
+                "[SUCCESS] Message handled successfully (signature verification skipped)"
+            )
+            return "OK", 200
+
+        # 通常の署名検証処理
         signature = request.headers.get("X-Line-Signature", "")
         if not signature:
             print("[ERROR] X-Line-Signature header is missing")
             print("[DEBUG] Available headers:", list(request.headers.keys()))
             return "Bad Request: Missing signature", 400
 
-        body = request.get_data(as_text=True)
-        print(f"[BODY] Received body length: {len(body)}")
-        print(f"[BODY] Content: {body[:200]}...")  # 最初の200文字をログ出力
+        # デバッグ: 設定値確認
+        channel_secret = os.getenv("LINE_CHANNEL_SECRET")
+        print(
+            f"[DEBUG] Channel Secret length: {len(channel_secret) if channel_secret else 0}"
+        )
+        print(f"[DEBUG] Signature received: {signature}")
+
+        # 署名検証をより詳細にログ出力
+        import base64
+        import hashlib
+        import hmac
+
+        if channel_secret:
+            expected_signature = base64.b64encode(
+                hmac.new(
+                    channel_secret.encode("utf-8"), body.encode("utf-8"), hashlib.sha256
+                ).digest()
+            ).decode("utf-8")
+            print(f"[DEBUG] Expected signature: {expected_signature}")
+            print(f"[DEBUG] Signatures match: {signature == expected_signature}")
 
         # LINE Webhook処理
         handler.handle(body, signature)
@@ -281,6 +498,64 @@ def callback():
         traceback.print_exc()
         # LINE プラットフォームには200を返して再送を防ぐ
         return "OK", 200
+
+
+def handle_message_event_direct(event):
+    """
+    デバッグモード用の直接メッセージ処理関数
+
+    Args:
+        event (dict): LINE Webhook event dictionary
+    """
+    try:
+        if (
+            event.get("type") == "message"
+            and event.get("message", {}).get("type") == "text"
+        ):
+            user_message = event["message"]["text"]
+            user_id = event["source"]["userId"]
+            group_id = event["source"].get("groupId") or event["source"].get("roomId")
+
+            print(
+                f"🔍 [DEBUG] ユーザー {user_id[:8]}... からのメッセージ: {user_message}"
+            )
+
+            # グループIDをセット（有効なIDの場合のみ）
+            if group_id and len(group_id) >= 10:
+                os.environ["TO_USER_ID"] = group_id
+                print(f"🔍 [DEBUG] Set target group ID: {group_id[:20]}...")
+            elif user_id and len(user_id) >= 10:
+                os.environ["TO_USER_ID"] = user_id
+                print(f"🔍 [DEBUG] Set target user ID: {user_id[:20]}...")
+            else:
+                print("🔍 [DEBUG] No valid target ID found")
+
+            # Botメンションされているかチェック（デバッグモードでは簡単なチェック）
+            if "@Bot" in user_message or user_message.startswith("Bot"):
+                print("🔍 [DEBUG] Botがメンションされました（検出）")
+
+                # ChromaDB検索を実行
+                results = chroma_improver.schedule_aware_search(
+                    user_message, k=6, score_threshold=0.5
+                )
+
+                print(f"🔍 [DEBUG] 検索結果: {len(results)}件")
+
+                # LLMで応答生成（実際の送信はしない）
+                if results:
+                    context = "\n".join([doc.page_content for doc in results])
+                    print(f"🔍 [DEBUG] コンテキスト長: {len(context)}文字")
+                    print(f"📤 [DEBUG] 応答生成完了（実際の送信はスキップ）")
+                else:
+                    print("🔍 [DEBUG] コンテキストが見つかりませんでした")
+            else:
+                print("🔍 [DEBUG] メンションなし、処理をスキップ")
+
+    except Exception as e:
+        print(
+            f"[ERROR] Exception in handle_message_event_direct: {type(e).__name__}: {e}"
+        )
+        traceback.print_exc()
 
 
 @handler.add(MessageEvent, message=TextMessageContent)
@@ -306,169 +581,246 @@ def handle_message(event):
                         is_mentioned_by_other = True
 
         user_id = getattr(event.source, "user_id", "private")
-        group_id = getattr(event.source, "group_id", "unknown")
+        group_id = getattr(event.source, "group_id", None) or getattr(event.source, "room_id", None)
         text = event.message.text
 
-        # グループIDをセット
-        os.environ["TO_USER_ID"] = group_id
+        # グループIDをセット（有効なIDの場合のみ）
+        if group_id and group_id != "unknown" and len(group_id) >= 10:
+            os.environ["TO_USER_ID"] = group_id
+            print(f"[GROUP] Set target group ID: {group_id[:20]}...")
+        else:
+            # プライベートチャットの場合はユーザーIDを使用
+            if user_id and user_id != "private" and len(user_id) >= 10:
+                os.environ["TO_USER_ID"] = user_id
+                print(f"[USER] Set target user ID: {user_id[:20]}...")
+            else:
+                print("[WARNING] No valid target ID found in message event")
 
         # Botがメンションされたか判定
         if is_mentioned_by_other or "@Bot" in text:
             print("[MENTION] Botがメンションされました！")
 
-            # ChromaDB精度向上検索で関連する過去の会話を検索
-            print(f"[SEARCH] Using improved search for user: {user_id}")
+            # 1. 最優先：学習済み選手情報のチェック
+            player_response = player_info_handler.handle_message(text)
+            if player_response:
+                print(f"[PLAYER_INFO] ✅ Player information found, responding with player data")
 
-            # 予定関連クエリの場合は専用検索を実行
-            results = chroma_improver.schedule_aware_search(
-                text, k=6, score_threshold=0.5
-            )
-
-            print(f"[SEARCH] Schedule-aware search returned {len(results)} results")
-
-            # [ノート]データの割合をログ出力
-            if results:
-                note_count = sum(1 for doc in results if "[ノート]" in doc.page_content)
-                note_ratio = note_count / len(results) * 100
-                print(
-                    f"[SEARCH] Note data ratio: {note_count}/{len(results)} ({note_ratio:.1f}%)"
-                )
-
-            # 結果が少ない場合はコンテキスト検索で補完
-            if len(results) < 3:
-                print(f"[SEARCH] Using contextual search for better results")
-                context_results = chroma_improver.get_contextual_search(
-                    text, user_id, k=3
-                )
-                # 重複を避けて追加
-                existing_content = {doc.page_content for doc in results}
-                for doc in context_results:
-                    if doc.page_content not in existing_content:
-                        results.append(doc)
-                        if len(results) >= 6:
-                            break
-
-            # コンテキスト構築
-            context = ""
-            if results:
-                context_parts = []
-                for doc in results:
-                    context_parts.append(doc.page_content)
-                context = "\n".join(context_parts)
-                print(f"[CONTEXT] Found {len(results)} relevant messages")
-            else:
-                print("[CONTEXT] No relevant context found")
-
-            # 検索分析情報をログ出力
-            analytics = chroma_improver.get_search_analytics(text)
-            print(f"[ANALYTICS] Total results: {analytics['total_results']}")
-            print(
-                f"[ANALYTICS] Score range: {analytics['score_range']['min']:.4f}-{analytics['score_range']['max']:.4f}"
-            )
-            print(
-                f"[ANALYTICS] Top users: {list(analytics['user_distribution'].keys())[:3]}"
-            )
-            print(f"[ANALYTICS] Time distribution: {analytics['time_distribution']}")
-
-            # コンテキスト品質の評価
-            if results:
-                user_match_count = sum(
-                    1 for doc in results if doc.metadata.get("user") == user_id
-                )
-                context_quality = (user_match_count / len(results)) * 100
-                print(
-                    f"[QUALITY] User context match: {user_match_count}/{len(results)} ({context_quality:.1f}%)"
-                )
-
-                # 正解データ確認（スケジュール関連の場合）
-                if any(
-                    keyword in text.lower()
-                    for keyword in ["予定", "スケジュール", "大会", "練習"]
-                ):
-                    target_keywords = ["東京都大会", "羽村ライオンズ", "大森リーグ"]
-                    found_targets = []
-                    for doc in results:
-                        for target in target_keywords:
-                            if target in doc.page_content:
-                                found_targets.append(target)
-                                break
-                    if found_targets:
-                        print(f"[TARGET] Found target data: {found_targets}")
-            else:
-                print(f"[QUALITY] No context found for query")
-
-            # OpenAI ChatGPTを使用して回答生成
-            llm = ChatOpenAI(
-                model="gpt-3.5-turbo",
-                temperature=0.3,
-                openai_api_key=os.getenv("OPENAI_API_KEY"),
-            )
-
-            # プロンプトテンプレート作成
-            if context:
-                # コンテキストの品質に応じてプロンプトを調整
-                user_match_count = sum(
-                    1 for doc in results if doc.metadata.get("user") == user_id
-                )
-                if user_match_count > 0:
-                    # ユーザー固有のコンテキストがある場合
-                    prompt_template = ChatPromptTemplate.from_messages(
-                        [
-                            (
-                                "system",
-                                """あなたは優秀なアシスタントです。以下の過去の会話履歴（特にユーザーの過去の発言）を参考にして、ユーザーの質問に自然で親しみやすく答えてください。
-                                    回答時は以下の点を心がけてください：
-                                    - スマートフォンで読みやすいように、適度に改行を入れる
-                                    - 重要な情報は箇条書きで整理する
-                                    - 予定や日程がある場合は、日付・時間・場所を明確に記載する
-                                    - 長い回答の場合は、要点をまとめて最初に記載する
-
-                                    ---
-                                    {context}
-                                    ---""",
-                            ),
-                            ("human", "{input}"),
-                        ]
+                # 選手情報を会話履歴に保存
+                try:
+                    conversation_manager.save_conversation(
+                        user_id, text, player_response,
+                        metadata={"source": "learned_player_info", "response_type": "player_data"}
                     )
+                    print(f"[PLAYER_INFO] ✅ Saved player conversation to history")
+                except Exception as save_error:
+                    print(f"[WARNING] ❌ Failed to save player conversation: {save_error}")
+
+                # 選手情報で即座に応答
+                reply_message = TextMessage(text=player_response)
+                line_api.reply_message(
+                    ReplyMessageRequest(
+                        reply_token=event.reply_token, messages=[reply_message]
+                    )
+                )
+                return
+
+            # 2. 統合会話システムを使用して応答を生成
+            print(f"[INTEGRATED] Using integrated conversation system for user: {user_id}")
+
+            # LLMの初期化（verbose属性エラー回避）
+            try:
+                # 環境変数での設定を試行
+                import langchain
+                if hasattr(langchain, 'verbose'):
+                    langchain.verbose = False
+
+                llm = ChatOpenAI(
+                    model="gpt-3.5-turbo",
+                    temperature=0.3,
+                    openai_api_key=os.getenv("OPENAI_API_KEY")
+                )
+                print("[LLM] ChatOpenAI initialized successfully")
+
+            except AttributeError as verbose_error:
+                print(f"[WARNING] LangChain verbose attribute error: {verbose_error}")
+                # verbose属性なしでの初期化
+                llm = ChatOpenAI(
+                    model="gpt-3.5-turbo",
+                    temperature=0.3,
+                    openai_api_key=os.getenv("OPENAI_API_KEY")
+                )
+                print("[LLM] ChatOpenAI initialized without verbose setting")
+
+            except Exception as llm_error:
+                print(f"[ERROR] LLM initialization failed: {llm_error}")
+                # 最後のフォールバック
+                ai_msg = {"answer": "申し訳ございません。現在システムの初期化に問題が発生しています。"}
+                reply_message = TextMessage(text=ai_msg["answer"])
+                line_api.reply_message(
+                    ReplyMessageRequest(
+                        reply_token=event.reply_token, messages=[reply_message]
+                    )
+                )
+                return
+
+            try:
+                # 統合システムで応答生成（改善版）
+                print(f"[ENHANCED] Trying improved response system first...")
+
+                # 1. 改善されたテンプレートシステムを試行
+                enhanced_response = None
+                try:
+                    # ImprovedResponseGeneratorを初期化（必要時のみ）
+                    if not hasattr(handle_message, 'improved_generator'):
+                        from tests.improved_response_system import ImprovedResponseGenerator
+                        db_path = os.path.join(os.path.dirname(__file__), '..', 'db', 'conversation_history.db')
+                        handle_message.improved_generator = ImprovedResponseGenerator(db_path)
+                        print("[ENHANCED] Improved response generator initialized")
+
+                    # 改善された応答生成
+                    improved_result = handle_message.improved_generator.generate_improved_response(user_id, text)
+
+                    # 高品質な応答が生成された場合は使用
+                    if improved_result.get('quality_score', 0) >= 3.0:
+                        enhanced_response = improved_result['response']
+                        print(f"[ENHANCED] ✅ High quality response (score: {improved_result['quality_score']:.1f})")
+
+                        # 統合システムの会話履歴に保存
+                        try:
+                            integrated_conversation_system.history_manager.save_conversation(
+                                user_id, text, enhanced_response,
+                                metadata={
+                                    "source": "enhanced_template",
+                                    "quality_score": improved_result['quality_score'],
+                                    "template_type": improved_result.get('template_type', 'unknown')
+                                }
+                            )
+                            print(f"[ENHANCED] ✅ Saved enhanced conversation to history")
+                        except Exception as save_error:
+                            print(f"[WARNING] ❌ Failed to save enhanced conversation: {save_error}")
+
+                    else:
+                        print(f"[ENHANCED] ⚠️ Low quality response, trying integrated system (score: {improved_result['quality_score']:.1f})")
+
+                except Exception as e:
+                    print(f"[WARNING] Enhanced response generation failed: {e}")
+
+                # 2. 改善システムで高品質な応答が得られた場合はそれを使用
+                if enhanced_response:
+                    ai_msg = {"answer": enhanced_response}
+                    print(f"[ENHANCED] Using enhanced template response")
+
                 else:
-                    # 一般的なコンテキストのみの場合
-                    prompt_template = ChatPromptTemplate.from_messages(
-                        [
+                    # 3. 既存の統合システムにフォールバック
+                    response_result = integrated_conversation_system.generate_integrated_response(
+                        user_id, text, llm
+                    )
+
+                if not enhanced_response and "error" in response_result:
+                    # エラーが発生した場合のフォールバック処理
+                    print(f"[ERROR] Integrated system error: {response_result.get('error_message', 'Unknown error')}")
+
+                    # 従来のChromaDB検索にフォールバック
+                    results = chroma_improver.schedule_aware_search(
+                        text, k=6, score_threshold=0.5
+                    )
+
+                    if results:
+                        context = "\n".join([doc.page_content for doc in results])
+
+                        prompt_template = ChatPromptTemplate.from_messages([
                             (
                                 "system",
-                                """あなたは優秀なアシスタントです。以下の関連する会話履歴を参考にして、ユーザーの質問に答えてください。
-                                    回答時は以下の点を心がけてください：
-                                    - スマートフォンで読みやすいように、適度に改行を入れる
-                                    - 重要な情報は箇条書きで整理する
-                                    - 予定や日程がある場合は、日付・時間・場所を明確に記載する
+                                """あなたは優秀なアシスタントです。以下の関連情報を参考にして、
+                                ユーザーの質問に自然で親しみやすく答えてください。
+                                回答時はスマートフォンで読みやすいように、適度に改行を入れてください。
 
-                                    ---
-                                    {context}
-                                    ---""",
+                                ---
+                                {context}
+                                ---""",
                             ),
                             ("human", "{input}"),
-                        ]
-                    )
-                prompt = prompt_template.format(context=context, input=text)
-            else:
-                prompt_template = ChatPromptTemplate.from_messages(
-                    [
+                        ])
+
+                        formatted_prompt = prompt_template.format_messages(
+                            context=context, input=text
+                        )
+                        response = llm.invoke(formatted_prompt)
+                        ai_msg = {"answer": response.content}
+                    else:
+                        ai_msg = {"answer": "申し訳ございません。関連する情報が見つかりませんでした。"}
+                elif not enhanced_response:
+                    # 正常応答の場合（改善システムでない場合のみ）
+                    ai_msg = {"answer": response_result["response"]}
+
+                    # 応答情報をログ出力
+                    context_info = response_result.get("context_used", {})
+                    print(f"[INTEGRATED] Response generated successfully")
+                    print(f"[INTEGRATED] ChromaDB results: {context_info.get('chroma_results', 0)}")
+                    print(f"[INTEGRATED] Conversation history: {context_info.get('conversation_history', 0)}")
+                    print(f"[INTEGRATED] Response type: {response_result.get('response_type', 'unknown')}")
+
+                    # ユーザプロフィール情報をログ出力
+                    user_profile = context_info.get('user_profile', {})
+                    if user_profile:
+                        print(f"[PROFILE] User conversation count: {user_profile.get('conversation_count', 0)}")
+                        if user_profile.get('interests'):
+                            print(f"[PROFILE] User interests: {user_profile['interests'][:3]}")
+
+                    # ★★★ 統合システムで生成した会話を履歴に保存（改善システムでない場合のみ）★★★
+                    try:
+                        integrated_conversation_system.history_manager.save_conversation(
+                            user_id, text, ai_msg["answer"],
+                            metadata={"source": "line_mention", "response_type": response_result.get('response_type', 'integrated')}
+                        )
+                        print(f"[HISTORY] ✅ Saved conversation to history (user: {user_id[:10]}...)")
+                    except Exception as save_error:
+                        print(f"[WARNING] ❌ Failed to save conversation to history: {save_error}")
+                        traceback.print_exc()
+
+            except Exception as e:
+                print(f"[ERROR] Integrated conversation system error: {e}")
+                traceback.print_exc()
+
+                # エラー時のフォールバック：従来の処理
+                results = chroma_improver.schedule_aware_search(
+                    text, k=6, score_threshold=0.5
+                )
+
+                if results:
+                    context = "\n".join([doc.page_content for doc in results])
+
+                    prompt_template = ChatPromptTemplate.from_messages([
                         (
                             "system",
-                            """あなたは優秀なアシスタントです。
-                                回答時は以下の点を心がけてください：
-                                - スマートフォンで読みやすいように、適度に改行を入れる
-                                - 重要な情報は箇条書きで整理する
-                                - 丁寧で親しみやすい口調で回答する""",
+                            """あなたは優秀なアシスタントです。以下の関連情報を参考にして、
+                            ユーザーの質問に自然で親しみやすく答えてください。
+
+                            ---
+                            {context}
+                            ---""",
                         ),
                         ("human", "{input}"),
-                    ]
-                )
-                prompt = prompt_template.format(input=text)
+                    ])
 
-            # OpenAIで応答生成
-            response = llm.invoke(prompt)
-            ai_msg = {"answer": response.content}
+                    formatted_prompt = prompt_template.format_messages(
+                        context=context, input=text
+                    )
+                    response = llm.invoke(formatted_prompt)
+                    ai_msg = {"answer": response.content}
+                else:
+                    ai_msg = {"answer": "申し訳ございません。現在応答の生成に問題が発生しています。"}
+
+                # ★★★ エラー時も会話履歴に保存（改善システムでない場合のみ）★★★
+                if not enhanced_response:
+                    try:
+                        integrated_conversation_system.history_manager.save_conversation(
+                            user_id, text, ai_msg["answer"],
+                            metadata={"source": "line_mention_fallback", "error_occurred": True}
+                        )
+                        print(f"[HISTORY] ✅ Saved fallback conversation to history")
+                    except Exception as save_error:
+                        print(f"[WARNING] ❌ Failed to save fallback conversation: {save_error}")
 
             # 会話履歴に追加
             CHAT_HISTORY.extend(
@@ -506,7 +858,7 @@ def handle_message(event):
                 )
                 print(f"[REPLY] Sent {len(reply_messages)} split messages")
 
-        # 通常のメッセージ処理
+        # 通常のメッセージ処理（メンションなし）
         else:
             message_info = f"Received message from {user_id} in {group_id}"
             print(f"[USER] {message_info}: {text}")
@@ -528,6 +880,16 @@ def handle_message(event):
                 if len(text) > 50
                 else f"[SAVE] Saved to ChromaDB: {text}"
             )
+
+            # 会話履歴システムにも保存（応答なしの場合）
+            try:
+                integrated_conversation_system.history_manager.save_conversation(
+                    user_id, text, "",  # 応答なしなので空文字
+                    metadata={"source": "line_message_only", "no_response": True}
+                )
+                print(f"[HISTORY] Saved user message to conversation history")
+            except Exception as e:
+                print(f"[WARNING] Failed to save to conversation history: {e}")
 
             # 定期的なパフォーマンス統計を表示
             if hasattr(chroma_improver, "_message_count"):
@@ -620,14 +982,14 @@ if __name__ == "__main__":
         f.write("load_chathistory_to_chromadb() completed successfully\n")
 
     # monitoring_historyfile.py をサブプロセスでバックグラウンド起動
-    import os
     import subprocess
-    import sys
 
-    monitoring_script = os.path.join(
-        os.path.dirname(__file__), "monitoring_historyfile.py"
-    )
-    subprocess.Popen([sys.executable, monitoring_script])
+    monitoring_script = os.path.join("Lesson25", "uma3soft-app", "src", "monitoring_historyfile.py")
+    if os.path.exists(monitoring_script):
+        subprocess.Popen([sys.executable, monitoring_script])
+        print(f"[INFO] Started monitoring script: {monitoring_script}")
+    else:
+        print(f"[WARNING] Monitoring script not found: {monitoring_script}")
 
     # Flaskアプリ起動
     app.run(host="0.0.0.0", port=5000, debug=debug_mode, use_reloader=use_reloader)

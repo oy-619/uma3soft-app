@@ -1,42 +1,117 @@
 """
-Uma3 カスタムツールセット
+【Uma3 カスタムツールセット】
 LangChain Agent で使用する専用ツール集
+
+【機能概要】
+- エージェントルーターと連携する9つの専用ツール
+- リマインダー管理、チーム管理、イベント分析、天気情報等をサポート
+- Uma3RAGEngineとの統合によるデータ永続化
+
+【アーキテクチャ】
+各エージェントタイプに対応したツールクラスを提供
+- ReminderTool: リマインダー設定・確認
+- TeamManagementTool: チームメンバー管理
+- EventAnalysisTool: イベント・成績分析
+- WeatherContextTool: 天気・季節情報
+等
+
+【使用方法】
+agent_router.py から適切なツールが自動選択され、実行される
 """
 
+# === STEP 1: ライブラリインポート ===
 import json
 import os
 import re
 from datetime import datetime, timedelta
 from typing import Any, Dict, List, Optional
 
+# === STEP 2: LangChain依存関係のインポート（オプション） ===
 try:
     from langchain.tools import BaseTool, tool
     from pydantic import BaseModel, Field
+    LANGCHAIN_AVAILABLE = True
 except ImportError as e:
     print(f"⚠️ LangChain import error: {e}")
-    import sys
+    print("📝 LangChainなしでも基本機能は動作します")
+    LANGCHAIN_AVAILABLE = False
 
-    sys.exit(1)
+    # Fallback classes for compatibility
+    class BaseTool:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
 
-from uma3_rag_engine import Uma3RAGEngine
+    class BaseModel:
+        def __init__(self, **kwargs):
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+
+    def Field(**kwargs):
+        return None
+
+    def tool(func):
+        return func
+
+# === STEP 3: 内部モジュールインポート ===
+try:
+    from uma3_chroma_improver import Uma3ChromaDBImprover as Uma3RAGEngine
+except ImportError:
+    try:
+        from uma3_rag_engine import Uma3RAGEngine
+    except ImportError:
+        print("[WARNING] RAG Engine not available")
+        class Uma3RAGEngine:
+            def __init__(self, *args, **kwargs):
+                pass
 
 
+# === STEP 4: リマインダー管理ツール ===
 class ReminderTool(BaseTool):
-    """リマインダー管理ツール"""
+    """
+    【リマインダー管理ツール】
+    【対応エージェント】REMINDER_MANAGEMENT
+
+    【機能】
+    - リマインダーの設定・確認
+    - 日付パースと予定管理
+    - RAGエンジンとの連携によるデータ永続化
+
+    【使用例】
+    - "11月3日の練習をリマインド" → set action
+    - "明日のリマインダーを確認" → check action
+    """
 
     name: str = "reminder_manager"
     description: str = """
     リマインダーの設定・確認を行います。
     予定のリマインダー設定や確認に使用してください。
+
+    引数:
+    - action: "set" (設定) または "check" (確認)
+    - date: 日付 (例: "11月3日")
+    - message: リマインダーメッセージ
     """
     rag_engine: Any = Field(exclude=True)
 
     def __init__(self, rag_engine: "Uma3RAGEngine"):
+        """
+        【STEP 4.1】リマインダーツール初期化
+
+        Args:
+            rag_engine: データ永続化エンジン
+        """
         super().__init__(rag_engine=rag_engine)
 
     def _run(self, action: str, date: str = "", message: str = "") -> str:
         """
-        リマインダーツールの実行
+        【STEP 4.2】リマインダーツールの実行
+
+        処理フロー:
+        1. アクション判定（set/check）
+        2. パラメータ検証
+        3. データ処理・保存
+        4. 結果レスポンス生成
 
         Args:
             action: "set" (設定) または "check" (確認)
@@ -47,9 +122,10 @@ class ReminderTool(BaseTool):
             結果メッセージ
         """
         try:
+            # === STEP 4.2.1: リマインダー設定処理 ===
             if action == "set":
                 if not date or not message:
-                    return "リマインダー設定には日付とメッセージが必要です。"
+                    return "⚠️ リマインダー設定には日付とメッセージが必要です。"
 
                 # リマインダー情報を構造化して保存
                 reminder_data = {
@@ -66,8 +142,8 @@ class ReminderTool(BaseTool):
                 # NOTE: 実際の実装では永続化が必要
                 return f"✅ {date}のリマインダーを設定しました: {message}"
 
+            # === STEP 4.2.2: リマインダー確認処理 ===
             elif action == "check":
-                # 今後のリマインダーを検索
                 today = datetime.now()
 
                 # 今日から1週間後までのリマインダーを検索
@@ -77,7 +153,7 @@ class ReminderTool(BaseTool):
                 active_reminders = []
                 for doc in results:
                     if "[リマインダー]" in doc.text:
-                        # 日付抽出
+                        # 日付抽出・検証処理
                         date_matches = re.findall(r"(\\d{1,2})月(\\d{1,2})日", doc.text)
                         if date_matches:
                             try:
@@ -92,30 +168,123 @@ class ReminderTool(BaseTool):
                             except ValueError:
                                 continue
 
+                # 結果返却
                 if active_reminders:
                     return "📋 設定中のリマインダー:\\n" + "\\n".join(active_reminders)
                 else:
-                    return "現在、設定中のリマインダーはありません。"
+                    return "📅 現在、設定中のリマインダーはありません。"
 
             else:
-                return "不明なアクションです。'set' または 'check' を指定してください。"
+                return "❌ 不明なアクションです。'set' または 'check' を指定してください。"
 
         except Exception as e:
-            return f"リマインダー処理中にエラーが発生しました: {e}"
+            return f"イベント分析処理中にエラーが発生しました: {e}"
 
 
+# === STEP 7.5: スケジュール通知ツール ===
+class ScheduleNotificationTool(BaseTool):
+    """
+    【スケジュール通知ツール】
+    【対応エージェント】SCHEDULE_NOTIFICATION
+
+    【機能】
+    - 今週の予定表示（月曜日〜日曜日）
+    - 質問日時以降のイベント表示
+    - 日別・週別予定管理
+    """
+
+    name: str = "schedule_notification"
+    description: str = """
+    スケジュール・予定の通知と管理を行います。
+    今週の予定、今後の予定、特定期間の予定を取得できます。
+
+    引数:
+    - schedule_type: "weekly" (今週), "future" (今後), "daily" (今日・明日)
+    - date_filter: 日付フィルター（YYYY-MM-DD形式、オプション）
+    """
+    rag_engine: Any = Field(exclude=True)
+
+    def __init__(self, rag_engine: "Uma3RAGEngine"):
+        """
+        【STEP 7.5.1】スケジュール通知ツール初期化
+        """
+        super().__init__(rag_engine=rag_engine)
+
+    def _run(self, schedule_type: str, date_filter: Optional[str] = None) -> str:
+        """
+        スケジュール通知の実行
+
+        Args:
+            schedule_type: "weekly" (今週), "future" (今後), "daily" (今日・明日)
+            date_filter: 日付フィルター（YYYY-MM-DD形式）
+
+        Returns:
+            スケジュール情報
+        """
+        try:
+            current_time = datetime.now()
+
+            if schedule_type == "weekly":
+                # 今週の予定を取得
+                return get_weekly_schedule("今週の予定", date_filter)
+
+            elif schedule_type == "future":
+                # 今後の予定を取得
+                return get_future_events_from_date("今後の予定", date_filter)
+
+            elif schedule_type == "daily":
+                # 今日・明日の予定
+                if date_filter:
+                    target_date = datetime.strptime(date_filter, "%Y-%m-%d")
+                else:
+                    target_date = current_time
+
+                # RAGエンジンで今日・明日の予定を検索
+                daily_query = f"今日 明日 {target_date.strftime('%Y年%m月%d日')} 予定"
+                results = self.rag_engine.search_similar(daily_query, k=8)
+
+                if results:
+                    context_texts = [result[0] for result in results[:5]]
+                    context = "\n".join(context_texts)
+
+                    response = f"📅 **{target_date.strftime('%Y年%m月%d日')} 周辺の予定**\n\n"
+                    response += f"📋 {context[:400]}...\n\n"
+                    response += f"🗓️ 検索日時: {current_time.strftime('%Y年%m月%d日 %H:%M')}\n"
+                    return response
+                else:
+                    return f"📅 {target_date.strftime('%Y年%m月%d日')} の予定が見つかりませんでした。"
+
+            else:
+                return "不明なスケジュールタイプです。'weekly', 'future', 'daily' を指定してください。"
+
+        except Exception as e:
+            return f"スケジュール通知処理中にエラーが発生しました: {e}"
+
+
+# === STEP 8: 天気・季節コンテキストツール ===
 class WeatherContextTool(BaseTool):
-    """天気・季節コンテキストツール"""
+    """
+    【天気・季節コンテキストツール】
+    【対応エージェント】WEATHER_CONTEXT
+
+    【機能】
+    - 季節情報の提供
+    - 天気アドバイス
+    - 屋外活動の適性判断
+    """
 
     name: str = "weather_context"
     description: str = """
     季節や天気に関連する情報を提供します。
     屋外イベントの判断に役立ちます。
+
+    引数:
+    - query: 天気関連クエリ
     """
 
     def _run(self, query: str) -> str:
         """
-        天気コンテキストの提供
+        【STEP 5.1】天気コンテキストの提供
 
         Args:
             query: 天気関連クエリ
@@ -149,17 +318,33 @@ class WeatherContextTool(BaseTool):
             return f"天気情報取得中にエラーが発生しました: {e}"
 
 
+# === STEP 6: チーム管理ツール ===
 class TeamManagementTool(BaseTool):
-    """チーム管理ツール"""
+    """
+    【チーム管理ツール】
+    【対応エージェント】TEAM_MANAGEMENT
+
+    【機能】
+    - チームメンバー情報管理
+    - 役割・担当確認
+    - 連絡先情報提供
+    """
 
     name: str = "team_management"
     description: str = """
     チームメンバーの情報や役割分担に関する情報を管理します。
     メンバーの連絡先や担当、チーム構成などの確認に使用してください。
+
+    引数:
+    - action: "list" (一覧) または "info" (詳細)
+    - member_name: メンバー名（詳細確認時）
     """
     rag_engine: Any = Field(exclude=True)
 
     def __init__(self, rag_engine: "Uma3RAGEngine"):
+        """
+        【STEP 6.1】チーム管理ツール初期化
+        """
         super().__init__(rag_engine=rag_engine)
 
     def _run(self, action: str, member_name: str = "") -> str:
@@ -247,17 +432,33 @@ class TeamManagementTool(BaseTool):
             return f"チーム管理処理中にエラーが発生しました: {e}"
 
 
+# === STEP 7: イベント分析ツール ===
 class EventAnalysisTool(BaseTool):
-    """イベント分析ツール"""
+    """
+    【イベント分析ツール】
+    【対応エージェント】EVENT_ANALYSIS
+
+    【機能】
+    - 過去イベント・試合の結果分析
+    - 成績傾向の把握
+    - パフォーマンス評価
+    """
 
     name: str = "event_analysis"
     description: str = """
     過去のイベントや試合の結果分析を行います。
     成績、傾向、改善点などの分析に使用してください。
+
+    引数:
+    - analysis_type: "results" (結果), "trends" (傾向), "performance" (成績)
+    - period: 分析期間
     """
     rag_engine: Any = Field(exclude=True)
 
     def __init__(self, rag_engine: "Uma3RAGEngine"):
+        """
+        【STEP 7.1】イベント分析ツール初期化
+        """
         super().__init__(rag_engine=rag_engine)
 
     def _run(self, analysis_type: str, period: str = "最近") -> str:
@@ -361,6 +562,10 @@ def create_custom_tools(rag_engine: Uma3RAGEngine) -> List[BaseTool]:
     Returns:
         カスタムツールのリスト
     """
+    if not LANGCHAIN_AVAILABLE:
+        print("⚠️ LangChain not available, returning empty tool list")
+        return []
+
     tools = [
         ReminderTool(rag_engine),
         WeatherContextTool(),
@@ -481,15 +686,166 @@ def calculate_days_until_event(event_description: str) -> str:
         return f"日数計算中にエラーが発生しました: {e}"
 
 
+@tool
+def get_weekly_schedule(query: str, current_date: Optional[str] = None) -> str:
+    """
+    今週の予定を取得します（月曜日から日曜日）。
+    質問された日時以降のイベントのみを表示します。
+
+    Args:
+        query: 週間予定のクエリ
+        current_date: 基準日（YYYY-MM-DD形式、Noneの場合は今日）
+
+    Returns:
+        今週の予定一覧
+    """
+    try:
+        # 基準日の設定
+        if current_date:
+            base_date = datetime.strptime(current_date, "%Y-%m-%d")
+        else:
+            base_date = datetime.now()
+
+        # 今週の月曜日を取得
+        days_since_monday = base_date.weekday()  # 月曜日=0, 日曜日=6
+        monday = base_date - timedelta(days=days_since_monday)
+
+        # 今週の日曜日を取得
+        sunday = monday + timedelta(days=6)
+
+        # 週間の日付リストを作成
+        week_dates = []
+        current = monday
+        while current <= sunday:
+            week_dates.append({
+                'date': current,
+                'day_name': ['月', '火', '水', '木', '金', '土', '日'][current.weekday()],
+                'is_future': current.date() >= base_date.date()
+            })
+            current += timedelta(days=1)
+
+        # RAGエンジンまたはChromaDBからスケジュール情報を検索
+        schedule_results = []
+
+        try:
+            # uma3_rag_engineを使用してスケジュール検索
+            from uma3_rag_engine import Uma3RAGEngine
+            rag_engine = Uma3RAGEngine()
+
+            # 週間予定関連のクエリ
+            weekly_query = f"今週 週間予定 スケジュール {monday.strftime('%Y年%m月%d日')} {sunday.strftime('%Y年%m月%d日')}"
+
+            results = rag_engine.search_similar(weekly_query, k=10)
+
+            if results:
+                context_texts = [result[0] for result in results]
+                schedule_results.extend(context_texts[:5])  # 上位5件を使用
+
+        except ImportError:
+            # uma3_rag_engineが利用できない場合のフォールバック
+            schedule_results.append("スケジュール検索エンジンが利用できません。")
+
+        # 結果をフォーマット
+        response = f"📅 **今週の予定** ({monday.strftime('%m/%d')}〜{sunday.strftime('%m/%d')})\n\n"
+
+        # 各曜日の予定を表示
+        for day_info in week_dates:
+            date_str = day_info['date'].strftime('%m/%d')
+            day_name = day_info['day_name']
+
+            # 基準日以降のみ表示
+            if day_info['is_future']:
+                response += f"🔹 **{day_name}曜日 ({date_str})**\n"
+
+                # その日の予定を検索（簡易版）
+                day_events = []
+                for result in schedule_results:
+                    if date_str in result or day_name in result:
+                        day_events.append(result)
+
+                if day_events:
+                    for event in day_events[:3]:  # 最大3件まで
+                        response += f"   • {event[:100]}...\n"
+                else:
+                    response += f"   • 予定なし\n"
+                response += "\n"
+
+        # 今週のイベント総数
+        total_events = len([d for d in week_dates if d['is_future']])
+        response += f"📊 **表示対象**: {total_events}日分の予定\n"
+        response += f"🗓️ **基準日**: {base_date.strftime('%Y年%m月%d日')} 以降のイベント\n"
+
+        return response
+
+    except Exception as e:
+        return f"週間予定の取得中にエラーが発生しました: {e}"
+
+
+@tool
+def get_future_events_from_date(query: str, from_date: Optional[str] = None) -> str:
+    """
+    指定日以降の今後のイベントを取得します。
+
+    Args:
+        query: イベント検索クエリ
+        from_date: 開始日（YYYY-MM-DD形式、Noneの場合は今日）
+
+    Returns:
+        指定日以降のイベント一覧
+    """
+    try:
+        # 開始日の設定
+        if from_date:
+            start_date = datetime.strptime(from_date, "%Y-%m-%d")
+        else:
+            start_date = datetime.now()
+
+        try:
+            # RAGエンジンを使用してイベント検索
+            from uma3_rag_engine import Uma3RAGEngine
+            rag_engine = Uma3RAGEngine()
+
+            # 未来のイベント検索クエリ
+            future_query = f"予定 イベント スケジュール {start_date.strftime('%Y年%m月%d日')} 以降"
+
+            results = rag_engine.search_similar(future_query, k=15)
+
+            if results:
+                context_texts = [result[0] for result in results[:8]]  # 上位8件
+                context = "\n".join(context_texts)
+
+                # 結果をフォーマット
+                response = f"🔮 **{start_date.strftime('%Y年%m月%d日')} 以降の予定**\n\n"
+                response += f"📋 検索結果:\n{context[:500]}...\n\n"
+                response += f"🗓️ **基準日**: {start_date.strftime('%Y年%m月%d日')} ({start_date.strftime('%A')})\n"
+
+                return response
+            else:
+                return f"📅 {start_date.strftime('%Y年%m月%d日')} 以降の予定が見つかりませんでした。"
+
+        except ImportError:
+            return "イベント検索エンジンが利用できません。"
+
+    except Exception as e:
+        return f"未来イベントの検索中にエラーが発生しました: {e}"
+
+
 def test_custom_tools():
     """カスタムツールのテスト"""
     try:
         print("🧪 Testing custom tools...")
 
         # RAG エンジン初期化（テスト用）
-        from uma3_rag_engine import Uma3RAGEngine
-
-        rag_engine = Uma3RAGEngine()
+        try:
+            from uma3_rag_engine import Uma3RAGEngine
+            rag_engine = Uma3RAGEngine()
+        except ImportError:
+            try:
+                from uma3_chroma_improver import Uma3ChromaDBImprover
+                rag_engine = Uma3ChromaDBImprover(None)
+            except ImportError:
+                print("[WARNING] No RAG engine available for testing")
+                return
 
         # カスタムツール作成
         custom_tools = create_custom_tools(rag_engine)
@@ -498,13 +854,35 @@ def test_custom_tools():
         for tool in custom_tools:
             print(f"  - {tool.name}: {tool.description[:50]}...")
 
-        # 関数型ツールのテスト
+        # 関数型ツールのテスト（LangChain @tool版）
         test_schedule = "11月3日 東京都大会 会場: 代々木体育館"
-        formatted = format_schedule_response(test_schedule)
-        print(f"\\n📝 Format test: {formatted}")
+        try:
+            formatted = format_schedule_response.invoke({"schedule_data": test_schedule})
+            print(f"\\n📝 Format test: {formatted}")
+        except Exception as e:
+            print(f"\\n📝 Format test error: {e}")
 
-        days_result = calculate_days_until_event(test_schedule)
-        print(f"📅 Days calculation: {days_result}")
+        try:
+            days_result = calculate_days_until_event.invoke({"event_description": test_schedule})
+            print(f"📅 Days calculation: {days_result}")
+        except Exception as e:
+            print(f"📅 Days calculation error: {e}")
+
+        # 週間予定機能のテスト
+        print("\n🗓️ Testing weekly schedule...")
+        try:
+            weekly_result = get_weekly_schedule.invoke({"query": "今週の予定を教えて"})
+            print(f"📅 Weekly schedule: {weekly_result[:200]}...")
+        except Exception as e:
+            print(f"📅 Weekly schedule error: {e}")
+
+        # 未来イベント機能のテスト
+        print("\n🔮 Testing future events...")
+        try:
+            future_result = get_future_events_from_date.invoke({"query": "今後の予定"})
+            print(f"🔜 Future events: {future_result[:200]}...")
+        except Exception as e:
+            print(f"🔜 Future events error: {e}")
 
         print("✅ Custom tools test completed")
 

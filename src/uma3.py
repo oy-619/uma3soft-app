@@ -1,15 +1,41 @@
 """
-FlaskとLINE Bot SDKを使用したLINE Botアプリケーション。
-学習済み選手情報統合
+【Uma3 LINE Bot メインアプリケーション】
+FlaskとLINE Bot SDKを使用したLINE Botアプリケーション
+
+【主な機能】
+- インテリジェントエージェントルーティングシステム
+- Flex Message履歴表示
+- 選手情報管理（28名対応）
+- RAGエンジン統合
+- リマインダー・スケジュール管理
+
+【アーキテクチャ】
+- Flask Webアプリケーション
+- LINE Bot SDK v3
+- Uma3AgentRouter（エージェント自動選択）
+- Uma3RAGEngine（データ検索・保存）
+- カスタムツールセット
 """
 
 from typing import Optional
 
+# === STEP 1: 選手情報管理システム ===
 class ExpandablePlayerInfoHandler:
-    """拡張可能選手情報ハンドラー 28名対応"""
+    """
+    【拡張可能選手情報ハンドラー】
+    【機能】選手名検出・管理システム（28名対応）
+
+    【特徴】
+    - 動的選手情報管理
+    - メッセージからの選手名自動検出
+    - 学習・拡張機能サポート
+    """
 
     def __init__(self):
-        # 確認済み選手（更新版 - 28名）
+        """
+        【STEP 1.1】選手情報ハンドラー初期化
+        """
+        # === 確認済み選手（28名） ===
         self.confirmed_players = [
             "陸功", "湊", "錬", "南", "統司", "春輝", "新", "由眞", "心寧", "唯浬", "朋樹", "佑多", "穂美",
             "翔平", "尚真", "柚希", "心翔", "広起", "想真", "奏", "英汰", "聡太", "暖大", "悠琉", "陽", "美玖里", "優", "勘太"
@@ -123,6 +149,290 @@ class ExpandablePlayerInfoHandler:
 # グローバル拡張選手情報ハンドラー
 player_info_handler = ExpandablePlayerInfoHandler()
 
+
+class FlexHistoryCardHandler:
+    """F履歴をカード形式で表示するハンドラー"""
+
+    def __init__(self):
+        self.card_color_scheme = {
+            'primary': '#1DB446',      # LINE緑
+            'secondary': '#06C755',    # LINE薄緑
+            'accent': '#00B900',       # アクセント色
+            'text_primary': '#333333',  # メインテキスト
+            'text_secondary': '#666666', # サブテキスト
+            'background': '#FAFAFA',    # 背景色
+            'border': '#E0E0E0'        # ボーダー色
+        }
+
+    def create_history_flex_message(self, history_data: list, title: str = "F履歴"):
+        """履歴データからFlex Messageカードを作成"""
+
+        if not history_data:
+            # 履歴がない場合のメッセージ
+            empty_container = {
+                "type": "bubble",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "md",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": title,
+                            "size": "xl",
+                            "weight": "bold",
+                            "color": self.card_color_scheme['primary']
+                        },
+                        {
+                            "type": "separator",
+                            "margin": "md"
+                        },
+                        {
+                            "type": "text",
+                            "text": "履歴データがありません",
+                            "size": "md",
+                            "color": self.card_color_scheme['text_secondary'],
+                            "align": "center",
+                            "margin": "lg"
+                        }
+                    ]
+                }
+            }
+
+            return FlexMessage(
+                alt_text=f"{title} - 履歴なし",
+                contents=empty_container
+            )
+
+        # 履歴データがある場合のカルーセル作成
+        bubbles = []
+
+        for i, record in enumerate(history_data[:10]):  # 最大10件まで表示
+            bubble = self.create_single_history_card(record, i + 1)
+            bubbles.append(bubble)
+
+        # カルーセル形式でFlex Message作成
+        carousel_container = {
+            "type": "carousel",
+            "contents": bubbles
+        }
+
+        return FlexMessage(
+            alt_text=f"{title} - {len(history_data)}件の履歴",
+            contents=carousel_container
+        )
+
+    def create_single_history_card(self, record: dict, index: int) -> dict:
+        """単一の履歴レコードからカードを作成"""
+
+        # レコードから情報を抽出
+        timestamp = record.get('timestamp', '不明')
+        user_message = record.get('user_message', '不明')
+        bot_response = record.get('bot_response', '応答なし')
+        conversation_id = record.get('id', 'N/A')
+
+        # テキストを適切な長さに切り詰め
+        user_message_short = self.truncate_text(user_message, 100)
+        bot_response_short = self.truncate_text(bot_response, 120)
+
+        # 日時フォーマット
+        formatted_time = self.format_timestamp(timestamp)
+
+        bubble = {
+            "type": "bubble",
+            "size": "kilo",
+            "header": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": f"履歴 #{index}",
+                        "size": "lg",
+                        "weight": "bold",
+                        "color": self.card_color_scheme['primary']
+                    },
+                    {
+                        "type": "text",
+                        "text": formatted_time,
+                        "size": "xs",
+                        "color": self.card_color_scheme['text_secondary'],
+                        "margin": "xs"
+                    }
+                ],
+                "backgroundColor": self.card_color_scheme['background'],
+                "paddingAll": "15px"
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "👤 ユーザー",
+                                "size": "sm",
+                                "weight": "bold",
+                                "color": self.card_color_scheme['accent']
+                            },
+                            {
+                                "type": "text",
+                                "text": user_message_short,
+                                "size": "sm",
+                                "wrap": True,
+                                "color": self.card_color_scheme['text_primary'],
+                                "margin": "xs"
+                            }
+                        ],
+                        "backgroundColor": "#F0F8FF",
+                        "cornerRadius": "8px",
+                        "paddingAll": "10px"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "🤖 Bot応答",
+                                "size": "sm",
+                                "weight": "bold",
+                                "color": self.card_color_scheme['primary']
+                            },
+                            {
+                                "type": "text",
+                                "text": bot_response_short,
+                                "size": "sm",
+                                "wrap": True,
+                                "color": self.card_color_scheme['text_primary'],
+                                "margin": "xs"
+                            }
+                        ],
+                        "backgroundColor": "#F0FFF0",
+                        "cornerRadius": "8px",
+                        "paddingAll": "10px"
+                    }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": f"ID: {conversation_id}",
+                        "size": "xxs",
+                        "color": self.card_color_scheme['text_secondary'],
+                        "align": "center"
+                    }
+                ],
+                "paddingAll": "8px"
+            }
+        }
+
+        return bubble
+
+    def truncate_text(self, text: str, max_length: int) -> str:
+        """テキストを指定された長さに切り詰め"""
+        if not text:
+            return "なし"
+
+        if len(text) <= max_length:
+            return text
+
+        return text[:max_length - 3] + "..."
+
+    def format_timestamp(self, timestamp: str) -> str:
+        """タイムスタンプをフォーマット"""
+        try:
+            from datetime import datetime
+
+            # さまざまなタイムスタンプフォーマットに対応
+            formats = [
+                "%Y-%m-%d %H:%M:%S",
+                "%Y-%m-%dT%H:%M:%S",
+                "%Y-%m-%d %H:%M:%S.%f",
+                "%Y-%m-%dT%H:%M:%S.%f"
+            ]
+
+            for fmt in formats:
+                try:
+                    dt = datetime.strptime(timestamp, fmt)
+                    return dt.strftime("%m/%d %H:%M")
+                except ValueError:
+                    continue
+
+            # パースできない場合はそのまま返す
+            return str(timestamp)[:16]
+
+        except Exception:
+            return "不明"
+
+    def get_recent_history_from_db(self, limit: int = 10) -> list:
+        """データベースから最近の履歴を取得"""
+        try:
+            # conversation_managerがグローバルに定義されている場合
+            if 'conversation_manager' in globals():
+                # SQLiteから履歴を取得
+                import sqlite3
+                db_path = CONVERSATION_DB_PATH
+
+                conn = sqlite3.connect(db_path)
+                cursor = conn.cursor()
+
+                cursor.execute("""
+                    SELECT id, timestamp, user_message, bot_response
+                    FROM conversations
+                    ORDER BY timestamp DESC
+                    LIMIT ?
+                """, (limit,))
+
+                rows = cursor.fetchall()
+                conn.close()
+
+                history_data = []
+                for row in rows:
+                    history_data.append({
+                        'id': row[0],
+                        'timestamp': row[1],
+                        'user_message': row[2],
+                        'bot_response': row[3]
+                    })
+
+                return history_data
+
+        except Exception as e:
+            print(f"[FLEX_HISTORY] Error getting history from DB: {e}")
+            return []
+
+    def handle_history_request(self, message: str):
+        """履歴表示リクエストを処理"""
+
+        # F履歴関連のキーワードをチェック
+        history_keywords = ['F履歴', 'f履歴', '履歴', '会話履歴', 'history', '過去の会話']
+        card_keywords = ['カード', 'card', 'flex']
+
+        message_lower = message.lower()
+
+        if any(keyword in message for keyword in history_keywords):
+            # 履歴データを取得
+            history_data = self.get_recent_history_from_db(10)
+
+            # Flex Messageカードを作成
+            flex_message = self.create_history_flex_message(history_data, "F履歴カード")
+
+            return flex_message
+
+        return None
+
+
+# グローバルFlex履歴ハンドラー
+flex_history_handler = FlexHistoryCardHandler()
+
 import os
 import re
 import subprocess
@@ -183,11 +493,13 @@ except ImportError:
 
 from langchain_openai import ChatOpenAI
 from linebot.v3.messaging import ApiClient, Configuration, MessagingApi
-from linebot.v3.messaging.models import ReplyMessageRequest, TextMessage
+from linebot.v3.messaging.models import ReplyMessageRequest, TextMessage, FlexMessage
 from linebot.v3.webhook import WebhookHandler
 from linebot.v3.webhooks import MessageEvent, TextMessageContent
 from reminder_schedule import send_reminder_via_line
 from uma3_chroma_improver import Uma3ChromaDBImprover
+from uma3_agent_router import Uma3AgentRouter, AgentType
+from uma3_custom_tools import create_custom_tools
 
 # Chains import disabled - not available in current LangChain version
 # Documents chain import disabled
@@ -231,9 +543,17 @@ line_api = MessagingApi(ApiClient(configuration))
 handler = WebhookHandler(CHANNEL_SECRET)
 
 # 埋め込みモデルとベクトルデータベースの初期化
-embedding_model = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
+try:
+    embedding_model = HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
+    print("[INIT] Using HuggingFace embeddings")
+except Exception as e:
+    print(f"[WARNING] HuggingFace embeddings failed: {e}")
+    print("[INIT] Using OpenAI embeddings as fallback")
+    from langchain_openai import OpenAIEmbeddings
+    embedding_model = OpenAIEmbeddings()
+
 vector_db = Chroma(
     persist_directory=PERSIST_DIRECTORY, embedding_function=embedding_model
 )
@@ -251,6 +571,21 @@ integrated_conversation_system = IntegratedConversationSystem(
 print(f"[INIT] Integrated conversation system initialized")
 print(f"[INIT] ChromaDB path: {PERSIST_DIRECTORY}")
 print(f"[INIT] ConversationDB path: {CONVERSATION_DB_PATH}")
+
+# エージェントルーターの初期化
+try:
+    # LLMを初期化（エージェント分析用）
+    llm_for_agent = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
+    agent_router = Uma3AgentRouter(llm=llm_for_agent)
+
+    # カスタムツールの作成
+    custom_tools = create_custom_tools(chroma_improver)
+
+    print(f"[INIT] ✅ Agent router initialized with {len(custom_tools)} custom tools")
+except Exception as e:
+    print(f"[INIT] ⚠️ Agent router initialization failed: {e}")
+    agent_router = Uma3AgentRouter()  # LLMなしで初期化
+    custom_tools = []
 
 
 def format_message_for_mobile(text):
@@ -502,7 +837,13 @@ def callback():
 
 def handle_message_event_direct(event):
     """
-    デバッグモード用の直接メッセージ処理関数
+    【STEP N: デバッグモード用の直接メッセージ処理関数】
+    【重要】エージェントルーターと統合された処理フロー
+
+    処理フロー:
+    1. メッセージイベント検証
+    2. ユーザー・グループID取得
+    3. エージェントルーターによる処理
 
     Args:
         event (dict): LINE Webhook event dictionary
@@ -600,7 +941,262 @@ def handle_message(event):
         if is_mentioned_by_other or "@Bot" in text:
             print("[MENTION] Botがメンションされました！")
 
-            # 1. 最優先：学習済み選手情報のチェック
+            # ===== エージェントルーター：インテリジェント分析開始 =====
+            try:
+                agent_type, agent_intent = agent_router.route_to_agent(text)
+                agent_info = agent_router.get_agent_info(agent_type)
+
+                print(f"[AGENT_ROUTER] 🧠 Selected Agent: {agent_info.get('name', agent_type.value)}")
+                print(f"[AGENT_ROUTER] 🎯 Confidence: {agent_intent.confidence:.3f}")
+                print(f"[AGENT_ROUTER] 💭 Reasoning: {agent_intent.reasoning}")
+
+                if agent_intent.extracted_params:
+                    print(f"[AGENT_ROUTER] 📋 Parameters: {agent_intent.extracted_params}")
+
+            except Exception as router_error:
+                print(f"[AGENT_ROUTER] ⚠️ Router error: {router_error}")
+                agent_type = AgentType.GENERAL_CHAT
+                agent_intent = None
+
+            # ===== エージェント別処理 =====
+
+            # 1. 最優先：Flex履歴表示エージェント
+            if agent_type == AgentType.FLEX_HISTORY:
+                flex_history_message = flex_history_handler.handle_history_request(text)
+                if flex_history_message:
+                    print(f"[FLEX_HISTORY] ✅ History card request detected, responding with Flex Message")
+
+                # 履歴表示リクエストを会話履歴に保存
+                try:
+                    conversation_manager.save_conversation(
+                        user_id, text, "F履歴カードを表示しました",
+                        metadata={"source": "flex_history_display", "response_type": "flex_card"}
+                    )
+                    print(f"[FLEX_HISTORY] ✅ Saved history request to conversation log")
+                except Exception as save_error:
+                    print(f"[WARNING] ❌ Failed to save history request: {save_error}")
+
+                    # Flex Messageで応答
+                    line_api.reply_message(
+                        ReplyMessageRequest(
+                            reply_token=event.reply_token, messages=[flex_history_message]
+                        )
+                    )
+                    return
+
+            # 2. リマインダー管理エージェント
+            elif agent_type == AgentType.REMINDER_MANAGEMENT:
+                try:
+                    reminder_tool = next((tool for tool in custom_tools if tool.name == "reminder_manager"), None)
+                    if reminder_tool:
+                        action = agent_intent.extracted_params.get("action", "check")
+                        if "設定" in text or "追加" in text:
+                            action = "set"
+
+                        # 日付とメッセージを抽出
+                        date_match = re.search(r'(\d{1,2}月\d{1,2}日)', text)
+                        date = date_match.group(1) if date_match else ""
+
+                        # メッセージ部分を抽出
+                        message_part = text.replace("@Bot", "").replace("リマインダー", "").replace(date, "").strip()
+
+                        reminder_result = reminder_tool._run(action=action, date=date, message=message_part)
+
+                        reply_message = TextMessage(text=f"🔔 {reminder_result}")
+                        line_api.reply_message(
+                            ReplyMessageRequest(
+                                reply_token=event.reply_token, messages=[reply_message]
+                            )
+                        )
+                        return
+                except Exception as reminder_error:
+                    print(f"[REMINDER] ⚠️ Reminder tool error: {reminder_error}")
+
+            # 3. チーム管理エージェント
+            elif agent_type == AgentType.TEAM_MANAGEMENT:
+                try:
+                    team_tool = next((tool for tool in custom_tools if tool.name == "team_management"), None)
+                    if team_tool:
+                        action = "list"  # デフォルト
+                        member_name = ""
+
+                        if "一覧" in text or "リスト" in text:
+                            action = "list"
+                        elif "情報" in text or "詳細" in text:
+                            action = "info"
+                            # メンバー名を抽出
+                            for player in player_info_handler.all_players:
+                                if player in text:
+                                    member_name = player
+                                    break
+                        elif "役割" in text:
+                            action = "roles"
+
+                        team_result = team_tool._run(action=action, member_name=member_name)
+
+                        reply_message = TextMessage(text=team_result)
+                        line_api.reply_message(
+                            ReplyMessageRequest(
+                                reply_token=event.reply_token, messages=[reply_message]
+                            )
+                        )
+                        return
+                except Exception as team_error:
+                    print(f"[TEAM] ⚠️ Team management error: {team_error}")
+
+            # 4. イベント分析エージェント
+            elif agent_type == AgentType.EVENT_ANALYSIS:
+                try:
+                    analysis_tool = next((tool for tool in custom_tools if tool.name == "event_analysis"), None)
+                    if analysis_tool:
+                        analysis_type = "results"  # デフォルト
+
+                        if "結果" in text:
+                            analysis_type = "results"
+                        elif "傾向" in text:
+                            analysis_type = "trends"
+                        elif "成績" in text or "パフォーマンス" in text:
+                            analysis_type = "performance"
+
+                        period = agent_intent.extracted_params.get("time_context", "最近")
+
+                        analysis_result = analysis_tool._run(analysis_type=analysis_type, period=period)
+
+                        reply_message = TextMessage(text=analysis_result)
+                        line_api.reply_message(
+                            ReplyMessageRequest(
+                                reply_token=event.reply_token, messages=[reply_message]
+                            )
+                        )
+                        return
+                except Exception as analysis_error:
+                    print(f"[ANALYSIS] ⚠️ Event analysis error: {analysis_error}")
+
+            # 5. 天気コンテキストエージェント
+            elif agent_type == AgentType.WEATHER_CONTEXT:
+                try:
+                    weather_tool = next((tool for tool in custom_tools if tool.name == "weather_context"), None)
+                    if weather_tool:
+                        weather_result = weather_tool._run(query=text)
+
+                        reply_message = TextMessage(text=weather_result)
+                        line_api.reply_message(
+                            ReplyMessageRequest(
+                                reply_token=event.reply_token, messages=[reply_message]
+                            )
+                        )
+                        return
+                except Exception as weather_error:
+                    print(f"[WEATHER] ⚠️ Weather context error: {weather_error}")
+
+            # 6. スケジュール通知エージェント（強化版）
+            elif agent_type == AgentType.SCHEDULE_NOTIFICATION:
+                try:
+                    print(f"[SCHEDULE] Processing schedule request: {text}")
+
+                    # 今週の予定かどうかを判断
+                    weekly_keywords = ["今週", "週間", "この週", "今週の予定"]
+                    is_weekly_request = any(keyword in text for keyword in weekly_keywords)
+
+                    # 今後の予定かどうかを判断
+                    future_keywords = ["今後", "これから", "以降", "未来"]
+                    is_future_request = any(keyword in text for keyword in future_keywords)
+
+                    if is_weekly_request:
+                        # 今週の予定を取得
+                        try:
+                            from uma3_custom_tools import get_weekly_schedule
+                            current_date = datetime.now().strftime("%Y-%m-%d")
+                            response_text = get_weekly_schedule(text, current_date)
+                            print(f"[SCHEDULE] 📅 Weekly schedule response generated")
+                        except Exception as weekly_error:
+                            print(f"[SCHEDULE] ⚠️ Weekly schedule error: {weekly_error}")
+                            response_text = "今週の予定取得中にエラーが発生しました。"
+
+                    elif is_future_request:
+                        # 今後の予定を取得
+                        try:
+                            from uma3_custom_tools import get_future_events_from_date
+                            current_date = datetime.now().strftime("%Y-%m-%d")
+                            response_text = get_future_events_from_date(text, current_date)
+                            print(f"[SCHEDULE] 🔮 Future events response generated")
+                        except Exception as future_error:
+                            print(f"[SCHEDULE] ⚠️ Future events error: {future_error}")
+                            response_text = "今後の予定取得中にエラーが発生しました。"
+                    else:
+                        # 従来のスケジュール検索
+                        time_context = agent_intent.extracted_params.get("time_context", "")
+                        search_query = f"予定 スケジュール {time_context}"
+
+                        schedule_results = chroma_improver.schedule_aware_search(search_query, k=5)
+
+                        if schedule_results:
+                            # スケジュール情報をフォーマット
+                            schedule_text = ""
+                            for i, doc in enumerate(schedule_results[:3], 1):
+                                schedule_text += f"{i}. {doc.page_content[:150]}...\n\n"
+
+                            # フォーマット関数を使用
+                            try:
+                                from uma3_custom_tools import format_schedule_response, calculate_days_until_event
+                                formatted_schedule = format_schedule_response(schedule_text)
+
+                                # 日数計算も追加
+                                days_info = calculate_days_until_event(schedule_text)
+                                response_text = f"{formatted_schedule}\n\n{days_info}"
+                            except Exception as format_error:
+                                print(f"[SCHEDULE] ⚠️ Format error: {format_error}")
+                                response_text = f"📅 スケジュール情報:\n\n{schedule_text}"
+                        else:
+                            response_text = "📅 該当するスケジュール情報が見つかりませんでした。"
+
+                    reply_message = TextMessage(text=response_text)
+                    line_api.reply_message(
+                        ReplyMessageRequest(
+                            reply_token=event.reply_token, messages=[reply_message]
+                        )
+                    )
+                    return
+
+                except Exception as schedule_error:
+                    print(f"[SCHEDULE] ⚠️ Schedule agent error: {schedule_error}")
+
+            # 7. 履歴検索エージェント（通常のテキスト形式）
+            elif agent_type == AgentType.HISTORY_SEARCH:
+                try:
+                    print(f"[HISTORY_SEARCH] Processing history search: {text}")
+
+                    # 履歴検索を実行
+                    extracted_term = agent_intent.extracted_params.get("extracted_term", "")
+                    search_query = f"履歴 過去 {extracted_term}" if extracted_term else text
+
+                    history_results = chroma_improver.smart_similarity_search(search_query, k=5)
+
+                    if history_results:
+                        response_text = "📋 検索された履歴情報:\n\n"
+                        for i, doc in enumerate(history_results[:3], 1):
+                            response_text += f"{i}. {doc.page_content[:200]}...\n\n"
+
+                        reply_message = TextMessage(text=response_text)
+                        line_api.reply_message(
+                            ReplyMessageRequest(
+                                reply_token=event.reply_token, messages=[reply_message]
+                            )
+                        )
+                        return
+                    else:
+                        reply_message = TextMessage(text="📋 該当する履歴情報が見つかりませんでした。")
+                        line_api.reply_message(
+                            ReplyMessageRequest(
+                                reply_token=event.reply_token, messages=[reply_message]
+                            )
+                        )
+                        return
+
+                except Exception as history_error:
+                    print(f"[HISTORY_SEARCH] ⚠️ History search error: {history_error}")
+
+            # 8. 学習済み選手情報のチェック（FAQ検索エージェント内）
             player_response = player_info_handler.handle_message(text)
             if player_response:
                 print(f"[PLAYER_INFO] ✅ Player information found, responding with player data")
@@ -624,7 +1220,7 @@ def handle_message(event):
                 )
                 return
 
-            # 2. 統合会話システムを使用して応答を生成
+            # 3. 統合会話システムを使用して応答を生成
             print(f"[INTEGRATED] Using integrated conversation system for user: {user_id}")
 
             # LLMの初期化（verbose属性エラー回避）

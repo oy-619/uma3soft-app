@@ -1,0 +1,243 @@
+{
+  "type": "flex",
+  "altText": "東京都の天気情報",
+  "contents": {
+    "type": "bubble",
+    "styles": {
+      "header": {
+        "backgroundColor": "#ff9500"
+      },
+      "body": {
+        "backgroundColor": "#f8f9fa"
+      }
+    },
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "☀️",
+          "size": "xxl",
+          "align": "center",
+          "margin": "sm"
+        },
+        {
+          "type": "text",
+          "text": "東京都",
+          "weight": "bold",
+          "size": "lg",
+          "align": "center",
+          "color": "#ffffff"
+        }
+      ],
+      "paddingTop": "15px",
+      "paddingBottom": "15px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📍 渋谷・代々木公園スタート",
+          "size": "sm",
+          "color": "#666666",
+          "margin": "none",
+          "wrap": true
+        },
+        {
+          "type": "separator",
+          "margin": "md"
+        },
+        {
+          "type": "text",
+          "text": "晴れ",
+          "size": "md",
+          "align": "center",
+          "margin": "md",
+          "weight": "bold",
+          "color": "#ff9500"
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "🌡️",
+                      "size": "lg",
+                      "align": "center"
+                    },
+                    {
+                      "type": "text",
+                      "text": "気温",
+                      "size": "xs",
+                      "align": "center",
+                      "color": "#666666",
+                      "margin": "xs"
+                    },
+                    {
+                      "type": "text",
+                      "text": "21°C\n体感 23°C",
+                      "size": "sm",
+                      "align": "center",
+                      "weight": "bold",
+                      "margin": "xs"
+                    }
+                  ],
+                  "flex": 1,
+                  "backgroundColor": "#ffffff",
+                  "cornerRadius": "8px",
+                  "paddingAll": "8px",
+                  "margin": "xs"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "💧",
+                      "size": "lg",
+                      "align": "center"
+                    },
+                    {
+                      "type": "text",
+                      "text": "湿度",
+                      "size": "xs",
+                      "align": "center",
+                      "color": "#666666",
+                      "margin": "xs"
+                    },
+                    {
+                      "type": "text",
+                      "text": "77%",
+                      "size": "sm",
+                      "align": "center",
+                      "weight": "bold",
+                      "margin": "xs"
+                    }
+                  ],
+                  "flex": 1,
+                  "backgroundColor": "#ffffff",
+                  "cornerRadius": "8px",
+                  "paddingAll": "8px",
+                  "margin": "xs"
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "☔",
+                      "size": "lg",
+                      "align": "center"
+                    },
+                    {
+                      "type": "text",
+                      "text": "降水確率",
+                      "size": "xs",
+                      "align": "center",
+                      "color": "#666666",
+                      "margin": "xs"
+                    },
+                    {
+                      "type": "text",
+                      "text": "0%",
+                      "size": "sm",
+                      "align": "center",
+                      "weight": "bold",
+                      "margin": "xs"
+                    }
+                  ],
+                  "flex": 1,
+                  "backgroundColor": "#ffffff",
+                  "cornerRadius": "8px",
+                  "paddingAll": "8px",
+                  "margin": "xs"
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "💨",
+                      "size": "lg",
+                      "align": "center"
+                    },
+                    {
+                      "type": "text",
+                      "text": "風速",
+                      "size": "xs",
+                      "align": "center",
+                      "color": "#666666",
+                      "margin": "xs"
+                    },
+                    {
+                      "type": "text",
+                      "text": "2.7km/h",
+                      "size": "sm",
+                      "align": "center",
+                      "weight": "bold",
+                      "margin": "xs"
+                    }
+                  ],
+                  "flex": 1,
+                  "backgroundColor": "#ffffff",
+                  "cornerRadius": "8px",
+                  "paddingAll": "8px",
+                  "margin": "xs"
+                }
+              ],
+              "margin": "sm"
+            }
+          ]
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📅 2025年10月30日 01:14",
+          "size": "xs",
+          "color": "#999999",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "text": "🌐 OpenWeatherMap提供",
+          "size": "xs",
+          "color": "#999999",
+          "align": "center",
+          "margin": "xs"
+        }
+      ],
+      "paddingTop": "10px",
+      "paddingBottom": "10px"
+    }
+  }
+}

@@ -6,12 +6,20 @@
     "auto_discovery": true,
     "notification_times": [
         {
+            "hour": 18,
+            "minute": 25
+        },
+        {
             "hour": 12,
-            "minute": 0
+            "minute": 30
         },
         {
             "hour": 19,
             "minute": 0
+        },
+        {
+            "hour": 2,
+            "minute": 10
         }
     ]
 }

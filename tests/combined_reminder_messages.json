@@ -1,0 +1,743 @@
+{
+  "text_message": "⏰ 【重要】 イベント開催のご案内（明日開催）\n\nお疲れ様です。\n\n2025年10月31日(金)にイベントが開催されます。\n改めてご確認いただき、お気をつけてお越しください。\n\n📋 **イベント詳細**\n[ノート] 11月10日(日) BBQイベント\n会場: 代々木公園バーベキュー広場\n集合時間: 11:00\n持ち物: 食材、飲み物、炭、軍手\n雨天中止\n\n==================================================\n\n🌤️ **東京都の天気情報**\n\n📅 **イベント日**: 2025年10月31日\n📍 **地域**: 東京都\n\n⚠️ **リアルタイム天気情報の取得について**\n申し訳ございませんが、現在詳細な天気情報を自動で取得できない状況です。\n\n💡 **おすすめの確認方法**\n以下の方法で最新の天気予報をご確認ください：\n\n📱 **スマートフォンアプリ**\n• Yahoo!天気 / ウェザーニュース\n• NHK あなたの天気・防災\n\n🌐 **ウェブサイト**\n• 気象庁 (jma.go.jp)\n• 日本気象協会 tenki.jp\n\n🍂 **秋季のアドバイス**\n• 朝晩の気温差に注意\n• 長袖の準備をおすすめ\n• 台風情報にもご注意を\n\n🎯 **イベント当日の準備**\n• 前日夜または当日朝に最新の天気予報を確認\n• 雨の可能性がある場合は傘やレインウェアを準備\n• 気温に応じた適切な服装を選択\n\n📞 **緊急時の連絡**\n天候による開催可否の判断については、\n主催者からの連絡をお待ちください。\n\n==================================================\n\nご不明な点がございましたら、お気軽にお声かけください。\nご協力ありがとうございます。\nよろしくお願いいたします。",
+  "normal_flex": {
+    "type": "bubble",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "⏰ イベント開催（明日）",
+          "weight": "bold",
+          "size": "md",
+          "color": "#FFFFFF"
+        }
+      ],
+      "backgroundColor": "#FF8C00",
+      "paddingAll": "15px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📅 日時",
+              "size": "sm",
+              "color": "#666666",
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "2025年10月31日(金)",
+              "size": "lg",
+              "weight": "bold",
+              "color": "#FF8C00",
+              "margin": "xs"
+            }
+          ],
+          "margin": "none"
+        },
+        {
+          "type": "separator",
+          "margin": "md"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📋 内容",
+              "size": "sm",
+              "color": "#666666",
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "[ノート] 11月10日(日) BBQイベント\n会場: 代々木公園バーベキュー広場\n集合時間: 11:00\n持ち物: 食材、飲み物、炭、軍手\n雨天中止",
+              "size": "md",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "margin": "md"
+        },
+        {
+          "type": "separator",
+          "margin": "md"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🌤️ 天気情報",
+              "size": "sm",
+              "color": "#666666",
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "天気予報をご確認ください",
+              "size": "sm",
+              "wrap": true,
+              "margin": "xs"
+            }
+          ],
+          "margin": "md"
+        }
+      ],
+      "paddingAll": "15px"
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "text",
+              "text": "明日開催です",
+              "size": "sm",
+              "color": "#FF8C00",
+              "weight": "bold",
+              "flex": 1
+            },
+            {
+              "type": "text",
+              "text": "UMA3リマインダー",
+              "size": "xs",
+              "color": "#999999",
+              "align": "end",
+              "flex": 1
+            }
+          ]
+        }
+      ],
+      "paddingAll": "10px"
+    }
+  },
+  "weather_flex": {
+    "type": "flex",
+    "altText": "東京都の天気情報",
+    "contents": {
+      "type": "bubble",
+      "styles": {
+        "header": {
+          "backgroundColor": "#8e8e93"
+        },
+        "body": {
+          "backgroundColor": "#f8f9fa"
+        }
+      },
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "☁️",
+            "size": "xxl",
+            "align": "center",
+            "margin": "sm"
+          },
+          {
+            "type": "text",
+            "text": "東京都",
+            "weight": "bold",
+            "size": "lg",
+            "align": "center",
+            "color": "#ffffff"
+          }
+        ],
+        "paddingTop": "15px",
+        "paddingBottom": "15px"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "📍 代々木公園バーベキュー広場",
+            "size": "sm",
+            "color": "#666666",
+            "margin": "none",
+            "wrap": true
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "text",
+            "text": "曇り",
+            "size": "md",
+            "align": "center",
+            "margin": "md",
+            "weight": "bold",
+            "color": "#8e8e93"
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "🌡️",
+                        "size": "lg",
+                        "align": "center"
+                      },
+                      {
+                        "type": "text",
+                        "text": "気温",
+                        "size": "xs",
+                        "align": "center",
+                        "color": "#666666",
+                        "margin": "xs"
+                      },
+                      {
+                        "type": "text",
+                        "text": "11°C\n8° - 14°",
+                        "size": "sm",
+                        "align": "center",
+                        "weight": "bold",
+                        "margin": "xs"
+                      }
+                    ],
+                    "flex": 1,
+                    "backgroundColor": "#ffffff",
+                    "cornerRadius": "8px",
+                    "paddingAll": "8px",
+                    "margin": "xs"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💧",
+                        "size": "lg",
+                        "align": "center"
+                      },
+                      {
+                        "type": "text",
+                        "text": "湿度",
+                        "size": "xs",
+                        "align": "center",
+                        "color": "#666666",
+                        "margin": "xs"
+                      },
+                      {
+                        "type": "text",
+                        "text": "67%",
+                        "size": "sm",
+                        "align": "center",
+                        "weight": "bold",
+                        "margin": "xs"
+                      }
+                    ],
+                    "flex": 1,
+                    "backgroundColor": "#ffffff",
+                    "cornerRadius": "8px",
+                    "paddingAll": "8px",
+                    "margin": "xs"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "☔",
+                        "size": "lg",
+                        "align": "center"
+                      },
+                      {
+                        "type": "text",
+                        "text": "降水確率",
+                        "size": "xs",
+                        "align": "center",
+                        "color": "#666666",
+                        "margin": "xs"
+                      },
+                      {
+                        "type": "text",
+                        "text": "11%",
+                        "size": "sm",
+                        "align": "center",
+                        "weight": "bold",
+                        "margin": "xs"
+                      }
+                    ],
+                    "flex": 1,
+                    "backgroundColor": "#ffffff",
+                    "cornerRadius": "8px",
+                    "paddingAll": "8px",
+                    "margin": "xs"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💨",
+                        "size": "lg",
+                        "align": "center"
+                      },
+                      {
+                        "type": "text",
+                        "text": "風速",
+                        "size": "xs",
+                        "align": "center",
+                        "color": "#666666",
+                        "margin": "xs"
+                      },
+                      {
+                        "type": "text",
+                        "text": "3.0km/h",
+                        "size": "sm",
+                        "align": "center",
+                        "weight": "bold",
+                        "margin": "xs"
+                      }
+                    ],
+                    "flex": 1,
+                    "backgroundColor": "#ffffff",
+                    "cornerRadius": "8px",
+                    "paddingAll": "8px",
+                    "margin": "xs"
+                  }
+                ],
+                "margin": "sm"
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "📅 2025年10月30日 01:12",
+            "size": "xs",
+            "color": "#999999",
+            "align": "center"
+          },
+          {
+            "type": "text",
+            "text": "🌐 OpenWeatherMap提供",
+            "size": "xs",
+            "color": "#999999",
+            "align": "center",
+            "margin": "xs"
+          }
+        ],
+        "paddingTop": "10px",
+        "paddingBottom": "10px"
+      }
+    }
+  },
+  "combined": [
+    {
+      "type": "bubble",
+      "header": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "⏰ イベント開催（明日）",
+            "weight": "bold",
+            "size": "md",
+            "color": "#FFFFFF"
+          }
+        ],
+        "backgroundColor": "#FF8C00",
+        "paddingAll": "15px"
+      },
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "📅 日時",
+                "size": "sm",
+                "color": "#666666",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "2025年10月31日(金)",
+                "size": "lg",
+                "weight": "bold",
+                "color": "#FF8C00",
+                "margin": "xs"
+              }
+            ],
+            "margin": "none"
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "📋 内容",
+                "size": "sm",
+                "color": "#666666",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "[ノート] 11月10日(日) BBQイベント\n会場: 代々木公園バーベキュー広場\n集合時間: 11:00\n持ち物: 食材、飲み物、炭、軍手\n雨天中止",
+                "size": "md",
+                "wrap": true,
+                "margin": "xs"
+              }
+            ],
+            "margin": "md"
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "🌤️ 天気情報",
+                "size": "sm",
+                "color": "#666666",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "天気予報をご確認ください",
+                "size": "sm",
+                "wrap": true,
+                "margin": "xs"
+              }
+            ],
+            "margin": "md"
+          }
+        ],
+        "paddingAll": "15px"
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "明日開催です",
+                "size": "sm",
+                "color": "#FF8C00",
+                "weight": "bold",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "UMA3リマインダー",
+                "size": "xs",
+                "color": "#999999",
+                "align": "end",
+                "flex": 1
+              }
+            ]
+          }
+        ],
+        "paddingAll": "10px"
+      }
+    },
+    {
+      "type": "flex",
+      "altText": "東京都の天気情報",
+      "contents": {
+        "type": "bubble",
+        "styles": {
+          "header": {
+            "backgroundColor": "#8e8e93"
+          },
+          "body": {
+            "backgroundColor": "#f8f9fa"
+          }
+        },
+        "header": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "☁️",
+              "size": "xxl",
+              "align": "center",
+              "margin": "sm"
+            },
+            {
+              "type": "text",
+              "text": "東京都",
+              "weight": "bold",
+              "size": "lg",
+              "align": "center",
+              "color": "#ffffff"
+            }
+          ],
+          "paddingTop": "15px",
+          "paddingBottom": "15px"
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📍 代々木公園バーベキュー広場",
+              "size": "sm",
+              "color": "#666666",
+              "margin": "none",
+              "wrap": true
+            },
+            {
+              "type": "separator",
+              "margin": "md"
+            },
+            {
+              "type": "text",
+              "text": "曇り",
+              "size": "md",
+              "align": "center",
+              "margin": "md",
+              "weight": "bold",
+              "color": "#8e8e93"
+            },
+            {
+              "type": "separator",
+              "margin": "lg"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "🌡️",
+                          "size": "lg",
+                          "align": "center"
+                        },
+                        {
+                          "type": "text",
+                          "text": "気温",
+                          "size": "xs",
+                          "align": "center",
+                          "color": "#666666",
+                          "margin": "xs"
+                        },
+                        {
+                          "type": "text",
+                          "text": "11°C\n8° - 14°",
+                          "size": "sm",
+                          "align": "center",
+                          "weight": "bold",
+                          "margin": "xs"
+                        }
+                      ],
+                      "flex": 1,
+                      "backgroundColor": "#ffffff",
+                      "cornerRadius": "8px",
+                      "paddingAll": "8px",
+                      "margin": "xs"
+                    },
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "💧",
+                          "size": "lg",
+                          "align": "center"
+                        },
+                        {
+                          "type": "text",
+                          "text": "湿度",
+                          "size": "xs",
+                          "align": "center",
+                          "color": "#666666",
+                          "margin": "xs"
+                        },
+                        {
+                          "type": "text",
+                          "text": "67%",
+                          "size": "sm",
+                          "align": "center",
+                          "weight": "bold",
+                          "margin": "xs"
+                        }
+                      ],
+                      "flex": 1,
+                      "backgroundColor": "#ffffff",
+                      "cornerRadius": "8px",
+                      "paddingAll": "8px",
+                      "margin": "xs"
+                    }
+                  ]
+                },
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "☔",
+                          "size": "lg",
+                          "align": "center"
+                        },
+                        {
+                          "type": "text",
+                          "text": "降水確率",
+                          "size": "xs",
+                          "align": "center",
+                          "color": "#666666",
+                          "margin": "xs"
+                        },
+                        {
+                          "type": "text",
+                          "text": "11%",
+                          "size": "sm",
+                          "align": "center",
+                          "weight": "bold",
+                          "margin": "xs"
+                        }
+                      ],
+                      "flex": 1,
+                      "backgroundColor": "#ffffff",
+                      "cornerRadius": "8px",
+                      "paddingAll": "8px",
+                      "margin": "xs"
+                    },
+                    {
+                      "type": "box",
+                      "layout": "vertical",
+                      "contents": [
+                        {
+                          "type": "text",
+                          "text": "💨",
+                          "size": "lg",
+                          "align": "center"
+                        },
+                        {
+                          "type": "text",
+                          "text": "風速",
+                          "size": "xs",
+                          "align": "center",
+                          "color": "#666666",
+                          "margin": "xs"
+                        },
+                        {
+                          "type": "text",
+                          "text": "3.0km/h",
+                          "size": "sm",
+                          "align": "center",
+                          "weight": "bold",
+                          "margin": "xs"
+                        }
+                      ],
+                      "flex": 1,
+                      "backgroundColor": "#ffffff",
+                      "cornerRadius": "8px",
+                      "paddingAll": "8px",
+                      "margin": "xs"
+                    }
+                  ],
+                  "margin": "sm"
+                }
+              ]
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📅 2025年10月30日 01:12",
+              "size": "xs",
+              "color": "#999999",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "🌐 OpenWeatherMap提供",
+              "size": "xs",
+              "color": "#999999",
+              "align": "center",
+              "margin": "xs"
+            }
+          ],
+          "paddingTop": "10px",
+          "paddingBottom": "10px"
+        }
+      }
+    }
+  ]
+}

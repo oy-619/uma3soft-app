@@ -1,0 +1,1003 @@
+{
+  "practice_reminder": {
+    "type": "flex",
+    "altText": "2025年10月31日(金)の天気予報（東京都）",
+    "contents": {
+      "type": "bubble",
+      "size": "mega",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "🏃‍♂️ 練習予定天気情報",
+            "weight": "bold",
+            "size": "xl",
+            "align": "center",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "📅 日付：2025年10月31日（金）",
+            "size": "sm",
+            "color": "#888888",
+            "align": "center"
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤 天気:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "適度な雨",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌡️ 気温:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "18℃（最高） / 14℃（最低）",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "💧 湿度:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "87%",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "💨 風速:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "28.9km/h (風向: 7°)",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "☔ 降水確率:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "100%",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌫️ 気圧:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "1010hPa",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "☁️ 雲量:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "100%",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "lg",
+            "contents": [
+              {
+                "type": "text",
+                "text": "� 天気アドバイス",
+                "size": "md",
+                "weight": "bold",
+                "color": "#FF8C00",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "🧥 少し肌寒いです。上着があると良いでしょう | ☔ 雨の可能性が高いです。傘をお忘れなく！ | 💨 風が強いです。帽子など飛ばされないよう注意してください | 💧 湿度が高めです。蒸し暑く感じるかもしれません",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "wrap": true
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "text",
+                "text": "�📅 予定確認をお願いします",
+                "size": "md",
+                "weight": "bold",
+                "color": "#0066CC",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "天気予報を確認して、当日の参加可否をお知らせください！",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "✅ 参加予定",
+                  "text": "参加予定です！"
+                },
+                "style": "primary",
+                "color": "#28a745",
+                "flex": 1
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "🤔 検討中",
+                  "text": "検討中です"
+                },
+                "style": "secondary",
+                "flex": 1
+              }
+            ]
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "❌ 欠席予定",
+                  "text": "申し訳ありませんが欠席予定です"
+                },
+                "style": "secondary",
+                "flex": 1
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "uri",
+                  "label": "🌐 詳細予報",
+                  "uri": "https://openweathermap.org/"
+                },
+                "style": "link",
+                "color": "#1E90FF",
+                "flex": 1
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "current_weather": {
+    "type": "flex",
+    "altText": "東京都の現在の天気情報",
+    "contents": {
+      "type": "bubble",
+      "size": "mega",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "🌅 今日の天気",
+            "weight": "bold",
+            "size": "xl",
+            "align": "center",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "📅 2025年10月30日 12:50",
+            "size": "sm",
+            "color": "#888888",
+            "align": "center"
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤 天気:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "薄い雲",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌡️ 気温:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "18℃ (体感: 17℃)",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "📊 最高/最低:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "18℃ / 16℃",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "💧 湿度:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "50%",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "💨 風速:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "18.5km/h (風向: 360°)",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌫️ 気圧:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "1027hPa",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "👁️ 視程:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "10.0km",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "☁️ 雲量:",
+                    "size": "md",
+                    "color": "#555555",
+                    "flex": 0,
+                    "weight": "bold"
+                  },
+                  {
+                    "type": "text",
+                    "text": "20%",
+                    "size": "md",
+                    "flex": 0,
+                    "margin": "sm"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "lg",
+            "contents": [
+              {
+                "type": "text",
+                "text": "� 天気アドバイス",
+                "size": "md",
+                "weight": "bold",
+                "color": "#FF8C00",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "🌤️ 過ごしやすい気温です | 💨 風が強いです。帽子など飛ばされないよう注意してください",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "wrap": true
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "text",
+                "text": "�💬 参加可否をお知らせください",
+                "size": "md",
+                "weight": "bold",
+                "color": "#0066CC",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "天気を確認して、参加予定をお聞かせください！",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "✅ 参加します",
+                  "text": "参加します！"
+                },
+                "style": "primary",
+                "color": "#28a745",
+                "flex": 1
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "❌ 欠席します",
+                  "text": "申し訳ありませんが欠席します"
+                },
+                "style": "secondary",
+                "flex": 1
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "🌐 詳細天気情報を見る",
+              "uri": "https://openweathermap.org/"
+            },
+            "style": "link",
+            "color": "#1E90FF"
+          }
+        ]
+      }
+    }
+  },
+  "detailed_forecast": {
+    "type": "flex",
+    "altText": "2025年10月30日(木)の詳細天気予報（東京都）",
+    "contents": {
+      "type": "bubble",
+      "size": "mega",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "md",
+        "contents": [
+          {
+            "type": "text",
+            "text": "🌤 東京都の詳細予報",
+            "weight": "bold",
+            "size": "xl",
+            "align": "center",
+            "wrap": true
+          },
+          {
+            "type": "text",
+            "text": "📅 2025年10月30日（木）",
+            "size": "sm",
+            "color": "#888888",
+            "align": "center"
+          },
+          {
+            "type": "separator",
+            "margin": "md"
+          },
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "contents": [
+              {
+                "type": "text",
+                "text": "時刻",
+                "size": "sm",
+                "color": "#333333",
+                "weight": "bold",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "天気",
+                "size": "sm",
+                "color": "#333333",
+                "weight": "bold",
+                "flex": 2
+              },
+              {
+                "type": "text",
+                "text": "気温",
+                "size": "sm",
+                "color": "#333333",
+                "weight": "bold",
+                "align": "end",
+                "flex": 1
+              },
+              {
+                "type": "text",
+                "text": "降水",
+                "size": "sm",
+                "color": "#333333",
+                "weight": "bold",
+                "align": "end",
+                "flex": 1
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "sm"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "xs",
+            "margin": "sm",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "06:00",
+                    "size": "sm",
+                    "color": "#555555",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "薄い雲",
+                    "size": "sm",
+                    "flex": 2
+                  },
+                  {
+                    "type": "text",
+                    "text": "18℃",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "0%",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1,
+                    "color": "#888888"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "sm"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "09:00",
+                    "size": "sm",
+                    "color": "#555555",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "薄い雲",
+                    "size": "sm",
+                    "flex": 2
+                  },
+                  {
+                    "type": "text",
+                    "text": "18℃",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "0%",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1,
+                    "color": "#888888"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "sm"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "12:00",
+                    "size": "sm",
+                    "color": "#555555",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "薄い雲",
+                    "size": "sm",
+                    "flex": 2
+                  },
+                  {
+                    "type": "text",
+                    "text": "16℃",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "0%",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1,
+                    "color": "#888888"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "sm"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "15:00",
+                    "size": "sm",
+                    "color": "#555555",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "厚い雲",
+                    "size": "sm",
+                    "flex": 2
+                  },
+                  {
+                    "type": "text",
+                    "text": "15℃",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "0%",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1,
+                    "color": "#888888"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "sm"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "18:00",
+                    "size": "sm",
+                    "color": "#555555",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "厚い雲",
+                    "size": "sm",
+                    "flex": 2
+                  },
+                  {
+                    "type": "text",
+                    "text": "15℃",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "0%",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1,
+                    "color": "#888888"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "sm"
+              },
+              {
+                "type": "box",
+                "layout": "horizontal",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "21:00",
+                    "size": "sm",
+                    "color": "#555555",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "厚い雲",
+                    "size": "sm",
+                    "flex": 2
+                  },
+                  {
+                    "type": "text",
+                    "text": "15℃",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1
+                  },
+                  {
+                    "type": "text",
+                    "text": "0%",
+                    "size": "sm",
+                    "align": "end",
+                    "flex": 1,
+                    "color": "#888888"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "separator",
+            "margin": "lg"
+          },
+          {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "sm",
+            "margin": "md",
+            "contents": [
+              {
+                "type": "text",
+                "text": "📝 時間別予報を確認して参加をお知らせください",
+                "size": "sm",
+                "weight": "bold",
+                "color": "#0066CC",
+                "align": "center",
+                "wrap": true
+              }
+            ]
+          }
+        ]
+      },
+      "footer": {
+        "type": "box",
+        "layout": "vertical",
+        "spacing": "sm",
+        "contents": [
+          {
+            "type": "box",
+            "layout": "horizontal",
+            "spacing": "sm",
+            "contents": [
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "✅ 参加OK",
+                  "text": "時間別予報を確認しました。参加します！"
+                },
+                "style": "primary",
+                "color": "#28a745",
+                "flex": 1
+              },
+              {
+                "type": "button",
+                "action": {
+                  "type": "message",
+                  "label": "❌ 見送り",
+                  "text": "天気を考慮して見送ります"
+                },
+                "style": "secondary",
+                "flex": 1
+              }
+            ]
+          },
+          {
+            "type": "button",
+            "action": {
+              "type": "uri",
+              "label": "🌐 さらに詳細な天気情報",
+              "uri": "https://openweathermap.org/"
+            },
+            "style": "link",
+            "color": "#1E90FF"
+          }
+        ]
+      }
+    }
+  }
+}

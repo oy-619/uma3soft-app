@@ -1,0 +1,53 @@
+{
+  "report_timestamp": "2025-10-30T00:01:09.155713",
+  "system_health": {
+    "timestamp": "2025-10-30T00:01:04.804542",
+    "overall_status": "unhealthy",
+    "components": {
+      "python_env": "OK",
+      "ml_models": "MISSING: ['vectorizer.pkl', 'scaler.pkl']",
+      "database": "OK",
+      "disk_space": "OK (242.0GB free)",
+      "processes": {
+        "python_processes": 2,
+        "ngrok_processes": 1
+      }
+    }
+  },
+  "integration_test": {
+    "timestamp": "2025-10-30T00:01:04.883304",
+    "success": false,
+    "details": {},
+    "error": "2025-10-30 00:01:07,882 - ERROR - 統合テスト実行エラー: 'cp932' codec can't encode character '\\U0001f9ea' in position 0: illegal multibyte sequence\nTraceback (most recent call last):\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 300, in main\n    tester = MLIntegrationTester()\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 37, in __init__\n    print(\"\\U0001f9ea MLシステム統合テスト初期化\")\nUnicodeEncodeError: 'cp932' codec can't encode character '\\U0001f9ea' in position 0: illegal multibyte sequence\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 316, in <module>\n    exit(main())\n         ^^^^^^\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 312, in main\n    print(f\"\\u274c 統合テスト実行エラー: {e}\")\nUnicodeEncodeError: 'cp932' codec can't encode character '\\u274c' in position 0: illegal multibyte sequence\n",
+    "stdout": "",
+    "stderr": "2025-10-30 00:01:07,882 - ERROR - 統合テスト実行エラー: 'cp932' codec can't encode character '\\U0001f9ea' in position 0: illegal multibyte sequence\nTraceback (most recent call last):\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 300, in main\n    tester = MLIntegrationTester()\n             ^^^^^^^^^^^^^^^^^^^^^\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 37, in __init__\n    print(\"\\U0001f9ea MLシステム統合テスト初期化\")\nUnicodeEncodeError: 'cp932' codec can't encode character '\\U0001f9ea' in position 0: illegal multibyte sequence\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 316, in <module>\n    exit(main())\n         ^^^^^^\n  File \"C:\\work\\ws_python\\GenerationAiCamp\\Lesson25\\uma3soft-app\\src\\ml_integration_test.py\", line 312, in main\n    print(f\"\\u274c 統合テスト実行エラー: {e}\")\nUnicodeEncodeError: 'cp932' codec can't encode character '\\u274c' in position 0: illegal multibyte sequence\n"
+  },
+  "performance": {
+    "timestamp": "2025-10-30T00:01:08.126594",
+    "cpu_usage": 32.2,
+    "memory_usage": 77.0,
+    "disk_io": {
+      "read_count": 4643467,
+      "write_count": 8478389,
+      "read_bytes": 152428694016,
+      "write_bytes": 364922996736,
+      "read_time": 2361,
+      "write_time": 1493
+    },
+    "network_io": {
+      "bytes_sent": 1334135010,
+      "bytes_recv": 13943278989,
+      "packets_sent": 2275187,
+      "packets_recv": 11964554,
+      "errin": 0,
+      "errout": 0,
+      "dropin": 0,
+      "dropout": 0
+    }
+  },
+  "overall_status": "degraded",
+  "recommendations": [
+    "システムコンポーネントに問題があります - 詳細確認が必要",
+    "統合テストが失敗しています - モデル再訓練を検討してください"
+  ]
+}

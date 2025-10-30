@@ -34,7 +34,7 @@ class ConversationHistoryManager:
             conn.commit()
 
     def save_conversation(self, user_id: str, user_message: str, ai_response: str,
-                         session_id: str = "default"):
+                         session_id: str = "default", metadata: dict = None):
         """Save conversation to database"""
         with sqlite3.connect(self.db_path) as conn:
             conn.execute("""
@@ -89,24 +89,25 @@ class ConversationHistoryManager:
 
     def get_user_profile(self, user_id: str) -> Dict:
         """Get user profile information"""
-        # Create user_profiles table if it doesn't exist
-        with sqlite3.connect(self.db_path) as conn:
-            conn.execute("""
-                CREATE TABLE IF NOT EXISTS user_profiles (
-                    user_id TEXT PRIMARY KEY,
-                    interests TEXT,
-                    preferences TEXT,
-                    conversation_count INTEGER DEFAULT 0,
-                    last_active DATETIME,
-                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-                    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-                )
-            """)
+        try:
+            # Create user_profiles table if it doesn't exist
+            with sqlite3.connect(self.db_path) as conn:
+                conn.execute("""
+                    CREATE TABLE IF NOT EXISTS user_profiles (
+                        user_id TEXT PRIMARY KEY,
+                        interests TEXT DEFAULT '[]',
+                        preferences TEXT DEFAULT '{}',
+                        conversation_count INTEGER DEFAULT 0,
+                        last_active DATETIME,
+                        created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                    )
+                """)
 
-            cursor = conn.execute("""
-                SELECT interests, preferences, conversation_count, last_active, created_at
-                FROM user_profiles WHERE user_id = ?
-            """, (user_id,))
+                cursor = conn.execute("""
+                    SELECT interests, preferences, conversation_count, last_active, created_at
+                    FROM user_profiles WHERE user_id = ?
+                """, (user_id,))
 
             result = cursor.fetchone()
             if result:
@@ -136,6 +137,18 @@ class ConversationHistoryManager:
                     "last_active": None,
                     "created_at": datetime.now().isoformat()
                 }
+
+        except Exception as e:
+            print(f"[ERROR] Failed to get user profile for {user_id}: {e}")
+            # フォールバック: デフォルトプロファイルを返す
+            return {
+                "user_id": user_id,
+                "interests": [],
+                "preferences": {},
+                "conversation_count": 0,
+                "last_active": None,
+                "created_at": datetime.now().isoformat()
+            }
 
     def search_conversations(self, user_id: str, query: str, limit: int = 10) -> List[Dict]:
         """Search conversations by content"""

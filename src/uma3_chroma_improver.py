@@ -1639,7 +1639,7 @@ def integrate_with_uma3():
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
     vector_db = Chroma(
-        persist_directory="Lesson25/uma3soft-app/chroma_store",
+        persist_directory="Lesson25/uma3soft-app/db/chroma_store",
         embedding_function=embedding_model,
     )
 

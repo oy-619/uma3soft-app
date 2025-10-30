@@ -63,6 +63,20 @@ class IntegratedConversationSystem:
         if llm is None:
             llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.3)
 
+        # 0. 天気質問の判定と処理
+        weather_response = self._check_weather_query(message)
+        if weather_response:
+            # 天気情報の場合は専用の応答を返す
+            self.history_manager.save_conversation(
+                user_id, message, weather_response,
+                metadata={"query_type": "weather", "timestamp": datetime.now().isoformat()}
+            )
+            return {
+                "response": weather_response,
+                "context_used": {"weather": True, "chroma": 0, "history": 0},
+                "response_type": "weather_info"
+            }
+
         # 1. ChromaDBから関連情報を検索
         chroma_results = self.chroma_improver.schedule_aware_search(
             message, k=5, score_threshold=0.5
@@ -98,7 +112,12 @@ class IntegratedConversationSystem:
         if recent_conversations:
             context_parts.append("\n**最近の会話履歴:**")
             for human_msg, ai_msg, timestamp in recent_conversations[:2]:
-                time_str = timestamp.strftime("%m/%d %H:%M")
+                # timestampが文字列の場合はそのまま使用、datetimeオブジェクトの場合はフォーマット
+                if hasattr(timestamp, 'strftime'):
+                    time_str = timestamp.strftime("%m/%d %H:%M")
+                else:
+                    # 文字列の場合はそのまま使用（必要に応じて短縮）
+                    time_str = str(timestamp)[:16] if len(str(timestamp)) > 16 else str(timestamp)
                 context_parts.append(f"[{time_str}] {user_id}: {human_msg[:80]}...")
                 context_parts.append(f"[{time_str}] Bot: {ai_msg[:80]}...")
 
@@ -258,6 +277,76 @@ class IntegratedConversationSystem:
         except Exception as e:
             print(f"[ERROR] Failed to export conversations for user {user_id}: {e}")
             return False
+
+    def _check_weather_query(self, message: str) -> Optional[str]:
+        """
+        天気に関する質問かどうかを判定し、天気情報を取得
+
+        Args:
+            message: ユーザーメッセージ
+
+        Returns:
+            天気情報（天気質問でない場合はNone）
+        """
+        # 天気関連キーワード
+        weather_keywords = [
+            "天気", "天候", "気温", "雨", "晴れ", "曇り", "雪",
+            "暑い", "寒い", "湿度", "風", "台風", "気象",
+            "今日の天気", "明日の天気", "週間天気", "weather"
+        ]
+
+        message_lower = message.lower()
+
+        # 天気キーワードの検出
+        is_weather_query = any(keyword in message or keyword in message_lower
+                              for keyword in weather_keywords)
+
+        if not is_weather_query:
+            return None
+
+        try:
+            # WeatherContextToolを使用して天気情報を取得
+            from uma3_custom_tools import WeatherContextTool
+
+            weather_tool = WeatherContextTool()
+            weather_response = weather_tool._run(message)
+
+            return weather_response
+
+        except Exception as e:
+            # フォールバック：基本的な天気情報
+            return self._fallback_weather_response(message)
+
+    def _fallback_weather_response(self, message: str) -> str:
+        """
+        天気情報取得のフォールバック
+
+        Args:
+            message: ユーザーメッセージ
+
+        Returns:
+            基本的な天気情報応答
+        """
+        # 地域の特定
+        major_cities = ["東京", "大阪", "名古屋", "福岡", "札幌", "仙台", "横浜", "京都", "神戸", "広島"]
+        detected_location = "現在地"
+
+        for city in major_cities:
+            if city in message:
+                detected_location = city
+                break
+
+        current_time = datetime.now()
+
+        return f"""🌤️ **{detected_location}の天気情報**
+
+⚠️ リアルタイム天気データを取得するため、以下のサイトをご確認ください：
+🔗 **MSN天気予報**: https://www.msn.com/ja-jp/weather/forecast/in-%E6%9D%B1%E4%BA%AC%E9%83%BD,%E8%B6%B3%E7%AB%8B%E5%8C%BA?loc=eyJsIjoi6Laz56uL5Yy6IiwiciI6IuadseS6rOmDvSIsImMiOiLml6XmnKsiLCJpIjoiSlAiLCJnIjoiamEtanAiLCJ4IjoiMTM5Ljc5NjE4ODM1NDQ5MjIiLCJ5IjoiMzUuNzYxOTU5MDc1OTI3NzM0In0%3D&weadegreetype=C
+
+🕐 **確認時刻**: {current_time.strftime('%Y年%m月%d日 %H:%M')}
+
+💡 **おすすめ**: 外出前に最新の天気予報をご確認ください！
+🌡️ 特に気温変化や降水確率にご注意ください。"""
 
 
 # 使用例とテスト

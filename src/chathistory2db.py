@@ -32,6 +32,86 @@ os.makedirs(DB_DIR, exist_ok=True)
 PERSIST_DIRECTORY = os.path.join(DB_DIR, "chroma_store")
 
 
+def check_chromadb_integrity(persist_directory):
+    """ChromaDBの整合性とファイルロック状況をチェックする関数"""
+    if not os.path.exists(persist_directory):
+        return True  # ディレクトリが存在しない場合は問題なし
+
+    try:
+        # ChromaDBの基本ファイルをチェック
+        chroma_db_file = os.path.join(persist_directory, "chroma.sqlite3")
+        if os.path.exists(chroma_db_file):
+            # ファイルロック状況の確認
+            try:
+                # 排他的読み取りテスト
+                with open(chroma_db_file, 'r+b') as f:
+                    pass  # ファイルが開けるかテスト
+                print(f"[INFO] ChromaDB file is accessible")
+            except PermissionError:
+                print(f"[WARNING] ChromaDB file is locked by another process")
+                return False
+
+            # SQLiteファイルの基本チェック
+            try:
+                import sqlite3
+                conn = sqlite3.connect(chroma_db_file)
+                cursor = conn.cursor()
+                cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+                tables = cursor.fetchall()
+                conn.close()
+
+                if not tables:
+                    print(f"[WARNING] ChromaDB appears to be empty or corrupted")
+                    return False
+            except sqlite3.DatabaseError as db_e:
+                print(f"[WARNING] ChromaDB database error: {db_e}")
+                return False
+
+        return True
+    except Exception as e:
+        print(f"[WARNING] ChromaDB integrity check failed: {e}")
+        return False
+
+
+def get_chromadb_process_locks(persist_directory):
+    """ChromaDBファイルを使用しているプロセスを特定する関数（軽量版）"""
+    try:
+        import psutil
+        chroma_file = os.path.join(persist_directory, "chroma.sqlite3")
+
+        if not os.path.exists(chroma_file):
+            return []
+
+        processes_using_file = []
+
+        # より効率的な方法：まず簡単なファイルアクセステストを行う
+        try:
+            with open(chroma_file, 'r+b') as f:
+                pass  # ファイルが使用可能であれば問題なし
+            return []
+        except (IOError, PermissionError):
+            # ファイルがロックされている場合のみpsutilを使用
+            pass
+
+        # 軽量なプロセスチェック：Python関連プロセスのみ
+        for proc in psutil.process_iter(['pid', 'name']):
+            try:
+                if 'python' in proc.info['name'].lower():
+                    processes_using_file.append({
+                        'pid': proc.info['pid'],
+                        'name': proc.info['name'],
+                        'cmdline': f"Python process (PID: {proc.info['pid']})"
+                    })
+            except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+                continue
+
+        return processes_using_file
+    except ImportError:
+        print("[INFO] psutil not available for process detection")
+        return []
+    except Exception as e:
+        print(f"[WARNING] Process detection failed: {e}")
+        return []
 def load_chathistory_to_chromadb(
     chathistory_path=DEFAULT_CHATHISTORY_PATH,  # 読み込み対象のチャット履歴ファイルパス
     persist_directory=PERSIST_DIRECTORY,  # ChromaDB保存先ディレクトリ
@@ -49,6 +129,20 @@ def load_chathistory_to_chromadb(
         print(f"[DEBUG] PERSIST_DIRECTORY: {persist_directory}")
         print(f"[DEBUG] Absolute path check: {os.path.isabs(persist_directory)}")
 
+    # ステップ1.5: ChromaDBの整合性とプロセスロックチェック
+    integrity_ok = check_chromadb_integrity(persist_directory)
+    process_locks = get_chromadb_process_locks(persist_directory)
+
+    if not integrity_ok:
+        print(f"[WARNING] ChromaDB integrity issues detected at {persist_directory}")
+        print(f"[INFO] Attempting to create clean ChromaDB instance...")
+
+    if process_locks:
+        print(f"[WARNING] ChromaDB is being used by {len(process_locks)} process(es):")
+        for proc_info in process_locks:
+            print(f"  - PID {proc_info['pid']}: {proc_info['name']} ({proc_info['cmdline']})")
+        print(f"[INFO] Will attempt safe initialization with process coordination")
+
     # ステップ2: 入力ファイルの存在確認
     if not os.path.exists(chathistory_path):
         print(f"[warning] Chat history file not found: {chathistory_path}")
@@ -65,10 +159,111 @@ def load_chathistory_to_chromadb(
     embedding_model = HuggingFaceEmbeddings(
         model_name=embedding_model_name
     )  # HuggingFace埋め込みモデル作成
-    vector_db = Chroma(
-        persist_directory=persist_directory,  # ChromaDB保存先指定
-        embedding_function=embedding_model,  # 埋め込み関数設定
-    )
+
+    try:
+        vector_db = Chroma(
+            persist_directory=persist_directory,  # ChromaDB保存先指定
+            embedding_function=embedding_model,  # 埋め込み関数設定
+        )
+    except Exception as e:
+        if "KeyError: '_type'" in str(e) or "_type" in str(e):
+            print(f"[WARNING] ChromaDB metadata corruption detected. Attempting recovery...")
+            # メタデータ破損の場合は、安全な復旧処理を実行
+            import time
+            backup_dir = f"{persist_directory}_backup_{int(time.time())}"
+            print(f"[INFO] Attempting safe backup to: {backup_dir}")
+
+            # 安全なバックアップ処理（ファイルロック対応）
+            backup_success = False
+            if os.path.exists(persist_directory):
+                try:
+                    # ChromaDBファイルが使用中の場合を考慮した安全な処理
+                    import psutil
+                    import subprocess
+
+                    # ChromaDBを使用している可能性のあるプロセスを確認
+                    chroma_file = os.path.join(persist_directory, "chroma.sqlite3")
+                    if os.path.exists(chroma_file):
+                        print(f"[INFO] Checking processes using ChromaDB file...")
+
+                        # ファイルハンドルを持つプロセスを特定
+                        processes_using_file = []
+                        for proc in psutil.process_iter(['pid', 'name']):
+                            try:
+                                for file_info in proc.open_files():
+                                    if chroma_file in file_info.path:
+                                        processes_using_file.append(proc.info)
+                            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                                continue
+
+                        if processes_using_file:
+                            print(f"[WARNING] Found {len(processes_using_file)} processes using ChromaDB:")
+                            for proc_info in processes_using_file:
+                                print(f"  - PID {proc_info['pid']}: {proc_info['name']}")
+
+                    # 段階的バックアップ試行
+                    print(f"[INFO] Attempting gradual backup...")
+
+                    # 1. 個別ファイルコピー方式
+                    os.makedirs(backup_dir, exist_ok=True)
+                    for root, dirs, files in os.walk(persist_directory):
+                        for file in files:
+                            src_file = os.path.join(root, file)
+                            rel_path = os.path.relpath(src_file, persist_directory)
+                            dst_file = os.path.join(backup_dir, rel_path)
+
+                            # ディレクトリ作成
+                            os.makedirs(os.path.dirname(dst_file), exist_ok=True)
+
+                            # ファイルコピー（ロック無視）
+                            try:
+                                shutil.copy2(src_file, dst_file)
+                            except PermissionError:
+                                print(f"[WARNING] Could not copy locked file: {file}")
+                                continue
+
+                    backup_success = True
+                    print(f"[INFO] Backup completed (some files may be skipped due to locks)")
+
+                except ImportError:
+                    print(f"[WARNING] psutil not available, proceeding with basic backup...")
+                    try:
+                        # 基本的なコピー処理
+                        os.makedirs(backup_dir, exist_ok=True)
+                        for item in os.listdir(persist_directory):
+                            src = os.path.join(persist_directory, item)
+                            dst = os.path.join(backup_dir, item)
+                            try:
+                                if os.path.isdir(src):
+                                    shutil.copytree(src, dst)
+                                else:
+                                    shutil.copy2(src, dst)
+                            except PermissionError:
+                                print(f"[WARNING] Could not backup locked item: {item}")
+                        backup_success = True
+                    except Exception as backup_e:
+                        print(f"[WARNING] Backup failed: {backup_e}")
+                        backup_success = False
+
+                except Exception as safe_backup_e:
+                    print(f"[WARNING] Safe backup failed: {safe_backup_e}")
+                    backup_success = False
+
+            # 新しいディレクトリで再試行（既存ディレクトリは削除しない）
+            alt_directory = f"{persist_directory}_clean_{int(time.time())}"
+            print(f"[INFO] Creating clean ChromaDB instance at: {alt_directory}")
+
+            os.makedirs(alt_directory, exist_ok=True)
+            vector_db = Chroma(
+                persist_directory=alt_directory,
+                embedding_function=embedding_model,
+            )
+            print(f"[INFO] Successfully created clean ChromaDB instance")
+            print(f"[INFO] Backup status: {'✅ Success' if backup_success else '❌ Partial/Failed'}")
+            print(f"[INFO] Original data preserved at: {persist_directory}")
+            print(f"[INFO] New clean instance at: {alt_directory}")
+        else:
+            raise e
 
     try:
         # ステップ5: 変数初期化

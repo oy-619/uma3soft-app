@@ -38,6 +38,10 @@ except ImportError as e:
     print(f"[WARNING] LangChain not available: {e}")
     LANGCHAIN_AVAILABLE = False
 
+# デフォルトのChromaDB保存先（絶対パス方式）
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+DEFAULT_PERSIST_DIRECTORY = os.path.join(PROJECT_ROOT, "db", "chroma_store")
+
 
 # === STEP 4: Uma3 RAG Engine Class ===
 class Uma3RAGEngine:
@@ -52,7 +56,7 @@ class Uma3RAGEngine:
     """
 
     def __init__(self,
-                 persist_directory: str = "chroma_store",
+                 persist_directory: str = None,
                  embedding_model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
         """
         STEP 4.2: Initialize RAG Engine
@@ -61,6 +65,9 @@ class Uma3RAGEngine:
             persist_directory: ChromaDB persistent storage path
             embedding_model_name: HuggingFace embedding model name
         """
+        # 絶対パス方式でデフォルトディレクトリを設定
+        if persist_directory is None:
+            persist_directory = DEFAULT_PERSIST_DIRECTORY
         self.persist_directory = persist_directory
         self.embedding_model_name = embedding_model_name
 
@@ -247,12 +254,12 @@ class Uma3RAGEngine:
 
 
 # === STEP 5: Compatibility and Utility Functions ===
-def create_rag_engine(persist_directory: str = "chroma_store") -> Uma3RAGEngine:
+def create_rag_engine(persist_directory: str = None) -> Uma3RAGEngine:
     """
     STEP 5.1: Factory function for creating RAG engine instances
 
     Args:
-        persist_directory: ChromaDB storage directory
+        persist_directory: ChromaDB storage directory (uses default if None)
 
     Returns:
         Configured Uma3RAGEngine instance

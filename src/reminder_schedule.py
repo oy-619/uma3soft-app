@@ -2,6 +2,7 @@ import json
 import os
 import re
 from datetime import datetime, timedelta
+from typing import Any, Dict
 
 import requests
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -505,97 +506,784 @@ def get_next_day_reminders():
     return tomorrow_notes
 
 
+def get_weather_for_event(event_content, event_date):
+    """
+    イベント情報に基づいて天気情報を取得する
+
+    Args:
+        event_content (str): イベント内容
+        event_date (datetime.date): イベント日付
+
+    Returns:
+        str: 天気情報（取得できない場合は空文字）
+    """
+    try:
+        # WeatherContextToolをインポート
+        from uma3_custom_tools import WeatherContextTool
+
+        # 天気ツールのインスタンス作成
+        weather_tool = WeatherContextTool()
+
+        # イベント日付を文字列に変換
+        event_date_str = event_date.strftime('%Y-%m-%d')
+
+        # 天気情報を取得
+        weather_info = weather_tool._run(
+            query=event_content,
+            location="",
+            event_date=event_date_str
+        )
+
+        return weather_info
+
+    except ImportError as e:
+        print(f"[WEATHER] WeatherContextTool import error: {e}")
+        return ""
+    except Exception as e:
+        print(f"[WEATHER] Error getting weather info: {e}")
+        return ""
+
+
+def generate_note_url(note_content):
+    """
+    ノート内容からアクセス用URLを生成する
+
+    Args:
+        note_content (str): ノートの内容
+
+    Returns:
+        str: ノート詳細用URL
+    """
+    try:
+        import hashlib
+        import urllib.parse
+
+        # ノート内容からハッシュを生成してユニークIDとする
+        note_hash = hashlib.md5(note_content.encode('utf-8')).hexdigest()[:16]
+
+        # ノートのタイトルを抽出（最初の50文字程度）
+        title_match = re.search(r'\[ノート\]([^\n]+)', note_content)
+        if title_match:
+            title = title_match.group(1).strip()[:50]
+        else:
+            title = note_content[:50].replace('\n', ' ').strip()
+
+        # URLエンコード
+        encoded_title = urllib.parse.quote(title)
+
+        # ローカルサーバーのノート詳細URL（ngrokトンネル経由でアクセス可能）
+        base_url = "http://localhost:5000"  # uma3アプリのベースURL
+        note_url = f"{base_url}/note/{note_hash}?title={encoded_title}"
+
+        return note_url
+
+    except Exception as e:
+        print(f"[URL] Error generating note URL: {e}")
+        return ""
+
+
+def find_related_detected_notes(reminder_content: str, event_date):
+    """
+    リマインダー内容に関連する検出済みノートを検索
+
+    Args:
+        reminder_content (str): リマインダー内容
+        event_date: イベント日付
+
+    Returns:
+        list: 関連ノート情報のリスト
+    """
+    try:
+        # ノート検出器を初期化
+        from note_detector import NoteDetector
+        detector = NoteDetector()
+
+        # キーワード抽出（簡単な実装）
+        keywords = []
+        content_lower = reminder_content.lower()
+
+        # 一般的なソフトボール関連キーワード
+        softball_keywords = ["練習", "試合", "大会", "ソフトボール", "調整", "出欠", "参加", "集合"]
+        for keyword in softball_keywords:
+            if keyword in content_lower:
+                keywords.append(keyword)
+
+        # 日付関連
+        if event_date:
+            # 同日や近い日付のノートを優先
+            date_str = event_date.strftime("%m/%d")
+            keywords.append(date_str)
+
+        # 関連ノートを検索
+        related_notes = []
+        if keywords:
+            for keyword in keywords:
+                notes = detector.search_notes_by_title(keyword)
+                for note in notes[:2]:  # 最大2件
+                    if note not in related_notes:
+                        related_notes.append(note)
+
+        # 最新ノートも含める（キーワードマッチがない場合）
+        if not related_notes:
+            recent_notes = detector.get_latest_notes(3)
+            related_notes.extend(recent_notes)
+
+        return related_notes[:3]  # 最大3件
+
+    except Exception as e:
+        print(f"[RELATED_NOTES] エラー: {e}")
+        return []
+
+
+def create_flex_reminder_message(note):
+    """
+    Flex Message形式のリマインダーメッセージを作成する（拡張版対応）
+
+    Args:
+        note (dict): ノート情報
+
+    Returns:
+        dict: Flex Message形式のメッセージデータ
+    """
+    try:
+        # 天気情報Flex Messageテンプレートシステムとカスタマイザーを使用
+        from src.weather_flex_template import WeatherFlexTemplate
+        from src.reminder_flex_customizer import ReminderFlexCustomizer
+
+        # 天気情報テンプレート生成器とカスタマイザーを初期化
+        weather_template = WeatherFlexTemplate()
+        flex_customizer = ReminderFlexCustomizer()
+
+        # ノートからイベント情報を抽出
+        event_content = note['content']
+        event_date = note["date"]
+        days_until = note["days_until"]
+        is_input_deadline = note.get("is_input_deadline", False)
+
+        # 場所情報を抽出（基本的には東京都を使用）
+        location = "東京都"
+
+        # ノート内容から場所を抽出する試行
+        location_patterns = [
+            r'場所[：:]\s*([^\n]+)',
+            r'会場[：:]\s*([^\n]+)',
+            r'開催地[：:]\s*([^\n]+)',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*球場',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*グラウンド',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)'
+        ]
+
+        for pattern in location_patterns:
+            match = re.search(pattern, event_content)
+            if match:
+                if pattern.startswith('場所') or pattern.startswith('会場') or pattern.startswith('開催地'):
+                    extracted_location = match.group(1).strip()
+                    # 場所情報が長すぎる場合は短縮
+                    if len(extracted_location) > 30:
+                        # 都道府県と区市町村程度に短縮
+                        city_match = re.search(r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\s]*[区市町]', extracted_location)
+                        if city_match:
+                            location = city_match.group(0)
+                        else:
+                            location = extracted_location[:20]  # 最大20文字
+                    else:
+                        location = extracted_location
+                else:
+                    location = match.group(0)
+                break        # メッセージタイトルを生成
+        if is_input_deadline:
+            if days_until <= 1:
+                title = f"⏰ 入力期限のご案内（{'本日' if days_until == 0 else '明日'}期限）"
+            else:
+                title = f"📅 入力期限のご案内（{days_until}日後期限）"
+        else:
+            if days_until <= 1:
+                title = f"🎯 イベント開催のご案内（{'本日' if days_until == 0 else '明日'}開催）"
+            else:
+                title = f"📅 イベント開催のご案内（{days_until}日後開催）"
+
+        # 日付文字列を生成
+        date_str = event_date.strftime('%Y-%m-%d')
+
+        # 適切な天気Flex Messageテンプレートを選択
+        if days_until == 0:
+            # 当日の場合は現在の天気
+            base_flex_message = weather_template.create_current_weather_flex(
+                location=location,
+                custom_title=title
+            )
+        else:
+            # 未来の日付の場合は予報
+            base_flex_message = weather_template.create_forecast_flex(
+                location=location,
+                target_date=date_str,
+                custom_title=title
+            )
+
+        # リマインダー専用にカスタマイズ（イベント詳細と参加ボタンを追加）
+        customized_flex_message = flex_customizer.customize_weather_flex_for_reminder(
+            base_flex_message, note
+        )
+
+        return customized_flex_message
+
+    except ImportError as e:
+        print(f"[FLEX_MESSAGE] 天気Flexテンプレートのインポートエラー: {e}")
+        return create_flex_reminder_message_basic(note)
+    except Exception as e:
+        print(f"[FLEX_MESSAGE] 天気Flexテンプレートエラー: {e}")
+        return create_flex_reminder_message_basic(note)
+
+def create_flex_reminder_message_basic(note):
+    """
+    Flex Message形式のリマインダーメッセージを作成する（基本版）
+
+    Args:
+        note (dict): ノート情報
+
+    Returns:
+        dict: Flex Message形式のメッセージデータ
+    """
+    days_until = note["days_until"]
+    is_input_deadline = note.get("is_input_deadline", False)
+    date_info = note["date"]
+
+    # 日付を日本語形式でフォーマット
+    formatted_date = date_info.strftime("%Y年%m月%d日")
+    weekdays = ["月", "火", "水", "木", "金", "土", "日"]
+    weekday = weekdays[date_info.weekday()]
+    date_with_weekday = f"{formatted_date}({weekday})"
+
+    # タイトルとカラーを決定
+    if is_input_deadline:
+        if days_until == 0:
+            title = "⚠️ 入力期限（本日）"
+            color = "#FF6B6B"  # 赤色
+            urgency = "本日期限"
+        elif days_until == 1:
+            title = "⏰ 入力期限（明日）"
+            color = "#FFA726"  # オレンジ色
+            urgency = "明日期限"
+        else:
+            title = f"📅 入力期限（{days_until}日後）"
+            color = "#42A5F5"  # 青色
+            urgency = f"{days_until}日後期限"
+    else:
+        if days_until == 0:
+            title = "🎯 イベント開催（本日）"
+            color = "#FF6B6B"  # 赤色
+            urgency = "本日開催"
+        elif days_until == 1:
+            title = "⏰ イベント開催（明日）"
+            color = "#FFA726"  # オレンジ色
+            urgency = "明日開催"
+        elif days_until == 2:
+            title = "📅 イベント開催（明後日）"
+            color = "#66BB6A"  # 緑色
+            urgency = "明後日開催"
+        else:
+            title = f"📅 イベント開催（{days_until}日後）"
+            color = "#42A5F5"  # 青色
+            urgency = f"{days_until}日後開催"
+
+    # イベント内容を整理（最初の3行を取得）
+    content_lines = note['content'].split('\n')
+    main_content = content_lines[0] if content_lines else "詳細未定"
+    sub_content = '\n'.join(content_lines[1:3]) if len(content_lines) > 1 else ""
+
+    # Flex Message JSON構造
+    flex_message = {
+        "type": "bubble",
+        "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "text",
+                    "text": title,
+                    "weight": "bold",
+                    "size": "md",
+                    "color": "#FFFFFF"
+                }
+            ],
+            "backgroundColor": color,
+            "paddingAll": "15px"
+        },
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "📅 日時",
+                            "size": "sm",
+                            "color": "#666666",
+                            "weight": "bold"
+                        },
+                        {
+                            "type": "text",
+                            "text": date_with_weekday,
+                            "size": "lg",
+                            "weight": "bold",
+                            "color": color,
+                            "margin": "xs"
+                        }
+                    ],
+                    "margin": "none"
+                },
+                {
+                    "type": "separator",
+                    "margin": "md"
+                },
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "📋 内容",
+                            "size": "sm",
+                            "color": "#666666",
+                            "weight": "bold"
+                        },
+                        {
+                            "type": "text",
+                            "text": main_content,
+                            "size": "md",
+                            "wrap": True,
+                            "margin": "xs"
+                        }
+                    ],
+                    "margin": "md"
+                }
+            ],
+            "paddingAll": "15px"
+        },
+        "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": urgency,
+                            "size": "sm",
+                            "color": color,
+                            "weight": "bold",
+                            "flex": 1
+                        },
+                        {
+                            "type": "text",
+                            "text": "UMA3リマインダー",
+                            "size": "xs",
+                            "color": "#999999",
+                            "align": "end",
+                            "flex": 1
+                        }
+                    ]
+                }
+            ],
+            "paddingAll": "10px"
+        }
+    }
+
+    # サブコンテンツがある場合は追加
+    if sub_content.strip():
+        flex_message["body"]["contents"].append({
+            "type": "text",
+            "text": sub_content,
+            "size": "sm",
+            "color": "#666666",
+            "wrap": True,
+            "margin": "sm"
+        })
+
+    return flex_message
+
+
+def format_single_reminder_message(note, notification_type="standard"):
+    """
+    単一リマインダーメッセージを整形する（拡張版対応）
+
+    Args:
+        note (dict): 単一のノート情報
+        notification_type (str): 通知タイプ
+
+    Returns:
+        str: 整形されたメッセージ
+    """
+    try:
+        # 天気情報テンプレートシステムを使用してテキストメッセージを生成
+        from weather_flex_template import WeatherFlexTemplate
+
+        weather_template = WeatherFlexTemplate()
+
+        # ノート情報を取得
+        event_content = note['content']
+        event_date = note["date"]
+        days_until = note["days_until"]
+        is_input_deadline = note.get("is_input_deadline", False)
+
+        # 場所情報を抽出
+        location = "東京都"
+        location_patterns = [
+            r'場所[：:]\s*([^\n]+)',
+            r'会場[：:]\s*([^\n]+)',
+            r'開催地[：:]\s*([^\n]+)',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*球場',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*グラウンド',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)'
+        ]
+
+        for pattern in location_patterns:
+            match = re.search(pattern, event_content)
+            if match:
+                if pattern.startswith('場所') or pattern.startswith('会場') or pattern.startswith('開催地'):
+                    extracted_location = match.group(1).strip()
+                    # 場所情報が長すぎる場合は短縮
+                    if len(extracted_location) > 30:
+                        # 都道府県と区市町村程度に短縮
+                        city_match = re.search(r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\s]*[区市町]', extracted_location)
+                        if city_match:
+                            location = city_match.group(0)
+                        else:
+                            location = extracted_location[:20]  # 最大20文字
+                    else:
+                        location = extracted_location
+                else:
+                    location = match.group(0)
+                break        # 基本的な挨拶とメッセージ開始
+        current_hour = datetime.now().hour
+        if current_hour < 10:
+            greeting = "おはようございます。"
+        elif current_hour < 18:
+            greeting = "お疲れ様です。"
+        else:
+            greeting = "お疲れ様です。"
+
+        # 日付フォーマット
+        formatted_date = event_date.strftime("%Y年%m月%d日")
+        weekdays = ["月", "火", "水", "木", "金", "土", "日"]
+        weekday = weekdays[event_date.weekday()]
+        date_with_weekday = f"{formatted_date}({weekday})"
+
+        # メッセージタイプに応じた内容
+        if is_input_deadline:
+            if days_until == 1:
+                message_header = f"⏰ 【入力期限のご案内（明日期限）】\n\n{greeting}\n入力期限が明日{date_with_weekday}となっているイベントがございます。\nお忙しい中恐れ入りますが、ご都合の確認とご入力をお願いいたします。"
+            elif days_until == 0:
+                message_header = f"⚠️ 【入力期限のご案内（本日期限）】\n\n{greeting}\n入力期限が本日{date_with_weekday}となっているイベントがございます。\nお忙しい中恐れ入りますが、まだご入力いただいていない方は、お早めのご入力をお願いいたします。"
+            else:
+                message_header = f"📅 【入力期限のご案内（{days_until}日後期限）】\n\n{greeting}\n入力期限が{days_until}日後の{date_with_weekday}となっている予定がございます。\nご都合のご確認をお願いいたします。"
+        else:
+            if days_until == 2:
+                message_header = f"⏰ 【イベントのご案内（明後日開催）】\n\n{greeting}\n{date_with_weekday}にイベントが開催されます。\n改めてご確認いただき、ご準備のほどよろしくお願いいたします。"
+            elif days_until == 1:
+                message_header = f"⏰ 【イベントのご案内（明日開催）】\n\n{greeting}\n{date_with_weekday}にイベントが開催されます。\nお気をつけてお越しください。よろしくお願いいたします。"
+            elif days_until == 0:
+                message_header = f"⚠️ 【イベント開催のご案内（本日開催）】\n\n{greeting}\n{date_with_weekday}にイベントが開催されます。\nお気をつけてお越しください。"
+            else:
+                message_header = f"📅 【イベントのご案内（{days_until}日後開催）】\n\n{greeting}\n{date_with_weekday}にイベントが開催されます。\nご都合のご確認をお願いいたします。"
+
+        # 天気情報を取得
+        try:
+            if days_until == 0:
+                weather_data = weather_template.get_current_weather(location)
+            else:
+                date_str = event_date.strftime('%Y-%m-%d')
+                forecast_list = weather_template.get_forecast_by_date(location, date_str)
+                weather_data = forecast_list[0] if forecast_list else None
+
+            weather_text = ""
+            if weather_data:
+                # 天気情報をテキスト形式で整形
+                temp = weather_data.get('temperature', weather_data.get('temp', 'N/A'))
+                weather_desc = weather_data.get('description', weather_data.get('weather', 'N/A'))
+                humidity = weather_data.get('humidity', 'N/A')
+                wind_speed = weather_data.get('wind_speed', 'N/A')
+
+                weather_text = f"\n\n🌤️ **天気情報（{location}）**\n"
+                weather_text += f"🌡️ 気温: {temp}℃\n"
+                weather_text += f"☁️ 天気: {weather_desc}\n"
+                weather_text += f"💧 湿度: {humidity}%\n"
+                weather_text += f"💨 風速: {wind_speed}m/s\n"
+
+                # 天気アドバイスを追加
+                advice = weather_template._get_weather_advice(weather_data, [weather_data] if isinstance(weather_data, dict) else weather_data)
+                if advice:
+                    weather_text += f"\n💡 天気アドバイス: {advice}"
+            else:
+                weather_text = f"\n\n🌤️ **天気情報**: 当日の天気予報をご確認いただき、適切な服装でお越しください"
+
+        except Exception as e:
+            print(f"[WEATHER] 天気情報取得エラー: {e}")
+            weather_text = f"\n\n🌤️ **天気情報**: 当日の天気予報をご確認いただき、適切な服装でお越しください"
+
+        # メッセージを組み立て
+        enhanced_message = f"{message_header}\n\n📋 **イベント詳細**\n{event_content}{weather_text}"
+
+        # 関連ノートがある場合は追加
+        related_notes = find_related_detected_notes(event_content, event_date)
+        if related_notes:
+            enhanced_message += f"\n\n{'='*50}\n\n📋 **関連情報のご参考**\n以下の関連情報もご確認いただけますと幸いです。\n"
+            for i, related_note in enumerate(related_notes, 1):
+                note_title = related_note.get('title', '不明なノート')
+                if len(note_title) > 30:
+                    note_title = note_title[:30] + "..."
+                enhanced_message += f"\n{i}. 📝 {note_title}\n"
+
+        # 締めの挨拶を追加
+        enhanced_message += f"\n{'='*50}\n\nご不明な点がございましたら、お気軽にお声かけください。\nよろしくお願いいたします。"
+
+        return enhanced_message
+
+    except ImportError as e:
+        print(f"[FORMAT_MESSAGE] 天気テンプレートのインポートエラー: {e}")
+        return format_single_reminder_message_basic(note, notification_type)
+    except Exception as e:
+        print(f"[FORMAT_MESSAGE] 天気テンプレート処理エラー: {e}")
+        return format_single_reminder_message_basic(note, notification_type)
+
+def format_single_reminder_message_basic(note, notification_type="standard"):
+    """
+    単一リマインダーメッセージを整形する（基本版）
+
+    Args:
+        note (dict): 単一のノート情報
+        notification_type (str): 通知タイプ
+
+    Returns:
+        str: 整形されたメッセージ
+    """
+    days_until = note["days_until"]
+    is_input_deadline = note.get("is_input_deadline", False)
+    reminder_type = note.get("reminder_type", "standard")
+    date_info = note["date"]  # 期限日またはイベント日
+
+    # 日付を日本語形式でフォーマット
+    formatted_date = date_info.strftime("%Y年%m月%d日")
+    weekdays = ["月", "火", "水", "木", "金", "土", "日"]
+    weekday = weekdays[date_info.weekday()]
+    date_with_weekday = f"{formatted_date}({weekday})"
+
+    # 通知タイプに応じてメッセージを調整（期限日とイベント日を明確に区別）
+    if is_input_deadline:
+        # 入力期限がある場合（date_infoは期限日）
+        if days_until == 1:
+            prefix = f"⏰ 【入力期限のご案内（明日期限）】\n\nいつもお疲れ様です。\n入力期限が明日{date_with_weekday}となっているイベントがございます。\nお忙しい中恐れ入りますが、ご都合の確認とご入力をお願いいたします。\n"
+        elif days_until == 0:
+            prefix = f"⚠️ 【入力期限のご案内（本日期限）】\n\nいつもお疲れ様です。\n入力期限が本日{date_with_weekday}となっているイベントがございます。\nお忙しい中恐れ入りますが、まだご入力いただいていない方は、お早めのご入力をお願いいたします。\n"
+        else:
+            prefix = f"📅 【入力期限のご案内（{days_until}日後期限）】\n\nいつもお疲れ様です。\n入力期限が{days_until}日後の{date_with_weekday}となっている予定がございます。\nご都合のご確認をお願いいたします。\n"
+    else:
+        # 入力期限がない場合（date_infoはイベント日）
+        if days_until == 2:
+            prefix = f"⏰ 【イベントのご案内（明後日開催）】\n\nいつもお疲れ様です。\n{date_with_weekday}にイベントが開催されます。\n改めてご確認いただき、ご準備のほどよろしくお願いいたします。\n"
+        elif days_until == 1:
+            prefix = f"⏰ 【イベントのご案内（明日開催）】\n\nいつもお疲れ様です。\n{date_with_weekday}にイベントが開催されます。\nお気をつけてお越しください。よろしくお願いいたします。\n"
+        elif days_until == 0:
+            prefix = f"⚠️ 【イベント開催のご案内（本日開催）】\n\nいつもお疲れ様です。\n{date_with_weekday}にイベントが開催されます。\nお気をつけてお越しください。\n"
+        else:
+            prefix = f"📅 【イベントのご案内（{days_until}日後開催）】\n\nいつもお疲れ様です。\n{date_with_weekday}にイベントが開催されます。\nご都合のご確認をお願いいたします。\n"
+
+    # 天気情報を取得（実際のイベント日または期限日を使用）
+    weather_info = get_weather_for_event(note['content'], date_info)
+
+    # 関連ノートを検索
+    related_notes = find_related_detected_notes(note['content'], date_info)
+
+    # メッセージを組み立て
+    message = f"{prefix}\n\n📋 **イベント詳細**\n{note['content']}\n"
+
+    if weather_info:
+        message += f"\n{'='*50}\n\n{weather_info}\n"
+    else:
+        message += f"\n🌤️ **天気情報のご案内**: 当日の天気予報をご確認いただき、適切な服装でお越しください\n"
+
+    # 関連ノートを追加（URL削除版）
+    if related_notes:
+        message += f"\n{'='*50}\n\n📋 **関連情報のご参考**\n以下の関連情報もご確認いただけますと幸いです。\n"
+        for i, related_note in enumerate(related_notes, 1):
+            # 辞書形式でアクセス
+            note_title = related_note.get('title', '不明なノート')
+
+            if len(note_title) > 30:
+                note_title = note_title[:30] + "..."
+
+            message += f"\n{i}. 📝 {note_title}\n"
+
+    # 締めの挨拶を追加
+    message += f"\n{'='*50}\n\nご不明な点がございましたら、お気軽にお声かけください。\nよろしくお願いいたします。"
+
+    return message
+
+
 def format_reminder_message(notes, notification_type="standard"):
     """
-    リマインダーメッセージを整形する（入力期限・前日・前々日通知対応）
+    リマインダーメッセージを整形する（1件ずつ個別メッセージ対応）
 
     Args:
         notes (list): ノートリスト
         notification_type (str): 通知タイプ ("standard", "day_before", "two_days_before")
 
     Returns:
-        str: 整形されたメッセージ
+        list または str: 複数件の場合はメッセージのリスト、1件の場合は文字列
     """
     if not notes:
-        return "⏰ 直近の入力期限は見つかりませんでした。"
+        return ["⏰ 直近の入力期限は見つかりませんでした。"]
 
-    if len(notes) == 1:
-        note = notes[0]
-        days_until = note["days_until"]
-        is_input_deadline = note.get("is_input_deadline", False)
-        reminder_type = note.get("reminder_type", "standard")
-        event_date = note["date"]  # イベントの日付を取得
+    # 1件ずつ個別メッセージを生成
+    messages = []
+    for note in notes:
+        single_message = format_single_reminder_message(note, notification_type)
+        messages.append(single_message)
 
-        # 日付を日本語形式でフォーマット
-        formatted_date = event_date.strftime("%Y年%m月%d日")
-        weekdays = ["月", "火", "水", "木", "金", "土", "日"]
-        weekday = weekdays[event_date.weekday()]
-        date_with_weekday = f"{formatted_date}({weekday})"
+    # 複数件の場合はリストで返す
+    return messages
 
-        # 通知タイプに応じてメッセージを調整
-        if is_input_deadline:
-            # 入力期限がある場合
-            if days_until == 1:
-                prefix = f"⏰ 【リマインダー（前日）】\n\n{date_with_weekday}のイベントの入力期限です。\nご確認ください。\n"
-            elif days_until == 0:
-                prefix = f"⚠️ 【リマインダー（前日）】\n\n{date_with_weekday}のイベントの入力期限(本日)です。\nよろしくお願いします。\n"
-            else:
-                prefix = f"📅 【リマインダー（{days_until}日後）】\n\n{date_with_weekday}の予定です。\nご確認ください。\n"
+
+
+
+def _extract_weather_summary(weather_info):
+    """
+    天気情報から要約を抽出
+
+    Args:
+        weather_info (str): 詳細天気情報
+
+    Returns:
+        str: 要約された天気情報
+    """
+    try:
+        lines = weather_info.split('\n')
+        summary_parts = []
+
+        for line in lines:
+            if '現在の気温' in line:
+                summary_parts.append(line.replace('**', '').replace('🌡️', '').strip())
+            elif '降水確率' in line:
+                summary_parts.append(line.replace('**', '').replace('☔', '').strip())
+            elif '天気' in line and len(line) < 50:
+                summary_parts.append(line.replace('**', '').replace('☁️', '').strip())
+
+        if summary_parts:
+            return ' / '.join(summary_parts[:3])  # 最大3項目
         else:
-            # 入力期限がない場合（イベント日）
-            if days_until == 2:
-                prefix = f"⏰ 【リマインダー（前々日通知）】\n\n{date_with_weekday}のイベントです。\nご確認ください。\n"
-            elif days_until == 1:
-                prefix = f"⏰ 【リマインダー（前日通知）】\n\n{date_with_weekday}のイベントです。\nよろしくお願いします。\n"
-            elif days_until == 0:
-                prefix = f"⚠️ 【リマインダー（当日）】\n\n{date_with_weekday}（本日）のイベントです。\nご注意ください。\n"
-            else:
-                prefix = f"📅 【リマインダー（{days_until}日後）】\n\n{date_with_weekday}のイベントです。\nご確認ください。\n"
+            return "天気情報をご確認ください"
 
-        return f"{prefix}\n\n{note['content']}"
+    except Exception:
+        return "天気情報をご確認ください"
 
-    # 複数の予定がある場合
-    has_input_deadlines = any(note.get("is_input_deadline", False) for note in notes)
-    has_events = any(not note.get("is_input_deadline", False) for note in notes)
 
-    if has_input_deadlines and has_events:
-        message = "⏰ 今後の予定リマインダー\n\n"
-    elif has_input_deadlines:
-        message = "⏰ 入力期限リマインダー\n\n"
+def send_flex_reminder_via_line(flex_message_data):
+    """
+    Flex Message形式でリマインダーを送信する
+
+    Args:
+        flex_message_data (dict): Flex Messageのデータ構造
+
+    Returns:
+        bool: 送信成功の場合True
+    """
+    # 環境変数からアクセストークンを取得
+    LINE_ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
+
+    # フォールバック: ファイル内のトークンを使用（デバッグ用）
+    if not LINE_ACCESS_TOKEN:
+        LINE_ACCESS_TOKEN = (
+            "fnNGsF7C1h861wsq/9lxqYZtdRdtFQpLnI6lCTcn9TPY7cNF+HaCvIqBZ8OlpW4k"
+            "WGRKDWbeygz/UYAx7JbXJ3u+kxkOFSiLYCDPBSoc5WGJkUQRQbkM8/v4pv2mx+w2"
+            "BblnaBi1h7ne3u1HHaKLHAdB04t89/1O/w1cDnyilFU="
+        )
+        print("[WARNING] Using fallback LINE_ACCESS_TOKEN from code")
     else:
-        message = "⏰ イベント予定リマインダー\n\n"
+        print(f"[INFO] Using LINE_ACCESS_TOKEN from environment (length: {len(LINE_ACCESS_TOKEN)})")
 
-    for i, note in enumerate(notes[:3], 1):  # 最大3件
-        days_until = note["days_until"]
-        is_input_deadline = note.get("is_input_deadline", False)
-        event_date = note["date"]  # イベントの日付を取得
+    target_ids = get_target_ids()
 
-        # 日付を日本語形式でフォーマット
-        formatted_date = event_date.strftime("%Y年%m月%d日")
-        weekdays = ["月", "火", "水", "木", "金", "土", "日"]
-        weekday = weekdays[event_date.weekday()]
-        date_with_weekday = f"{formatted_date}({weekday})"
+    if not target_ids:
+        print("[ERROR] No target IDs configured. Cannot send reminder.")
+        return False
 
-        if is_input_deadline:
-            if days_until == 1:
-                date_info = f"明日が入力期限【{date_with_weekday}】"
-            elif days_until == 0:
-                date_info = f"本日が入力期限【{date_with_weekday}】"
-            else:
-                date_info = f"{days_until}日後が入力期限【{date_with_weekday}】"
+    headers = {
+        "Authorization": f"Bearer {LINE_ACCESS_TOKEN}",
+        "Content-Type": "application/json",
+    }
+
+    success_count = 0
+
+    print(f"[FLEX_REMINDER] Attempting to send Flex Message to {len(target_ids)} target(s)")
+
+    for target_id in target_ids:
+        # ターゲットIDの検証
+        if not target_id or len(target_id) < 10:
+            print(f"[ERROR] Invalid target ID format: {target_id}")
+            continue
+
+        # サンプルIDかどうかチェック
+        if target_id.startswith("C1234567890abcdef") or target_id == "unknown":
+            print(f"[ERROR] Sample/invalid target ID detected: {target_id}")
+            continue
+
+        # flex_message_dataが既に完全なFlex Messageの場合
+        if isinstance(flex_message_data, dict) and flex_message_data.get("type") == "flex":
+            # そのまま使用
+            data = {
+                "to": target_id,
+                "messages": [flex_message_data],
+            }
         else:
-            if days_until == 2:
-                date_info = f"明後日の予定（前々日通知）【{date_with_weekday}】"
-            elif days_until == 1:
-                date_info = f"明日の予定（前日通知）【{date_with_weekday}】"
-            elif days_until == 0:
-                date_info = f"本日の予定【{date_with_weekday}】"
+            # contentsとして使用
+            data = {
+                "to": target_id,
+                "messages": [
+                    {
+                        "type": "flex",
+                        "altText": "リマインダー通知",
+                        "contents": flex_message_data
+                    }
+                ],
+            }
+
+        try:
+            print(f"[SEND] Sending Flex Message to {target_id[:20]}...")
+
+            response = requests.post(
+                "https://api.line.me/v2/bot/message/push",
+                headers=headers,
+                json=data,
+                timeout=10,
+            )
+
+            print(f"[RESPONSE] Status: {response.status_code}")
+
+            if response.status_code == 200:
+                print(f"[SUCCESS] Flex reminder sent to {target_id}")
+                success_count += 1
             else:
-                date_info = f"{days_until}日後の予定【{date_with_weekday}】"
+                try:
+                    error_data = response.json()
+                    print(f"[ERROR] Failed to send Flex Message to {target_id}: {response.status_code}")
+                    print(f"[ERROR] Response: {error_data}")
+                except:
+                    print(f"[ERROR] Failed to send Flex Message to {target_id}: {response.status_code} - {response.text}")
 
-        message += f"{i}. {date_info}\n{note['content']}\n\n"
+        except requests.exceptions.RequestException as e:
+            print(f"[ERROR] Request failed for {target_id}: {e}")
+        except Exception as e:
+            print(f"[ERROR] Unexpected error for {target_id}: {e}")
+            import traceback
+            traceback.print_exc()
 
-    return message.strip()
+    print(f"[SUMMARY] Successfully sent Flex Messages to {success_count}/{len(target_ids)} targets")
+    return success_count > 0
 
 
 def send_reminder_via_line(note_text):
@@ -738,29 +1426,29 @@ def reminder_job():
 
         total_reminders_sent = 0
 
-        # 明日の通知
+        # 明日の通知（Flex Message個別送信）
         if tomorrow_notes:
-            message = format_reminder_message(tomorrow_notes, "day_before")
-            success = send_reminder_via_line(message)
-            if success:
-                print(
-                    f"[REMINDER] Successfully sent tomorrow reminder for {len(tomorrow_notes)} note(s)"
-                )
-                total_reminders_sent += len(tomorrow_notes)
-            else:
-                print("[REMINDER] Failed to send tomorrow reminders")
+            success_count = 0
+            for note in tomorrow_notes:
+                # Flex Messageを作成
+                flex_message_data = create_flex_reminder_message(note)
+                if send_flex_reminder_via_line(flex_message_data):
+                    success_count += 1
 
-        # 明後日の通知（前日通知）
+            print(f"[FLEX_REMINDER] Successfully sent {success_count}/{len(tomorrow_notes)} tomorrow Flex reminders")
+            total_reminders_sent += success_count
+
+        # 明後日の通知（Flex Message個別送信）
         if day_after_tomorrow_notes:
-            message = format_reminder_message(day_after_tomorrow_notes, "day_before")
-            success = send_reminder_via_line(message)
-            if success:
-                print(
-                    f"[REMINDER] Successfully sent day-after-tomorrow reminder for {len(day_after_tomorrow_notes)} note(s)"
-                )
-                total_reminders_sent += len(day_after_tomorrow_notes)
-            else:
-                print("[REMINDER] Failed to send day-after-tomorrow reminders")
+            success_count = 0
+            for note in day_after_tomorrow_notes:
+                # Flex Messageを作成
+                flex_message_data = create_flex_reminder_message(note)
+                if send_flex_reminder_via_line(flex_message_data):
+                    success_count += 1
+
+            print(f"[FLEX_REMINDER] Successfully sent {success_count}/{len(day_after_tomorrow_notes)} day-after-tomorrow Flex reminders")
+            total_reminders_sent += success_count
 
         if total_reminders_sent == 0:
             print("[REMINDER] No upcoming deadlines or events found")
@@ -819,15 +1507,101 @@ print("[SCHEDULER] TO_USER_ID will be set by uma3.py when messages are received"
 @app.route("/")
 def home():
     """
-    ヘルスチェック用エンドポイント
+    ヘルスチェック用エンドポイント（HTML版）
     """
+    from flask import render_template_string
+
     target_ids = get_target_ids()
-    return {
-        "status": "LINE Reminder Service is running!",
-        "configured_targets": len(target_ids),
-        "target_ids": target_ids,
-        "config_file": CONFIG_FILE,
-    }
+    jobs = scheduler.get_jobs()
+
+    template = """
+    <html>
+    <head>
+        <title>LINEリマインダーサービス</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; background-color: #f5f5f5; }
+            .container { max-width: 1000px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            .header { text-align: center; border-bottom: 3px solid #4CAF50; padding-bottom: 20px; margin-bottom: 30px; }
+            .status { background: #d4edda; padding: 15px; border-radius: 5px; margin-bottom: 20px; border-left: 5px solid #28a745; }
+            .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+            .info-card { background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #007bff; }
+            .info-card h3 { margin-top: 0; color: #333; }
+            .btn { display: inline-block; background: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin: 5px; }
+            .btn:hover { background: #45a049; }
+            .btn-info { background: #17a2b8; }
+            .btn-info:hover { background: #138496; }
+            .btn-warning { background: #ffc107; color: #212529; }
+            .btn-warning:hover { background: #e0a800; }
+            .code { font-family: monospace; background: #e9ecef; padding: 2px 6px; border-radius: 3px; }
+            .feature-list { list-style-type: none; padding: 0; }
+            .feature-list li { margin: 10px 0; padding: 8px; background: #fff; border-left: 3px solid #28a745; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>🤖 LINEリマインダーサービス</h1>
+                <p>ソフトボールチーム向けノート・リマインダーシステム</p>
+            </div>
+
+            <div class="status">
+                <strong>✅ サービス稼働中</strong> - {{ current_time }}
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>📊 設定状況</h3>
+                    <p><strong>設定済みターゲット:</strong> {{ target_count }}件</p>
+                    <p><strong>スケジュール数:</strong> {{ job_count }}件</p>
+                    <p><strong>設定ファイル:</strong> <span class="code">{{ config_file }}</span></p>
+                </div>
+
+                <div class="info-card">
+                    <h3>⏰ リマインダー機能</h3>
+                    <ul class="feature-list">
+                        <li>📅 入力期限の前日通知</li>
+                        <li>🎉 イベント前日通知</li>
+                        <li>🌤️ 天気情報統合</li>
+                        <li>🔗 ノート詳細URL付き</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>🔗 ノートURL機能</h3>
+                    <p>リマインダーメッセージにノート詳細へのURLが自動添付されます</p>
+                    <p><strong>URL形式:</strong></p>
+                    <p class="code">http://localhost:5000/note/{ハッシュID}</p>
+                    <p>👆 クリックでノート全文を確認可能</p>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="/config" class="btn btn-info">⚙️ 設定確認</a>
+                <a href="/status" class="btn btn-info">📊 ステータス</a>
+                <a href="/test-reminder" class="btn btn-warning">🧪 テスト実行</a>
+            </div>
+
+            <div style="margin-top: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3>🚀 管理機能</h3>
+                <p><strong>設定確認:</strong> <a href="/config">/config</a></p>
+                <p><strong>リマインダーテスト:</strong> <a href="/test-reminder">/test-reminder</a></p>
+                <p><strong>スケジュール再読込:</strong> <a href="/reload-schedule">/reload-schedule</a></p>
+                <p><strong>ターゲットID追加:</strong> /add-target/{新しいID}</p>
+            </div>
+        </div>
+    </body>
+    </html>
+    """
+
+    return render_template_string(
+        template,
+        current_time=datetime.now().strftime("%Y年%m月%d日 %H:%M:%S"),
+        target_count=len(target_ids),
+        job_count=len(jobs),
+        config_file=CONFIG_FILE
+    )
 
 
 @app.route("/add-target/<target_id>")
@@ -932,6 +1706,109 @@ def reload_schedule():
         }
     except Exception as e:
         return {"status": "error", "message": f"Failed to reload scheduler: {str(e)}"}
+
+
+@app.route("/note/<note_id>")
+def view_note_detail(note_id):
+    """
+    ノートの詳細情報を表示する
+
+    Args:
+        note_id (str): ノートのハッシュID
+
+    Returns:
+        HTML: ノート詳細ページ
+    """
+    try:
+        from flask import request, render_template_string
+
+        # ノートタイトルを取得（URL パラメータから）
+        note_title = request.args.get('title', 'ノート詳細')
+
+        # ChromaDBからノートを検索
+        vector_db = get_vector_db()
+        all_docs = vector_db.get()
+
+        found_note = None
+        for doc in all_docs["documents"]:
+            if "[ノート]" in doc:
+                import hashlib
+                doc_hash = hashlib.md5(doc.encode('utf-8')).hexdigest()[:16]
+                if doc_hash == note_id:
+                    found_note = doc
+                    break
+
+        if not found_note:
+            return f"""
+            <html>
+            <head><title>ノートが見つかりません</title></head>
+            <body>
+                <h1>❌ ノートが見つかりません</h1>
+                <p>指定されたノート（ID: {note_id}）は見つかりませんでした。</p>
+                <a href="/">トップページに戻る</a>
+            </body>
+            </html>
+            """, 404
+
+        # HTMLテンプレート
+        template = """
+        <html>
+        <head>
+            <title>{{ title }}</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 40px; background-color: #f5f5f5; }
+                .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                .header { border-bottom: 3px solid #4CAF50; padding-bottom: 20px; margin-bottom: 30px; }
+                .header h1 { color: #333; margin: 0; }
+                .meta-info { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+                .content { line-height: 1.6; white-space: pre-wrap; font-size: 16px; }
+                .btn { display: inline-block; background: #4CAF50; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; margin-top: 20px; }
+                .btn:hover { background: #45a049; }
+                .note-id { font-family: monospace; background: #e9ecef; padding: 2px 6px; border-radius: 3px; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <div class="header">
+                    <h1>📝 {{ title }}</h1>
+                </div>
+
+                <div class="meta-info">
+                    <strong>ノートID:</strong> <span class="note-id">{{ note_id }}</span><br>
+                    <strong>データソース:</strong> ChromaDB<br>
+                    <strong>生成時刻:</strong> {{ current_time }}
+                </div>
+
+                <div class="content">{{ content }}</div>
+
+                <a href="/" class="btn">🏠 トップページに戻る</a>
+                <a href="/config" class="btn">⚙️ 設定確認</a>
+            </div>
+        </body>
+        </html>
+        """
+
+        return render_template_string(
+            template,
+            title=note_title,
+            note_id=note_id,
+            content=found_note,
+            current_time=datetime.now().strftime("%Y年%m月%d日 %H:%M:%S")
+        )
+
+    except Exception as e:
+        return f"""
+        <html>
+        <head><title>エラー</title></head>
+        <body>
+            <h1>❌ エラーが発生しました</h1>
+            <p>ノート詳細の取得中にエラーが発生しました: {str(e)}</p>
+            <a href="/">トップページに戻る</a>
+        </body>
+        </html>
+        """, 500
 
 
 @app.route("/debug-send/<target_id>")

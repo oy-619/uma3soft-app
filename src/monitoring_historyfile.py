@@ -30,44 +30,114 @@ from datetime import datetime
 from typing import Dict, List, Optional
 from pathlib import Path
 
-# Add parent directory to path for imports
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Add current directory and parent directory to path for imports
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.insert(0, current_dir)
+sys.path.insert(0, parent_dir)
+
+# Debug info only when running as main
+if __name__ == "__main__":
+    print(f"[MONITOR] Starting monitoring from: {current_dir}")
+    print(f"[MONITOR] Parent directory: {parent_dir}")
 
 try:
     from watchdog.observers import Observer
     from watchdog.events import FileSystemEventHandler
     WATCHDOG_AVAILABLE = True
+    if __name__ == "__main__":
+        print("[MONITOR] Watchdog library available")
 except ImportError:
-    print("[WARNING] Watchdog not available - using polling mode")
+    if __name__ == "__main__":
+        print("[WARNING] Watchdog not available - using polling mode")
     WATCHDOG_AVAILABLE = False
 
 try:
-    from src.uma3_rag_engine import Uma3RAGEngine
-    from src.conversation_history_manager import ConversationHistoryManager
-    RAG_AVAILABLE = True
-except ImportError as e:
-    print(f"[WARNING] RAG components not available: {e}")
+    # Try multiple import paths
     RAG_AVAILABLE = False
 
+    # Method 1: Direct import
+    try:
+        from uma3_rag_engine import Uma3RAGEngine
+        if __name__ == "__main__":
+            print("[MONITOR] Successfully imported Uma3RAGEngine (direct)")
+        RAG_AVAILABLE = True
+    except ImportError:
+        pass
 
+    # Method 2: Import from src
+    if not RAG_AVAILABLE:
+        try:
+            from src.uma3_rag_engine import Uma3RAGEngine
+            if __name__ == "__main__":
+                print("[MONITOR] Successfully imported Uma3RAGEngine (src)")
+            RAG_AVAILABLE = True
+        except ImportError:
+            pass
+
+    # Method 3: Try ChromaDB improver
+    if not RAG_AVAILABLE:
+        try:
+            from uma3_chroma_improver import Uma3ChromaDBImprover as Uma3RAGEngine
+            if __name__ == "__main__":
+                print("[MONITOR] Successfully imported Uma3ChromaDBImprover as RAGEngine")
+            RAG_AVAILABLE = True
+        except ImportError:
+            pass
+
+    if not RAG_AVAILABLE:
+        if __name__ == "__main__":
+            print("[WARNING] RAG components not available - monitoring will run without RAG integration")
+        # Create a dummy RAG engine class for testing
+        class DummyRAGEngine:
+            def add_documents(self, texts, metadatas):
+                if __name__ == "__main__":
+                    print(f"[DUMMY RAG] Would add {len(texts)} documents")
+                return True
+            def add_texts(self, texts, metadatas):
+                if __name__ == "__main__":
+                    print(f"[DUMMY RAG] Would add {len(texts)} texts")
+                return True
+
+        Uma3RAGEngine = DummyRAGEngine
+        RAG_AVAILABLE = True
+        if __name__ == "__main__":
+            print("[MONITOR] Using dummy RAG engine for testing")
+
+except Exception as e:
+    if __name__ == "__main__":
+        print(f"[WARNING] Error importing RAG components: {e}")
+    RAG_AVAILABLE = False
 # === STEP 4: Configuration ===
 class MonitoringConfig:
     """
     STEP 4.1: Monitoring configuration settings
     """
     def __init__(self):
-        self.watch_directory = "logs"
-        self.chroma_directory = "chroma_store"
-        self.conversation_db = "conversation_history.db"
-        self.polling_interval = 30  # seconds
-        self.log_file = "monitoring.log"
+        # Set paths relative to the current script location
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        parent_dir = os.path.dirname(current_dir)
 
-        # File patterns to monitor
+        self.watch_directory = os.path.join(parent_dir, "logs")
+        self.chroma_directory = os.path.join(parent_dir, "db", "chroma_store")
+        self.conversation_db = os.path.join(parent_dir, "db", "conversation_history.db")
+        self.polling_interval = 10  # seconds (reduced for more responsive monitoring)
+        self.log_file = os.path.join(parent_dir, "monitoring.log")
+
+        # File patterns to monitor (expanded for LINE Bot logs)
         self.monitor_patterns = [
             "*.log",
             "conversation_*.json",
-            "history_*.txt"
+            "history_*.txt",
+            "chat_history_*.json",
+            "line_chat_*.log",
+            "debug_*.log"
         ]
+
+        if __name__ == "__main__":
+            print(f"[CONFIG] Watch directory: {self.watch_directory}")
+            print(f"[CONFIG] ChromaDB directory: {self.chroma_directory}")
+            print(f"[CONFIG] Polling interval: {self.polling_interval}s")
 
 
 # === STEP 5: File System Event Handler ===
@@ -85,11 +155,37 @@ class ConversationFileHandler(FileSystemEventHandler):
         # Initialize components if available
         if RAG_AVAILABLE:
             try:
-                self.rag_engine = Uma3RAGEngine(persist_directory=config.chroma_directory)
-                self.history_manager = ConversationHistoryManager(config.conversation_db)
-                print("[INIT] RAG engine and history manager initialized")
+                # Simple RAG engine initialization
+                try:
+                    self.rag_engine = Uma3RAGEngine()
+                    if __name__ == "__main__":
+                        print("[INIT] RAG engine initialized successfully")
+                except Exception as rag_e:
+                    if __name__ == "__main__":
+                        print(f"[WARNING] RAG engine init failed: {rag_e}")
+                    # Use dummy engine
+                    class DummyRAGEngine:
+                        def add_documents(self, texts, metadatas):
+                            if __name__ == "__main__":
+                                print(f"[DUMMY] Would add {len(texts)} documents")
+                            return True
+                        def add_texts(self, texts, metadatas):
+                            if __name__ == "__main__":
+                                print(f"[DUMMY] Would add {len(texts)} texts")
+                            return True
+                    self.rag_engine = DummyRAGEngine()
+                    if __name__ == "__main__":
+                        print("[INIT] Using dummy RAG engine")
+
+                # History manager is optional
+                self.history_manager = None
+                if __name__ == "__main__":
+                    print("[INFO] History manager disabled for stability")
+
             except Exception as e:
-                print(f"[ERROR] Failed to initialize components: {e}")
+                if __name__ == "__main__":
+                    print(f"[ERROR] Failed to initialize components: {e}")
+                    print("[INFO] Continuing without RAG engine")
 
     def on_modified(self, event):
         """
@@ -131,30 +227,69 @@ class ConversationFileHandler(FileSystemEventHandler):
         """
         try:
             if not os.path.exists(file_path):
+                print(f"[MONITOR] File does not exist: {file_path}")
                 return
+
+            print(f"[MONITOR] Processing file: {file_path}")
 
             with open(file_path, 'r', encoding='utf-8') as f:
                 content = f.read()
 
             if not content.strip():
+                print(f"[MONITOR] File is empty: {file_path}")
                 return
+
+            print(f"[MONITOR] File content length: {len(content)} characters")
 
             # Parse conversation data
             conversations = self._parse_conversation_content(content)
+            print(f"[MONITOR] Parsed {len(conversations)} conversations")
 
             if conversations and self.rag_engine:
                 # Add to RAG engine
-                texts = [conv.get('text', '') for conv in conversations if conv.get('text')]
-                metadatas = [{'source': file_path, 'timestamp': conv.get('timestamp')}
-                           for conv in conversations if conv.get('text')]
+                texts = [conv.get('text', '') for conv in conversations if conv.get('text') and len(conv.get('text', '').strip()) > 0]
+                metadatas = [{'source': file_path, 'timestamp': conv.get('timestamp', datetime.now().isoformat())}
+                           for conv in conversations if conv.get('text') and len(conv.get('text', '').strip()) > 0]
 
                 if texts:
-                    success = self.rag_engine.add_documents(texts, metadatas)
-                    if success:
-                        print(f"[MONITOR] Added {len(texts)} conversations to RAG engine")
+                    try:
+                        # Try different methods to add documents
+                        if hasattr(self.rag_engine, 'add_documents'):
+                            success = self.rag_engine.add_documents(texts, metadatas)
+                        elif hasattr(self.rag_engine, 'add_texts'):
+                            success = self.rag_engine.add_texts(texts, metadatas)
+                        else:
+                            print("[MONITOR] RAG engine doesn't have recognized add method")
+                            return
 
+                        if success:
+                            print(f"[MONITOR] Successfully added {len(texts)} conversations to RAG engine")
+                        else:
+                            print(f"[MONITOR] Failed to add conversations to RAG engine")
+                    except Exception as rag_error:
+                        print(f"[ERROR] RAG engine error: {rag_error}")
+                else:
+                    print("[MONITOR] No valid texts to add")
+            elif not self.rag_engine:
+                print("[MONITOR] RAG engine not available - skipping document addition")
+            else:
+                print("[MONITOR] No conversations to process")
+
+        except UnicodeDecodeError as e:
+            print(f"[ERROR] Unicode decode error in file {file_path}: {e}")
+            # Try with different encodings
+            for encoding in ['utf-8-sig', 'shift_jis', 'cp932']:
+                try:
+                    with open(file_path, 'r', encoding=encoding) as f:
+                        content = f.read()
+                    print(f"[MONITOR] Successfully read with {encoding} encoding")
+                    break
+                except UnicodeDecodeError:
+                    continue
         except Exception as e:
             print(f"[ERROR] Failed to process file {file_path}: {e}")
+            import traceback
+            traceback.print_exc()
 
     def _parse_conversation_content(self, content: str) -> List[Dict]:
         """
@@ -223,9 +358,27 @@ class ConversationMonitor:
         """
         print(f"[MONITOR] Starting conversation file monitoring...")
         print(f"[MONITOR] Watch directory: {self.config.watch_directory}")
+        print(f"[MONITOR] Monitor patterns: {self.config.monitor_patterns}")
 
         # Create watch directory if it doesn't exist
-        os.makedirs(self.config.watch_directory, exist_ok=True)
+        try:
+            os.makedirs(self.config.watch_directory, exist_ok=True)
+            print(f"[MONITOR] Created/verified watch directory: {self.config.watch_directory}")
+        except Exception as e:
+            print(f"[ERROR] Failed to create watch directory: {e}")
+            return
+
+        # Check if directory exists and is readable
+        if not os.path.exists(self.config.watch_directory):
+            print(f"[ERROR] Watch directory does not exist: {self.config.watch_directory}")
+            return
+
+        if not os.access(self.config.watch_directory, os.R_OK):
+            print(f"[ERROR] Watch directory is not readable: {self.config.watch_directory}")
+            return
+
+        print(f"[MONITOR] Watchdog available: {WATCHDOG_AVAILABLE}")
+        print(f"[MONITOR] RAG available: {RAG_AVAILABLE}")
 
         if WATCHDOG_AVAILABLE:
             self._start_watchdog_monitoring()

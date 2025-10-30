@@ -1,0 +1,150 @@
+{
+  "timestamp": "2025-10-30T00:03:46.217012",
+  "system_info": {
+    "total_documents": 147,
+    "total_conversations": 8,
+    "feature_dimensions": [
+      147,
+      310
+    ],
+    "unique_categories": 4,
+    "processing_mode": "offline"
+  },
+  "model_performance": {
+    "RandomForest": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.9555555555555556,
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 4.0
+        },
+        "1": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "3": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 1.0
+        },
+        "4": {
+          "precision": 0.95,
+          "recall": 1.0,
+          "f1-score": 0.9743589743589743,
+          "support": 38.0
+        },
+        "accuracy": 0.9555555555555556,
+        "macro avg": {
+          "precision": 0.7375,
+          "recall": 0.75,
+          "f1-score": 0.7435897435897436,
+          "support": 45.0
+        },
+        "weighted avg": {
+          "precision": 0.9133333333333333,
+          "recall": 0.9555555555555556,
+          "f1-score": 0.9339031339031338,
+          "support": 45.0
+        }
+      }
+    },
+    "LogisticRegression": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.9555555555555556,
+      "classification_report": {
+        "0": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 4.0
+        },
+        "1": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1-score": 0.0,
+          "support": 2.0
+        },
+        "3": {
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1-score": 1.0,
+          "support": 1.0
+        },
+        "4": {
+          "precision": 0.95,
+          "recall": 1.0,
+          "f1-score": 0.9743589743589743,
+          "support": 38.0
+        },
+        "accuracy": 0.9555555555555556,
+        "macro avg": {
+          "precision": 0.7375,
+          "recall": 0.75,
+          "f1-score": 0.7435897435897436,
+          "support": 45.0
+        },
+        "weighted avg": {
+          "precision": 0.9133333333333333,
+          "recall": 0.9555555555555556,
+          "f1-score": 0.9339031339031338,
+          "support": 45.0
+        }
+      }
+    }
+  },
+  "data_insights": {
+    "clustering": {
+      "cluster_0": {
+        "size": 139,
+        "avg_doc_length": 59.194244604316545,
+        "sample_docs": [
+          "[LINE] ☆馬三ソフト☆のトーク履歴 保存日時：R7/10/29 08:46...",
+          "R5/10/22(日) 13:47...",
+          "大峽 裕樹が大川綾奈, ゅぅぃちをグループに招待しました。招待中の友だちが参加するまでしばらくお待ちください。..."
+        ]
+      },
+      "cluster_1": {
+        "size": 2,
+        "avg_doc_length": 322.0,
+        "sample_docs": [
+          "\"続けて29日(日)の配車をお伝えします。 車出し可能なご家庭と配車が必要な選手を記載しています。記載のないご家庭はそのまま現地集合でお願いします。 ＊大峡号は...",
+          "\"続けて29日(日)の配車をお伝えします。 車出し可能なご家庭と配車が必要な選手を記載しています。記載のないご家庭はそのまま現地集合でお願いします。 ＊大峡号は..."
+        ]
+      },
+      "cluster_2": {
+        "size": 2,
+        "avg_doc_length": 293.0,
+        "sample_docs": [
+          "\"お疲れさまです。 出欠・車出しの入力ありがとうございました。 都大会の28日(土)の配車をお伝えします。車出し可能なご家庭と配車が必要な選手を記載しています。...",
+          "\"お疲れさまです。 出欠・車出しの入力ありがとうございました。 都大会の28日(土)の配車をお伝えします。車出し可能なご家庭と配車が必要な選手を記載しています。..."
+        ]
+      },
+      "cluster_3": {
+        "size": 2,
+        "avg_doc_length": 425.0,
+        "sample_docs": [
+          "\"石川監督、お世話になります。 みんなの前で自分だけの特別な数字をもらえたことに、すごく喜んでおりました。チームの一員になれたことが嬉しかったのだと思います。 ...",
+          "\"石川監督、お世話になります。 みんなの前で自分だけの特別な数字をもらえたことに、すごく喜んでおりました。チームの一員になれたことが嬉しかったのだと思います。 ..."
+        ]
+      },
+      "cluster_4": {
+        "size": 2,
+        "avg_doc_length": 144.0,
+        "sample_docs": [
+          "\"こんばんは😊 皆様、今日もお疲れ様でした。 赤羽さん、いつもありがとうございます。 東日本大会の反省を踏まえて、少し長めに練習時間を取ることにしました。 柴又...",
+          "\"こんばんは😊 皆様、今日もお疲れ様でした。 赤羽さん、いつもありがとうございます。 東日本大会の反省を踏まえて、少し長めに練習時間を取ることにしました。 柴又..."
+        ]
+      }
+    },
+    "conversations": {
+      "total_conversations": 8,
+      "human_messages": 4,
+      "bot_messages": 4,
+      "avg_message_length": 46.75,
+      "questions_count": 

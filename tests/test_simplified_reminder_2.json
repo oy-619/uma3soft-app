@@ -1,0 +1,198 @@
+{
+  "type": "flex",
+  "altText": "⏰ 入力期限のご案内（本日期限） - 2025年10月30日(木)",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "⏰ 入力期限のご案内（本日期限）",
+          "weight": "bold",
+          "size": "md",
+          "color": "#FFFFFF",
+          "wrap": true
+        }
+      ],
+      "backgroundColor": "#FF6B6B",
+      "paddingAll": "15px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "md",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📋 イベント情報",
+          "size": "lg",
+          "weight": "bold",
+          "color": "#333333"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📅 日時:",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "2025年10月30日(木)",
+                  "size": "sm",
+                  "color": "#333333",
+                  "flex": 5,
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "xs",
+          "contents": [
+            {
+              "type": "text",
+              "text": "• 【入力期限のご案内】",
+              "size": "sm",
+              "color": "#555555",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "• 参加申込みの締切が近づいています",
+              "size": "sm",
+              "color": "#555555",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "• 【大会会場】神宮球場",
+              "size": "sm",
+              "color": "#555555",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "• 連絡先：担当者まで",
+              "size": "sm",
+              "color": "#2E7D32",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "• 必要書類：参加申込書",
+              "size": "sm",
+              "color": "#555555",
+              "wrap": true
+            }
+          ],
+          "backgroundColor": "#F8F9FA",
+          "paddingAll": "12px",
+          "cornerRadius": "8px"
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "text",
+          "text": "🏟️ 会場・天候情報",
+          "size": "lg",
+          "weight": "bold",
+          "color": "#333333",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📍 会場:",
+              "size": "sm",
+              "color": "#666666",
+              "weight": "bold",
+              "flex": 2
+            },
+            {
+              "type": "text",
+              "text": "神宮球場",
+              "size": "sm",
+              "color": "#333333",
+              "flex": 5,
+              "wrap": true
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "xs",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🌤️ 天候予報",
+              "size": "sm",
+              "weight": "bold",
+              "color": "#666666",
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "xxs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "天気: 情報なし | 気温: 情報なし",
+                  "size": "xs",
+                  "color": "#333333"
+                },
+                {
+                  "type": "text",
+                  "text": "湿度: 情報なし | 風速: 情報なし",
+                  "size": "xs",
+                  "color": "#333333"
+                }
+              ]
+            }
+          ],
+          "backgroundColor": "#E3F2FD",
+          "paddingAll": "10px",
+          "cornerRadius": "6px",
+          "margin": "sm"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "UMA3リマインダー",
+          "size": "xs",
+          "color": "#999999",
+          "align": "center"
+        }
+      ],
+      "paddingAll": "10px"
+    }
+  }
+}

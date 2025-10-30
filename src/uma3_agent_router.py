@@ -166,11 +166,11 @@ class Uma3AgentRouter:
             AgentType.TEAM_MANAGEMENT: [
                 {
                     # チーム関連のキーワード
-                    "keywords": ["チーム", "メンバー", "選手", "コーチ", "監督", "役割"],
+                    "keywords": ["チーム", "メンバー", "選手", "コーチ", "監督", "役割", "３年生", "3年生", "最上級生", "翔平", "聡太", "勘太", "暖大", "英汰", "悠琉"],
                     # チーム関連パターン
-                    "patterns": [r"(.+)選手", r"コーチ(.+)", r"チームの(.+)"],
+                    "patterns": [r"(.+)選手", r"コーチ(.+)", r"チームの(.+)", r"３年生.*選手", r"3年生.*選手", r"３年生.*メンバー", r"3年生.*メンバー"],
                     # チーム管理で実行可能なアクション
-                    "actions": ["一覧", "情報", "連絡先"]
+                    "actions": ["一覧", "情報", "連絡先", "３年生"]
                 }
             ],
             # === イベント分析エージェント ===
@@ -226,7 +226,7 @@ class Uma3AgentRouter:
                 "name": "FAQ検索エージェント",
                 "description": "よくある質問や一般的な情報検索を担当",
                 "priority": 3,  # 優先度（1=最高、5=最低）
-                "tools": ["hybrid_search", "context_retrieval"],  # 使用可能ツール
+                "tools": ["smart_similarity_search", "context_retrieval"],  # 使用可能ツール
                 "response_format": "detailed_explanation"  # 応答形式
             },
 

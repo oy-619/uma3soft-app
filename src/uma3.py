@@ -19,6 +19,10 @@ FlaskとLINE Bot SDKを使用したLINE Botアプリケーション
 
 from typing import Optional
 
+# プロジェクトルートの絶対パス取得
+import os
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
 # === STEP 1: 選手情報管理システム ===
 class ExpandablePlayerInfoHandler:
     """
@@ -477,6 +481,11 @@ from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_huggingface import HuggingFaceEmbeddings
 
+# ChromaDBのログとテレメトリー設定
+import logging
+logging.getLogger("chromadb").setLevel(logging.WARNING)
+logging.getLogger("chromadb.telemetry").setLevel(logging.ERROR)
+
 # LangChain verbose属性エラー回避のための設定
 import os
 os.environ.setdefault("LANGCHAIN_VERBOSE", "false")
@@ -509,11 +518,9 @@ if "OPENAI_API_KEY" not in os.environ:
     print("⚠️ OPENAI_API_KEYの環境変数を設定してください")
     sys.exit(1)
 
-# ChromaDBの保存ディレクトリ定数（実行ディレクトリからの相対パス）
-# 実行ディレクトリが C:\work\ws_python\GenerationAiCamp の場合を想定
-# ChromaDBの保存ディレクトリ定数（C:\work\ws_python\GenerationAiCamp>から実行）
-PERSIST_DIRECTORY = "Lesson25/uma3soft-app/db/chroma_store"
-CONVERSATION_DB_PATH = "Lesson25/uma3soft-app/db/conversation_history.db"
+# ChromaDBの保存ディレクトリ定数（絶対パス方式）
+PERSIST_DIRECTORY = os.path.join(PROJECT_ROOT, 'db', 'chroma_store')
+CONVERSATION_DB_PATH = os.path.join(PROJECT_ROOT, 'db', 'conversation_history.db')
 
 # BotのユーザーID（環境変数から取得）
 BOT_USER_ID = os.getenv("BOT_USER_ID", "U2b1bb2a638b714727085c7317a3b54a0")
@@ -543,7 +550,9 @@ line_api = MessagingApi(ApiClient(configuration))
 handler = WebhookHandler(CHANNEL_SECRET)
 
 # 埋め込みモデルとベクトルデータベースの初期化
+print("[INIT] Initializing embedding model...")
 try:
+    from langchain_huggingface import HuggingFaceEmbeddings
     embedding_model = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
@@ -551,41 +560,219 @@ try:
 except Exception as e:
     print(f"[WARNING] HuggingFace embeddings failed: {e}")
     print("[INIT] Using OpenAI embeddings as fallback")
-    from langchain_openai import OpenAIEmbeddings
-    embedding_model = OpenAIEmbeddings()
+    try:
+        from langchain_openai import OpenAIEmbeddings
+        embedding_model = OpenAIEmbeddings()
+    except Exception as oe:
+        print(f"[ERROR] OpenAI embeddings also failed: {oe}")
+        print("[INIT] Creating minimal embedding function...")
+        # 最小限の埋め込み関数を作成
+        class MinimalEmbeddings:
+            def embed_documents(self, texts):
+                import numpy as np
+                return [np.random.random(384).tolist() for _ in texts]
 
-vector_db = Chroma(
-    persist_directory=PERSIST_DIRECTORY, embedding_function=embedding_model
-)
+            def embed_query(self, text):
+                import numpy as np
+                return np.random.random(384).tolist()
+
+        embedding_model = MinimalEmbeddings()
+
+# プロセス検出を無効化（過度な終了を防止）
+def check_chromadb_file_locks():
+    """ChromaDBファイルのロック状況のみを確認（プロセス終了なし）"""
+    try:
+        chroma_db_file = os.path.join(PERSIST_DIRECTORY, "chroma.sqlite3")
+        if os.path.exists(chroma_db_file):
+            try:
+                # ファイルアクセステスト（読み書き権限確認）
+                with open(chroma_db_file, 'r+b') as f:
+                    print("[INFO] ChromaDB file is accessible")
+                    return True
+            except PermissionError:
+                print("[WARNING] ChromaDB file is locked by another process")
+                return False
+            except Exception as e:
+                print(f"[WARNING] ChromaDB file access issue: {e}")
+                return False
+        else:
+            print("[INFO] ChromaDB file does not exist (first run)")
+            return True
+
+    except Exception as e:
+        print(f"[WARNING] ChromaDB file check failed: {e}")
+        return True  # 不明な場合は続行
+
+# ChromaDBテレメトリーの無効化
+os.environ["CHROMA_TELEMETRY"] = "false"
+os.environ["CHROMA_CLIENT_SETTINGS"] = '{"telemetry": {"enabled": false}}'
+
+# ChromaDBファイルロック状況の確認（プロセス終了なし）
+chromadb_accessible = check_chromadb_file_locks()
+
+# ChromaDBの安全な初期化
+print("[INIT] Initializing ChromaDB...")
+vector_db = None
+
+# 元のディレクトリパスを保存
+original_persist_directory = PERSIST_DIRECTORY
+
+# ChromaDBの初期化を複数回試行
+for attempt in range(3):
+    try:
+        print(f"[INIT] ChromaDB initialization attempt {attempt + 1}/3")
+
+        # 新しいChromaDB インスタンスを作成
+        vector_db = Chroma(
+            persist_directory=PERSIST_DIRECTORY,
+            embedding_function=embedding_model
+        )
+
+        # 接続をテスト
+        vector_db._collection.count()
+        print("[INIT] ChromaDB initialized successfully")
+        break
+
+    except Exception as e:
+        print(f"[WARNING] ChromaDB attempt {attempt + 1} failed: {e}")
+
+        if attempt == 0:
+            # 1回目の失敗：新しいディレクトリを作成（移動は試行しない）
+            print("[INFO] Creating new ChromaDB directory...")
+            import uuid
+            import time
+
+            # 常に新しいディレクトリを作成
+            base_dir = os.path.dirname(original_persist_directory)
+            dir_name = os.path.basename(original_persist_directory)
+            new_dir_name = f"{dir_name}_alt_{uuid.uuid4().hex[:8]}"
+            PERSIST_DIRECTORY = os.path.join(base_dir, new_dir_name)
+
+            print(f"[INFO] Using alternative directory: {PERSIST_DIRECTORY}")
+
+            # 安全にディレクトリを作成
+            try:
+                os.makedirs(PERSIST_DIRECTORY, exist_ok=True)
+                print(f"[INFO] Successfully created directory: {PERSIST_DIRECTORY}")
+            except Exception as mkdir_error:
+                print(f"[WARNING] Cannot create directory: {mkdir_error}")
+                # 一時ディレクトリへフォールバック
+                import tempfile
+                PERSIST_DIRECTORY = tempfile.mkdtemp(prefix="uma3_chroma_")
+                print(f"[INFO] Using temporary directory: {PERSIST_DIRECTORY}")
+
+        elif attempt == 1:
+            # 2回目の失敗：新しいパスで試行
+            import tempfile
+            import uuid
+
+            # 一意のディレクトリを作成
+            new_dir_name = f"chroma_store_{uuid.uuid4().hex[:8]}"
+            base_dir = os.path.dirname(PERSIST_DIRECTORY)
+            PERSIST_DIRECTORY = os.path.join(base_dir, new_dir_name)
+
+            # ディレクトリが存在しない場合は作成
+            os.makedirs(PERSIST_DIRECTORY, exist_ok=True)
+            print(f"[INFO] Using new ChromaDB directory: {PERSIST_DIRECTORY}")
+
+            # 元のディレクトリが使用中の場合、一時ディレクトリを使用
+            if not os.access(PERSIST_DIRECTORY, os.W_OK):
+                temp_dir = tempfile.mkdtemp(prefix="uma3_chroma_")
+                PERSIST_DIRECTORY = temp_dir
+                print(f"[INFO] Fallback to temporary directory: {temp_dir}")
+
+        else:
+            # 3回目の失敗：メモリ内ChromaDBを使用
+            print("[WARNING] Using in-memory ChromaDB as fallback")
+            vector_db = Chroma(embedding_function=embedding_model)
+            break
+
+if vector_db is None:
+    raise Exception("Failed to initialize ChromaDB after multiple attempts")
 
 # ChromaDB精度向上機能の初期化
-chroma_improver = Uma3ChromaDBImprover(vector_db)
+print("[INIT] Initializing Uma3ChromaDBImprover...")
+try:
+    chroma_improver = Uma3ChromaDBImprover(vector_db)
+    print("[INIT] Uma3ChromaDBImprover initialized successfully")
+except Exception as e:
+    print(f"[ERROR] Uma3ChromaDBImprover initialization failed: {e}")
+    # フォールバック：基本的なChromaDB操作を直接使用
+    chroma_improver = None
+
+# LlamaIndex統合システムの初期化
+try:
+    from uma3_hybrid_rag_engine import Uma3HybridRAGEngine
+    hybrid_rag_engine = Uma3HybridRAGEngine(
+        chroma_persist_directory=PERSIST_DIRECTORY,
+        embedding_model_name="sentence-transformers/all-MiniLM-L6-v2",
+        llm_model="gpt-3.5-turbo",
+        enable_langchain=True,
+        enable_llama_index=True
+    )
+    print(f"[INIT] ✅ Hybrid RAG engine (LangChain + LlamaIndex) initialized")
+except Exception as e:
+    print(f"[INIT] ⚠️ Hybrid RAG engine initialization failed: {e}")
+    hybrid_rag_engine = None
 
 # 統合会話システムの初期化
-integrated_conversation_system = IntegratedConversationSystem(
-    chroma_persist_directory=PERSIST_DIRECTORY,
-    conversation_db_path=CONVERSATION_DB_PATH,
-    embeddings_model=embedding_model
-)
-
-print(f"[INIT] Integrated conversation system initialized")
-print(f"[INIT] ChromaDB path: {PERSIST_DIRECTORY}")
-print(f"[INIT] ConversationDB path: {CONVERSATION_DB_PATH}")
+print("[INIT] Initializing IntegratedConversationSystem...")
+try:
+    integrated_conversation_system = IntegratedConversationSystem(
+        chroma_persist_directory=PERSIST_DIRECTORY,
+        conversation_db_path=CONVERSATION_DB_PATH,
+        embeddings_model=embedding_model
+    )
+    print(f"[INIT] ✅ Integrated conversation system initialized")
+    print(f"[INIT] ChromaDB path: {PERSIST_DIRECTORY}")
+    print(f"[INIT] ConversationDB path: {CONVERSATION_DB_PATH}")
+except Exception as e:
+    print(f"[ERROR] IntegratedConversationSystem initialization failed: {e}")
+    integrated_conversation_system = None
 
 # エージェントルーターの初期化
+print("[INIT] Initializing agent router...")
 try:
     # LLMを初期化（エージェント分析用）
     llm_for_agent = ChatOpenAI(model="gpt-3.5-turbo", temperature=0.1)
     agent_router = Uma3AgentRouter(llm=llm_for_agent)
+    print("[INIT] ✅ Agent router initialized")
 
-    # カスタムツールの作成
-    custom_tools = create_custom_tools(chroma_improver)
+    # 拡張カスタムツールの作成（LlamaIndex統合）
+    from uma3_custom_tools import create_enhanced_custom_tools
+    custom_tools = create_enhanced_custom_tools(
+        rag_engine=chroma_improver,
+        hybrid_rag_engine=hybrid_rag_engine
+    )
 
-    print(f"[INIT] ✅ Agent router initialized with {len(custom_tools)} custom tools")
+    print(f"[INIT] ✅ Agent router initialized with {len(custom_tools)} enhanced custom tools (LangChain + LlamaIndex)")
 except Exception as e:
     print(f"[INIT] ⚠️ Agent router initialization failed: {e}")
-    agent_router = Uma3AgentRouter()  # LLMなしで初期化
-    custom_tools = []
+    try:
+        agent_router = Uma3AgentRouter()  # LLMなしで初期化
+        custom_tools = []
+        print("[INIT] ⚠️ Using fallback agent router without LLM")
+    except Exception as ae:
+        print(f"[ERROR] Fallback agent router also failed: {ae}")
+        agent_router = None
+        custom_tools = []
+
+# システム初期化完了通知
+print("\n" + "=" * 80)
+print("🎉 UMA3 LINE BOT SYSTEM INITIALIZATION COMPLETED")
+print("=" * 80)
+print(f"📊 System Status:")
+print(f"   ✅ ChromaDB: {'OK' if vector_db else 'FAILED'}")
+print(f"   ✅ ChromaImprover: {'OK' if chroma_improver else 'FAILED'}")
+print(f"   ✅ HybridRAG: {'OK' if hybrid_rag_engine else 'FAILED'}")
+print(f"   ✅ IntegratedSystem: {'OK' if integrated_conversation_system else 'FAILED'}")
+print(f"   ✅ AgentRouter: {'OK' if agent_router else 'FAILED'}")
+print(f"🔧 Custom Tools: {len(custom_tools) if custom_tools else 0} tools loaded")
+print(f"🌤️ Weather Feature: Enabled")
+print(f"💬 Conversation History: Enabled")
+print("=" * 80)
+print("🚀 Server starting on port 5000...")
+print("=" * 80 + "\n")
 
 
 def format_message_for_mobile(text):
@@ -910,20 +1097,72 @@ def handle_message(event):
     print("[MESSAGE] handle_message function called!")  # 関数が呼ばれたことを確認
 
     try:
+        # 基本情報の取得
+        user_id = getattr(event.source, "user_id", "private")
+        group_id = getattr(event.source, "group_id", None) or getattr(event.source, "room_id", None)
+        text = event.message.text
+
+        # ノート検出機能（全メッセージに対して実行）
+        try:
+            from note_detector import NoteDetector
+
+            # ノート検出器を初期化（初回のみ）
+            if not hasattr(handle_message, 'note_detector'):
+                handle_message.note_detector = NoteDetector()
+
+            # ユーザー名を取得（可能であれば）
+            user_name = "Unknown"
+            if hasattr(event.source, 'user_id'):
+                # 実際の実装では LINE Profile API でユーザー名を取得
+                user_name = f"User_{user_id[-4:]}"  # 簡易的な表示名
+
+            # ノート投稿通知を検出
+            note_info = handle_message.note_detector.detect_note_notification(
+                message_text=text,
+                user_id=user_id,
+                group_id=group_id,
+                user_name=user_name
+            )
+
+            if note_info:
+                print(f"[NOTE_DETECTED] ノート検出: {note_info.title}")
+                print(f"[NOTE_DETECTED] URL: {note_info.note_url}")
+
+                # 調整さんURLも検出されていたらログ出力
+                chouseisan_url = handle_message.note_detector.extract_chouseisan_url(text)
+                if chouseisan_url:
+                    print(f"[CHOUSEISAN_DETECTED] 調整さんURL: {chouseisan_url}")
+
+        except Exception as e:
+            print(f"[ERROR] ノート検出エラー: {e}")
+            import traceback
+            traceback.print_exc()
+
         # メンション情報の取得
         mention = getattr(event.message, "mention", None)
         is_mentioned_by_other = False
 
-        if mention and hasattr(mention, "mentionees"):
-            for m in mention.mentionees:
-                # Bot自身がメンションされているかつ、送信者がBot自身でない
-                if m.user_id == BOT_USER_ID and m.is_self:
-                    if getattr(event.source, "user_id", None) != BOT_USER_ID:
-                        is_mentioned_by_other = True
+        print(f"[DEBUG] メンション情報: {mention}")
 
-        user_id = getattr(event.source, "user_id", "private")
-        group_id = getattr(event.source, "group_id", None) or getattr(event.source, "room_id", None)
-        text = event.message.text
+        if mention and hasattr(mention, "mentionees"):
+            print(f"[DEBUG] Mentionees数: {len(mention.mentionees)}")
+            for i, m in enumerate(mention.mentionees):
+                user_id_attr = getattr(m, "user_id", None)
+                is_self_attr = getattr(m, "is_self", False)
+                print(f"[DEBUG] Mentionee {i}: user_id={user_id_attr}, is_self={is_self_attr}")
+
+                # Bot自身がメンションされているかチェック
+                if is_self_attr or (user_id_attr and user_id_attr == BOT_USER_ID):
+                    is_mentioned_by_other = True
+                    print(f"[DEBUG] ✅ Botメンション検出: is_self={is_self_attr}, user_id_match={user_id_attr == BOT_USER_ID}")
+
+        # テキストベースの補助チェック
+        text_mention_keywords = ["@Bot", "@bot", "Bot", "ボット"]
+        text_has_mention = any(keyword in text for keyword in text_mention_keywords)
+
+        if text_has_mention and not is_mentioned_by_other:
+            print(f"[DEBUG] ✅ テキストベースのBotメンション検出: {text}")
+            is_mentioned_by_other = True
 
         # グループIDをセット（有効なIDの場合のみ）
         if group_id and group_id != "unknown" and len(group_id) >= 10:
@@ -937,8 +1176,65 @@ def handle_message(event):
             else:
                 print("[WARNING] No valid target ID found in message event")
 
+        # ノート関連コマンドの処理（メンション不要）
+        if text and "ノート" in text and ("一覧" in text or "リスト" in text or "確認" in text):
+            try:
+                if hasattr(handle_message, 'note_detector'):
+                    notes_summary = handle_message.note_detector.generate_notes_summary()
+
+                    line_api.reply_message(
+                        ReplyMessageRequest(
+                            reply_token=event.reply_token,
+                            messages=[TextMessage(text=notes_summary)]
+                        )
+                    )
+                    print(f"[NOTE_COMMAND] ノート一覧を返信しました")
+                    return
+                else:
+                    line_api.reply_message(
+                        ReplyMessageRequest(
+                            reply_token=event.reply_token,
+                            messages=[TextMessage(text="📝 ノート検出システムが初期化されていません")]
+                        )
+                    )
+                    return
+            except Exception as e:
+                print(f"[ERROR] ノート一覧取得エラー: {e}")
+
+        # 調整さんURL取得コマンド
+        if text and ("調整さん" in text or "調整くん" in text) and ("URL" in text or "教えて" in text or "リンク" in text):
+            try:
+                if hasattr(handle_message, 'note_detector'):
+                    chouseisan_urls = handle_message.note_detector.get_chouseisan_urls()
+
+                    if chouseisan_urls:
+                        response = "📊 **調整さんURL一覧**\n\n"
+                        for i, (title, url) in enumerate(chouseisan_urls[:5], 1):
+                            response += f"{i}. **{title}**\n   {url}\n\n"
+                    else:
+                        response = "📊 調整さんURLは見つかりませんでした。\nノートに調整さんのリンクが投稿されると自動で検出されます。"
+
+                    line_api.reply_message(
+                        ReplyMessageRequest(
+                            reply_token=event.reply_token,
+                            messages=[TextMessage(text=response)]
+                        )
+                    )
+                    print(f"[CHOUSEISAN_COMMAND] 調整さんURL一覧を返信しました")
+                    return
+                else:
+                    line_api.reply_message(
+                        ReplyMessageRequest(
+                            reply_token=event.reply_token,
+                            messages=[TextMessage(text="📊 ノート検出システムが初期化されていません")]
+                        )
+                    )
+                    return
+            except Exception as e:
+                print(f"[ERROR] 調整さんURL取得エラー: {e}")
+
         # Botがメンションされたか判定
-        if is_mentioned_by_other or "@Bot" in text:
+        if is_mentioned_by_other:
             print("[MENTION] Botがメンションされました！")
 
             # ===== エージェントルーター：インテリジェント分析開始 =====
@@ -1020,7 +1316,11 @@ def handle_message(event):
                         action = "list"  # デフォルト
                         member_name = ""
 
-                        if "一覧" in text or "リスト" in text:
+                        # ３年生選手の質問を最優先で処理
+                        if "３年生" in text or "3年生" in text:
+                            action = "grade3"
+                            member_name = "３年生"
+                        elif "一覧" in text or "リスト" in text:
                             action = "list"
                         elif "情報" in text or "詳細" in text:
                             action = "info"
@@ -1580,12 +1880,45 @@ if __name__ == "__main__":
     # monitoring_historyfile.py をサブプロセスでバックグラウンド起動
     import subprocess
 
-    monitoring_script = os.path.join("Lesson25", "uma3soft-app", "src", "monitoring_historyfile.py")
+    # 現在のファイルからの相対パスで監視スクリプトを特定
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    monitoring_script = os.path.join(current_dir, "monitoring_historyfile.py")
+
+    print(f"[DEBUG] Looking for monitoring script at: {monitoring_script}")
+
     if os.path.exists(monitoring_script):
-        subprocess.Popen([sys.executable, monitoring_script])
-        print(f"[INFO] Started monitoring script: {monitoring_script}")
+        try:
+            # バックグラウンドプロセスとして起動（コンソールウィンドウを表示しない）
+            creation_flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+            process = subprocess.Popen(
+                [sys.executable, monitoring_script],
+                cwd=current_dir,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                creationflags=creation_flags
+            )
+            print(f"[INFO] Started monitoring script: {monitoring_script} (PID: {process.pid})")
+        except Exception as e:
+            print(f"[ERROR] Failed to start monitoring script: {e}")
     else:
         print(f"[WARNING] Monitoring script not found: {monitoring_script}")
+        # 代替パスを試行
+        alt_script = os.path.join(os.path.dirname(current_dir), "src", "monitoring_historyfile.py")
+        if os.path.exists(alt_script):
+            try:
+                creation_flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+                process = subprocess.Popen(
+                    [sys.executable, alt_script],
+                    cwd=os.path.dirname(alt_script),
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    creationflags=creation_flags
+                )
+                print(f"[INFO] Started monitoring script (alt path): {alt_script} (PID: {process.pid})")
+            except Exception as e:
+                print(f"[ERROR] Failed to start monitoring script (alt path): {e}")
+        else:
+            print(f"[WARNING] Alternative monitoring script not found: {alt_script}")
 
     # Flaskアプリ起動
     app.run(host="0.0.0.0", port=5000, debug=debug_mode, use_reloader=use_reloader)

@@ -1,0 +1,170 @@
+{
+  "type": "flex",
+  "altText": "📅 イベント開催のご案内（2日後開催） - 2025年11月01日(土)",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📅 イベント開催のご案内（2日後開催）",
+          "weight": "bold",
+          "size": "md",
+          "color": "#FFFFFF",
+          "wrap": true
+        }
+      ],
+      "backgroundColor": "#42A5F5",
+      "paddingAll": "15px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "md",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📋 イベント情報",
+          "size": "lg",
+          "weight": "bold",
+          "color": "#333333"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📅 日時:",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "2025年11月01日(土)",
+                  "size": "sm",
+                  "color": "#333333",
+                  "flex": 5,
+                  "wrap": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "xs",
+          "contents": [
+            {
+              "type": "text",
+              "text": "• [ノート] 第52回東京都小学生男子ソフトボール秋季大会 【大会日程】 10月25日（土）／26日（日）／予備日・11月1日（土）／2日（日） 【大会会場】 葛飾区柴又野球場 ●調整さん● https://",
+              "size": "sm",
+              "color": "#555555",
+              "wrap": true
+            }
+          ],
+          "backgroundColor": "#F8F9FA",
+          "paddingAll": "12px",
+          "cornerRadius": "8px"
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "text",
+          "text": "🏟️ 会場・天候情報",
+          "size": "lg",
+          "weight": "bold",
+          "color": "#333333",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📍 会場:",
+              "size": "sm",
+              "color": "#666666",
+              "weight": "bold",
+              "flex": 2
+            },
+            {
+              "type": "text",
+              "text": "葛飾区柴又野球場 ●調整さん● https://",
+              "size": "sm",
+              "color": "#333333",
+              "flex": 5,
+              "wrap": true
+            }
+          ]
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "xs",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🌤️ 天候予報",
+              "size": "sm",
+              "weight": "bold",
+              "color": "#666666",
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "xxs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "天気: 🌤️ 過ごしやすい気温です | ☁️ 雨の心配は少なそうです | 気温: 情報なし",
+                  "size": "xs",
+                  "color": "#333333"
+                },
+                {
+                  "type": "text",
+                  "text": "湿度: 情報なし | 風速: 情報なし",
+                  "size": "xs",
+                  "color": "#333333"
+                }
+              ]
+            }
+          ],
+          "backgroundColor": "#E3F2FD",
+          "paddingAll": "10px",
+          "cornerRadius": "6px",
+          "margin": "sm"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "UMA3リマインダー",
+          "size": "xs",
+          "color": "#999999",
+          "align": "center"
+        }
+      ],
+      "paddingAll": "10px"
+    }
+  }
+}

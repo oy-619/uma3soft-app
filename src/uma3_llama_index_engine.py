@@ -62,12 +62,12 @@ except ImportError as e:
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DEFAULT_CHROMA_PERSIST_DIRECTORY = os.path.join(PROJECT_ROOT, "db", "chroma_store")
 
-    # フォールバック クラス定義
-    class Response:
-        def __init__(self, response: str, source_nodes=None, metadata=None):
-            self.response = response
-            self.source_nodes = source_nodes or []
-            self.metadata = metadata or {}
+# フォールバック クラス定義
+class Response:
+    def __init__(self, response: str, source_nodes=None, metadata=None):
+        self.response = response
+        self.source_nodes = source_nodes or []
+        self.metadata = metadata or {}
 
 # LangChain互換性インポート
 try:

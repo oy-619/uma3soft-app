@@ -20,7 +20,7 @@ def test_weather_accuracy_and_display():
 
     try:
         from enhanced_reminder_messages import generate_weather_flex_card
-        from openweather_service import get_weather_for_location
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import get_weather_for_location
 
         # 2025年11月1日のテストイベント
         test_event = {
@@ -116,7 +116,7 @@ def test_weather_accuracy_and_display():
         print("📊 現在の状況:")
 
         # API キー設定確認
-        from openweather_service import OpenWeatherMapService
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import OpenWeatherMapService
         service = OpenWeatherMapService()
 
         if service.api_key == "your_api_key_here":
@@ -152,7 +152,7 @@ def show_weather_data_comparison():
     print("=" * 60)
 
     try:
-        from openweather_service import get_weather_for_location
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import get_weather_for_location
 
         test_locations = [
             ("東京都", "代々木公園"),
@@ -204,3 +204,4 @@ def show_weather_data_comparison():
 if __name__ == "__main__":
     test_weather_accuracy_and_display()
     show_weather_data_comparison()
+

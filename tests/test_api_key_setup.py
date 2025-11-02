@@ -35,7 +35,7 @@ def check_api_key_setup():
 
     # サービスクラスでの読み込み確認
     try:
-        from openweather_service import OpenWeatherMapService
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import OpenWeatherMapService
         service = OpenWeatherMapService()
 
         print(f"\n🔧 サービスクラス確認:")
@@ -53,7 +53,7 @@ def check_api_key_setup():
     # 実際のAPI接続テスト
     print(f"\n🌐 API接続テスト:")
     try:
-        from openweather_service import get_weather_for_location
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import get_weather_for_location
 
         # 東京の現在の天気を取得（実際のAPIを試行）
         weather_data = get_weather_for_location("東京都", "新宿", 0)
@@ -92,7 +92,7 @@ def test_real_api_call():
 
     try:
         import requests
-        from openweather_service import OpenWeatherMapService
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import OpenWeatherMapService
 
         service = OpenWeatherMapService()
 
@@ -145,3 +145,4 @@ def test_real_api_call():
 if __name__ == "__main__":
     check_api_key_setup()
     test_real_api_call()
+

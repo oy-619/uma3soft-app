@@ -100,1109 +100,1195 @@ class WeatherFlexTemplate:
             return self._get_mock_forecast_data(location, target_date)
 
     def _format_current_weather(self, data: Dict) -> Dict:
-        """現在天気データをフォーマット"""
+        """現在天気データを整形"""
+        main = data.get('main', {})
+        weather = data.get('weather', [{}])[0]
+        wind = data.get('wind', {})
+        clouds = data.get('clouds', {})
+        visibility = data.get('visibility', 0)
+
         return {
-            'location': data['name'],
-            'country': data['sys'].get('country', ''),
-            'temperature': round(data['main']['temp']),
-            'feels_like': round(data['main']['feels_like']),
-            'temp_min': round(data['main']['temp_min']),
-            'temp_max': round(data['main']['temp_max']),
-            'humidity': data['main']['humidity'],
-            'pressure': data['main']['pressure'],
-            'description': data['weather'][0]['description'],
-            'main': data['weather'][0]['main'],
-            'icon': data['weather'][0]['icon'],
-            'wind_speed': round(data['wind'].get('speed', 0) * 3.6, 1),  # m/s to km/h
-            'wind_direction': data['wind'].get('deg', 0),
-            'clouds': data['clouds']['all'],
-            'visibility': data.get('visibility', 10000) / 1000,  # meters to km
-            'timestamp': datetime.now()
+            'location': data.get('name', '不明'),
+            'temperature': round(main.get('temp', 0), 1),
+            'description': weather.get('description', '不明'),
+            'humidity': main.get('humidity', 0),
+            'pressure': main.get('pressure', 0),
+            'wind_speed': wind.get('speed', 0),
+            'clouds': clouds.get('all', 0),
+            'visibility': visibility / 1000 if visibility else 0,
+            'temp_max': round(main.get('temp_max', 0), 1),
+            'temp_min': round(main.get('temp_min', 0), 1),
+            'icon': weather.get('icon', '01d')
         }
 
     def _extract_date_forecast(self, data: Dict, target_date: str) -> List[Dict]:
         """指定日付の予報データを抽出"""
-        forecasts = data.get("list", [])
-        result = []
+        forecast_list = []
 
-        for item in forecasts:
-            dt_txt = item["dt_txt"]  # 例: "2025-10-30 09:00:00"
+        for item in data.get('list', []):
+            dt_txt = item.get('dt_txt', '')
             if dt_txt.startswith(target_date):
-                forecast_data = {
-                    "time": dt_txt,
-                    "datetime": datetime.strptime(dt_txt, "%Y-%m-%d %H:%M:%S"),
-                    "weather": item["weather"][0]["description"],
-                    "main": item["weather"][0]["main"],
-                    "icon": item["weather"][0]["icon"],
-                    "temperature": round(item["main"]["temp"]),
-                    "feels_like": round(item["main"]["feels_like"]),
-                    "temp_min": round(item["main"]["temp_min"]),
-                    "temp_max": round(item["main"]["temp_max"]),
-                    "humidity": item["main"]["humidity"],
-                    "pressure": item["main"]["pressure"],
-                    "wind_speed": round(item["wind"].get("speed", 0) * 3.6, 1),  # m/s to km/h
-                    "wind_direction": item["wind"].get("deg", 0),
-                    "clouds": item["clouds"]["all"],
-                    "pop": round(item.get("pop", 0) * 100),  # 降水確率（0〜1 → %）
-                    "rain": item.get("rain", {}).get("3h", 0),  # 3時間降水量
-                    "snow": item.get("snow", {}).get("3h", 0)   # 3時間降雪量
-                }
-                result.append(forecast_data)
+                main = item.get('main', {})
+                weather = item.get('weather', [{}])[0]
+                wind = item.get('wind', {})
+                clouds = item.get('clouds', {})
 
-        return result
+                forecast_list.append({
+                    'time': dt_txt.split(' ')[1][:5],  # HH:MM
+                    'temperature': round(main.get('temp', 0), 1),
+                    'description': weather.get('description', '不明'),
+                    'humidity': main.get('humidity', 0),
+                    'pressure': main.get('pressure', 0),
+                    'wind_speed': wind.get('speed', 0),
+                    'clouds': clouds.get('all', 0),
+                    'pop': item.get('pop', 0) * 100,  # 降水確率
+                    'icon': weather.get('icon', '01d')
+                })
+
+        return forecast_list
+
+    def _get_mock_weather_data(self, location: str) -> Dict:
+        """モック天気データ"""
+        return {
+            'location': location,
+            'temperature': 22.5,
+            'description': '晴れ',
+            'humidity': 65,
+            'pressure': 1013,
+            'wind_speed': 3.2,
+            'clouds': 25,
+            'visibility': 10.0,
+            'temp_max': 25.8,
+            'temp_min': 18.3,
+            'pop': 20,  # 降水確率を追加
+            'icon': '01d'
+        }
+
+    def _get_mock_forecast_data(self, location: str, target_date: str) -> List[Dict]:
+        """モック予報データ"""
+        return [
+            {
+                'time': '09:00',
+                'temperature': 20.5,
+                'description': '晴れ',
+                'humidity': 60,
+                'pressure': 1015,
+                'wind_speed': 2.8,
+                'clouds': 15,
+                'pop': 10,
+                'icon': '01d'
+            },
+            {
+                'time': '15:00',
+                'temperature': 25.2,
+                'description': '晴れ',
+                'humidity': 55,
+                'pressure': 1012,
+                'wind_speed': 3.5,
+                'clouds': 20,
+                'pop': 5,
+                'icon': '01d'
+            },
+            {
+                'time': '21:00',
+                'temperature': 18.7,
+                'description': '晴れ',
+                'humidity': 70,
+                'pressure': 1016,
+                'wind_speed': 2.1,
+                'clouds': 10,
+                'pop': 0,
+                'icon': '01n'
+            }
+        ]
 
     def create_current_weather_flex(self, location: str, custom_title: str = None) -> Dict:
-        """現在の天気情報のFlex Messageを作成"""
+        """現在の天気情報Flex Messageを作成"""
         weather_data = self.get_current_weather(location)
 
         if not weather_data:
             return self._create_error_flex("天気情報の取得に失敗しました")
 
-        title = custom_title or f"🌤 {weather_data['location']}の現在の天気"
-        date_str = weather_data['timestamp'].strftime("%Y年%m月%d日 %H:%M")
-
         return {
-            "type": "flex",
-            "altText": f"{weather_data['location']}の現在の天気情報",
-            "contents": {
-                "type": "bubble",
-                "size": "mega",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "md",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": title,
-                            "weight": "bold",
-                            "size": "xl",
-                            "align": "center",
-                            "wrap": True
-                        },
-                        {
-                            "type": "text",
-                            "text": f"📅 {date_str}",
-                            "size": "sm",
-                            "color": "#888888",
-                            "align": "center"
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "md"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "sm",
-                            "margin": "md",
-                            "contents": [
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "🌤 天気:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": weather_data['description'],
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "🌡️ 気温:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{weather_data['temperature']}℃ (体感: {weather_data['feels_like']}℃)",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "📊 最高/最低:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{weather_data['temp_max']}℃ / {weather_data['temp_min']}℃",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "💧 湿度:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{weather_data['humidity']}%",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "💨 風速:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{weather_data['wind_speed']}km/h (風向: {weather_data['wind_direction']}°)",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "🌫️ 気圧:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{weather_data['pressure']}hPa",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "👁️ 視程:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{weather_data['visibility']}km",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "☁️ 雲量:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{weather_data['clouds']}%",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                }
-                            ]
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "lg"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "sm",
-                            "margin": "lg",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "� 天気アドバイス",
-                                    "size": "md",
-                                    "weight": "bold",
-                                    "color": "#FF8C00",
-                                    "align": "center"
-                                },
-                                {
-                                    "type": "text",
-                                    "text": self._get_weather_advice(weather_data),
-                                    "size": "sm",
-                                    "color": "#666666",
-                                    "align": "center",
-                                    "wrap": True
-                                }
-                            ]
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "md"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "sm",
-                            "margin": "md",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "�💬 参加可否をお知らせください",
-                                    "size": "md",
-                                    "weight": "bold",
-                                    "color": "#0066CC",
-                                    "align": "center"
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "天気を確認して、参加予定をお聞かせください！",
-                                    "size": "sm",
-                                    "color": "#666666",
-                                    "align": "center",
-                                    "wrap": True
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "footer": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "horizontal",
-                            "spacing": "sm",
-                            "contents": [
-                                {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "✅ 参加します",
-                                        "text": "参加します！"
-                                    },
-                                    "style": "primary",
-                                    "color": "#28a745",
-                                    "flex": 1
-                                },
-                                {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "❌ 欠席します",
-                                        "text": "申し訳ありませんが欠席します"
-                                    },
-                                    "style": "secondary",
-                                    "flex": 1
-                                }
-                            ]
-                        },
-                        {
-                            "type": "button",
-                            "action": {
-                                "type": "uri",
-                                "label": "🌐 詳細天気情報を見る",
-                                "uri": "https://openweathermap.org/"
+            "type": "bubble",
+            "header": {
+                "type": "box",
+                "layout": "vertical",
+                "paddingAll": "20px",
+                "backgroundColor": "#0367D3",
+                "spacing": "md",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": f"🌤️ 現在の天気",
+                        "color": "white",
+                        "align": "center",
+                        "size": "xl",
+                        "weight": "bold"
+                    },
+                    {
+                        "type": "text",
+                        "text": f"📍 {weather_data['location']}",
+                        "color": "white",
+                        "align": "center",
+                        "size": "md"
+                    },
+                    {
+                        "type": "text",
+                        "text": datetime.now().strftime("%Y年%m月%d日 %H:%M"),
+                        "color": "white",
+                        "align": "center",
+                        "size": "sm"
+                    }
+                ]
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "paddingAll": "20px",
+                "spacing": "md",
+                "contents": [
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "🌤 天気:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
                             },
-                            "style": "link",
-                            "color": "#1E90FF"
-                        }
-                    ]
-                }
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": str(weather_data['description']),
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "🌡️ 気温:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data['temperature']}°C",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "📊 最高/最低:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data['temp_max']}°C / {weather_data['temp_min']}°C",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "💧 湿度:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data['humidity']}%",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "☔ 降水確率:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data.get('pop', 0)}%",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "💨 風速:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data['wind_speed']} m/s",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "🌫️ 気圧:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data['pressure']} hPa",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "👁️ 視程:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data['visibility']} km",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "☁️ 雲量:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{weather_data['clouds']}%",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "separator",
+                        "margin": "md"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "vertical",
+                        "spacing": "sm",
+                        "margin": "lg",
+                        "contents": [
+                            {
+                                "type": "text",
+                                "text": "🌈 天気アドバイス",
+                                "size": "md",
+                                "weight": "bold",
+                                "color": "#FF8C00",
+                                "align": "center"
+                            },
+                            {
+                                "type": "text",
+                                "text": self._get_weather_advice(weather_data),
+                                "size": "sm",
+                                "color": "#666666",
+                                "align": "center",
+                                "wrap": True
+                            }
+                        ]
+                    }
+                ]
             }
         }
 
     def create_forecast_flex(self, location: str, target_date: str, custom_title: str = None) -> Dict:
-        """指定日付の天気予報Flex Messageを作成"""
-        forecasts = self.get_forecast_by_date(location, target_date)
+        """指定日の天気予報Flex Messageを作成"""
+        forecast_data = self.get_forecast_by_date(location, target_date)
 
-        if not forecasts:
-            return self._create_error_flex(f"{target_date}の天気予報が見つかりませんでした")
+        if not forecast_data:
+            return self._create_error_flex("天気予報の取得に失敗しました")
 
         # 日付をフォーマット
-        date_obj = datetime.strptime(target_date, "%Y-%m-%d")
-        date_str = date_obj.strftime("%Y年%m月%d日")
-        weekday = ["月", "火", "水", "木", "金", "土", "日"][date_obj.weekday()]
+        try:
+            date_obj = datetime.strptime(target_date, "%Y-%m-%d")
+            formatted_date = date_obj.strftime("%Y年%m月%d日")
+        except:
+            formatted_date = target_date
 
-        title = custom_title or f"🌤 {location}の天気予報"
+        body_contents = [
+            {
+                "type": "text",
+                "text": f"📅 {formatted_date}の天気予報",
+                "size": "lg",
+                "weight": "bold",
+                "color": "#333333",
+                "align": "center",
+                "margin": "md"
+            },
+            {
+                "type": "separator",
+                "margin": "md"
+            }
+        ]
 
-        # 代表的な天気情報を取得（昼頃の予報を優先）
-        noon_forecast = None
-        for f in forecasts:
-            hour = f['datetime'].hour
-            if 11 <= hour <= 14:  # 11:00-14:00の予報を優先
-                noon_forecast = f
-                break
+        # 各時間帯の予報を追加
+        for i, forecast in enumerate(forecast_data):
+            if i > 0:
+                body_contents.append({
+                    "type": "separator",
+                    "margin": "md"
+                })
 
-        if not noon_forecast:
-            noon_forecast = forecasts[0]  # なければ最初の予報を使用
-
-        # 気温の範囲を計算
-        temps = [f['temperature'] for f in forecasts]
-        temp_min = min(temps)
-        temp_max = max(temps)
-
-        # 降水確率の最大値
-        pop_max = max([f['pop'] for f in forecasts])
-
-        # アドバイスメッセージを生成
-        advice_message = self._get_weather_advice(noon_forecast, forecasts)
-
-        return {
-            "type": "flex",
-            "altText": f"{date_str}({weekday})の天気予報（{location}）",
-            "contents": {
-                "type": "bubble",
-                "size": "mega",
-                "body": {
+            body_contents.extend([
+                {
                     "type": "box",
                     "layout": "vertical",
-                    "spacing": "md",
+                    "spacing": "sm",
+                    "margin": "md",
                     "contents": [
                         {
                             "type": "text",
-                            "text": title,
+                            "text": f"⏰ {forecast['time']}",
+                            "size": "md",
                             "weight": "bold",
-                            "size": "xl",
-                            "align": "center",
-                            "wrap": True
-                        },
-                        {
-                            "type": "text",
-                            "text": f"📅 日付：{date_str}（{weekday}）",
-                            "size": "sm",
-                            "color": "#888888",
-                            "align": "center"
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "md"
-                        },
+                            "color": "#0367D3"
+                        }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "contents": [
                         {
                             "type": "box",
                             "layout": "vertical",
-                            "spacing": "sm",
-                            "margin": "md",
+                            "flex": 1,
                             "contents": [
                                 {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "🌤 天気:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": noon_forecast['weather'],
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "🌡️ 気温:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{temp_max}℃（最高） / {temp_min}℃（最低）",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "💧 湿度:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{noon_forecast['humidity']}%",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "💨 風速:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{noon_forecast['wind_speed']}km/h (風向: {noon_forecast['wind_direction']}°)",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "☔ 降水確率:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{pop_max}%",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "🌫️ 気圧:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{noon_forecast['pressure']}hPa",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "horizontal",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": "☁️ 雲量:",
-                                            "size": "md",
-                                            "color": "#555555",
-                                            "flex": 0,
-                                            "weight": "bold"
-                                        },
-                                        {
-                                            "type": "text",
-                                            "text": f"{noon_forecast['clouds']}%",
-                                            "size": "md",
-                                            "flex": 0,
-                                            "margin": "sm"
-                                        }
-                                    ]
+                                    "type": "text",
+                                    "text": "🌤 天気:",
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "weight": "bold"
                                 }
                             ]
                         },
                         {
-                            "type": "separator",
-                            "margin": "lg"
-                        },
-                        {
                             "type": "box",
                             "layout": "vertical",
-                            "spacing": "sm",
-                            "margin": "lg",
+                            "flex": 2,
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "� 天気アドバイス",
-                                    "size": "md",
-                                    "weight": "bold",
-                                    "color": "#FF8C00",
-                                    "align": "center"
-                                },
-                                {
-                                    "type": "text",
-                                    "text": advice_message,
+                                    "text": str(forecast['description']),
                                     "size": "sm",
-                                    "color": "#666666",
-                                    "align": "center",
-                                    "wrap": True
-                                }
-                            ]
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "md"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "sm",
-                            "margin": "md",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "�📅 予定確認をお願いします",
-                                    "size": "md",
-                                    "weight": "bold",
-                                    "color": "#0066CC",
-                                    "align": "center"
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "天気予報を確認して、当日の参加可否をお知らせください！",
-                                    "size": "sm",
-                                    "color": "#666666",
-                                    "align": "center",
                                     "wrap": True
                                 }
                             ]
                         }
                     ]
                 },
-                "footer": {
+                {
                     "type": "box",
-                    "layout": "vertical",
+                    "layout": "horizontal",
                     "spacing": "sm",
                     "contents": [
                         {
                             "type": "box",
-                            "layout": "horizontal",
-                            "spacing": "sm",
+                            "layout": "vertical",
+                            "flex": 1,
                             "contents": [
                                 {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "✅ 参加予定",
-                                        "text": "参加予定です！"
-                                    },
-                                    "style": "primary",
-                                    "color": "#28a745",
-                                    "flex": 1
-                                },
-                                {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "🤔 検討中",
-                                        "text": "検討中です"
-                                    },
-                                    "style": "secondary",
-                                    "flex": 1
+                                    "type": "text",
+                                    "text": "🌡️ 気温:",
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "weight": "bold"
                                 }
                             ]
                         },
                         {
                             "type": "box",
-                            "layout": "horizontal",
-                            "spacing": "sm",
+                            "layout": "vertical",
+                            "flex": 2,
                             "contents": [
                                 {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "❌ 欠席予定",
-                                        "text": "申し訳ありませんが欠席予定です"
-                                    },
-                                    "style": "secondary",
-                                    "flex": 1
-                                },
+                                    "type": "text",
+                                    "text": f"{forecast['temperature']}°C",
+                                    "size": "sm",
+                                    "wrap": True
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 1,
+                            "contents": [
                                 {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "uri",
-                                        "label": "🌐 詳細予報",
-                                        "uri": "https://openweathermap.org/"
-                                    },
-                                    "style": "link",
-                                    "color": "#1E90FF",
-                                    "flex": 1
+                                    "type": "text",
+                                    "text": "💧 湿度:",
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "weight": "bold"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 2,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"{forecast['humidity']}%",
+                                    "size": "sm",
+                                    "wrap": True
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 1,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "💨 風速:",
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "weight": "bold"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 2,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"{forecast['wind_speed']} m/s",
+                                    "size": "sm",
+                                    "wrap": True
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 1,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "☔ 降水確率:",
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "weight": "bold"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 2,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"{forecast['pop']:.0f}%",
+                                    "size": "sm",
+                                    "wrap": True
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 1,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "🌫️ 気圧:",
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "weight": "bold"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 2,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"{forecast['pressure']} hPa",
+                                    "size": "sm",
+                                    "wrap": True
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 1,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": "☁️ 雲量:",
+                                    "size": "sm",
+                                    "color": "#666666",
+                                    "weight": "bold"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 2,
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": f"{forecast['clouds']}%",
+                                    "size": "sm",
+                                    "wrap": True
                                 }
                             ]
                         }
                     ]
                 }
+            ])
+
+        # 天気アドバイスを追加
+        body_contents.extend([
+            {
+                "type": "separator",
+                "margin": "lg"
+            },
+            {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "margin": "lg",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "🌈 天気アドバイス",
+                        "size": "md",
+                        "weight": "bold",
+                        "color": "#FF8C00",
+                        "align": "center"
+                    },
+                    {
+                        "type": "text",
+                        "text": self._get_forecast_advice(forecast_data),
+                        "size": "sm",
+                        "color": "#666666",
+                        "align": "center",
+                        "wrap": True
+                    }
+                ]
+            }
+        ])
+
+        return {
+            "type": "bubble",
+            "header": {
+                "type": "box",
+                "layout": "vertical",
+                "paddingAll": "20px",
+                "backgroundColor": "#0367D3",
+                "spacing": "md",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "📅 天気予報",
+                        "color": "white",
+                        "align": "center",
+                        "size": "xl",
+                        "weight": "bold"
+                    },
+                    {
+                        "type": "text",
+                        "text": f"📍 {location}",
+                        "color": "white",
+                        "align": "center",
+                        "size": "md"
+                    }
+                ]
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "paddingAll": "20px",
+                "spacing": "md",
+                "contents": body_contents
             }
         }
 
     def create_detailed_forecast_flex(self, location: str, target_date: str) -> Dict:
-        """指定日付の詳細な時間別天気予報Flex Messageを作成"""
-        forecasts = self.get_forecast_by_date(location, target_date)
+        """詳細天気予報Flex Messageを作成"""
+        forecast_data = self.get_forecast_by_date(location, target_date)
 
-        if not forecasts:
-            return self._create_error_flex(f"{target_date}の天気予報が見つかりませんでした")
+        if not forecast_data:
+            return self._create_error_flex("天気予報の取得に失敗しました")
 
         # 日付をフォーマット
-        date_obj = datetime.strptime(target_date, "%Y-%m-%d")
-        date_str = date_obj.strftime("%Y年%m月%d日")
-        weekday = ["月", "火", "水", "木", "金", "土", "日"][date_obj.weekday()]
+        try:
+            date_obj = datetime.strptime(target_date, "%Y-%m-%d")
+            formatted_date = date_obj.strftime("%Y年%m月%d日")
+            weekday = ["月", "火", "水", "木", "金", "土", "日"][date_obj.weekday()]
+            formatted_date += f"({weekday})"
+        except:
+            formatted_date = target_date
 
-        # 時間別予報のコンテンツを作成
-        time_contents = []
-        for i, forecast in enumerate(forecasts[:8]):  # 最大8個まで表示
-            time_str = forecast['datetime'].strftime("%H:%M")
+        # 統計情報を計算
+        temps = [f['temperature'] for f in forecast_data]
+        humidities = [f['humidity'] for f in forecast_data]
+        pops = [f['pop'] for f in forecast_data]
 
-            time_content = {
+        avg_temp = sum(temps) / len(temps) if temps else 0
+        max_temp = max(temps) if temps else 0
+        min_temp = min(temps) if temps else 0
+        avg_humidity = sum(humidities) / len(humidities) if humidities else 0
+        max_pop = max(pops) if pops else 0
+
+        return {
+            "type": "bubble",
+            "header": {
                 "type": "box",
-                "layout": "horizontal",
-                "spacing": "sm",
+                "layout": "vertical",
+                "paddingAll": "20px",
+                "backgroundColor": "#0367D3",
+                "spacing": "md",
                 "contents": [
                     {
                         "type": "text",
-                        "text": time_str,
-                        "size": "sm",
-                        "color": "#555555",
-                        "flex": 1
+                        "text": "📊 詳細天気予報",
+                        "color": "white",
+                        "align": "center",
+                        "size": "xl",
+                        "weight": "bold"
                     },
                     {
                         "type": "text",
-                        "text": forecast['weather'],
-                        "size": "sm",
-                        "flex": 2
+                        "text": f"📍 {location}",
+                        "color": "white",
+                        "align": "center",
+                        "size": "md"
                     },
                     {
                         "type": "text",
-                        "text": f"{forecast['temperature']}℃",
-                        "size": "sm",
-                        "align": "end",
-                        "flex": 1
+                        "text": formatted_date,
+                        "color": "white",
+                        "align": "center",
+                        "size": "sm"
+                    }
+                ]
+            },
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "paddingAll": "20px",
+                "spacing": "md",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "📈 1日の概要",
+                        "size": "lg",
+                        "weight": "bold",
+                        "color": "#333333",
+                        "margin": "md"
+                    },
+                    {
+                        "type": "separator",
+                        "margin": "md"
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "margin": "md",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "🌡️ 平均気温:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{avg_temp:.1f}°C",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "📊 最高/最低:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{max_temp:.1f}°C / {min_temp:.1f}°C",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "💧 平均湿度:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{avg_humidity:.0f}%",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "spacing": "sm",
+                        "contents": [
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 1,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": "☔ 最大降水確率:",
+                                        "size": "sm",
+                                        "color": "#666666",
+                                        "weight": "bold"
+                                    }
+                                ]
+                            },
+                            {
+                                "type": "box",
+                                "layout": "vertical",
+                                "flex": 2,
+                                "contents": [
+                                    {
+                                        "type": "text",
+                                        "text": f"{max_pop:.0f}%",
+                                        "size": "sm",
+                                        "wrap": True
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "type": "separator",
+                        "margin": "lg"
                     },
                     {
                         "type": "text",
-                        "text": f"{forecast['pop']}%",
-                        "size": "sm",
-                        "align": "end",
-                        "flex": 1,
-                        "color": "#0066CC" if forecast['pop'] > 30 else "#888888"
+                        "text": "⏰ 時間別詳細",
+                        "size": "lg",
+                        "weight": "bold",
+                        "color": "#333333",
+                        "margin": "md"
                     }
                 ]
             }
-            time_contents.append(time_content)
-
-            # 区切り線（最後以外）
-            if i < len(forecasts[:8]) - 1:
-                time_contents.append({
-                    "type": "separator",
-                    "margin": "sm"
-                })
-
-        return {
-            "type": "flex",
-            "altText": f"{date_str}({weekday})の詳細天気予報（{location}）",
-            "contents": {
-                "type": "bubble",
-                "size": "mega",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "md",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": f"🌤 {location}の詳細予報",
-                            "weight": "bold",
-                            "size": "xl",
-                            "align": "center",
-                            "wrap": True
-                        },
-                        {
-                            "type": "text",
-                            "text": f"📅 {date_str}（{weekday}）",
-                            "size": "sm",
-                            "color": "#888888",
-                            "align": "center"
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "md"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "horizontal",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "時刻",
-                                    "size": "sm",
-                                    "color": "#333333",
-                                    "weight": "bold",
-                                    "flex": 1
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "天気",
-                                    "size": "sm",
-                                    "color": "#333333",
-                                    "weight": "bold",
-                                    "flex": 2
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "気温",
-                                    "size": "sm",
-                                    "color": "#333333",
-                                    "weight": "bold",
-                                    "align": "end",
-                                    "flex": 1
-                                },
-                                {
-                                    "type": "text",
-                                    "text": "降水",
-                                    "size": "sm",
-                                    "color": "#333333",
-                                    "weight": "bold",
-                                    "align": "end",
-                                    "flex": 1
-                                }
-                            ]
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "sm"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "xs",
-                            "margin": "sm",
-                            "contents": time_contents
-                        },
-                        {
-                            "type": "separator",
-                            "margin": "lg"
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "spacing": "sm",
-                            "margin": "md",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": "📝 時間別予報を確認して参加をお知らせください",
-                                    "size": "sm",
-                                    "weight": "bold",
-                                    "color": "#0066CC",
-                                    "align": "center",
-                                    "wrap": True
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "footer": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "sm",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "horizontal",
-                            "spacing": "sm",
-                            "contents": [
-                                {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "✅ 参加OK",
-                                        "text": "時間別予報を確認しました。参加します！"
-                                    },
-                                    "style": "primary",
-                                    "color": "#28a745",
-                                    "flex": 1
-                                },
-                                {
-                                    "type": "button",
-                                    "action": {
-                                        "type": "message",
-                                        "label": "❌ 見送り",
-                                        "text": "天気を考慮して見送ります"
-                                    },
-                                    "style": "secondary",
-                                    "flex": 1
-                                }
-                            ]
-                        },
-                        {
-                            "type": "button",
-                            "action": {
-                                "type": "uri",
-                                "label": "🌐 さらに詳細な天気情報",
-                                "uri": "https://openweathermap.org/"
-                            },
-                            "style": "link",
-                            "color": "#1E90FF"
-                        }
-                    ]
-                }
-            }
         }
+
+    def _get_weather_advice(self, weather_data: Dict) -> str:
+        """天気に基づくアドバイスを生成"""
+        temp = weather_data.get('temperature', 0)
+        humidity = weather_data.get('humidity', 0)
+        wind_speed = weather_data.get('wind_speed', 0)
+        description = weather_data.get('description', '')
+
+        advice = []
+
+        # 気温に基づくアドバイス
+        if temp >= 30:
+            advice.append("🌡️ 暑いので水分補給を忘れずに")
+        elif temp >= 25:
+            advice.append("☀️ 暖かい陽気です")
+        elif temp >= 15:
+            advice.append("🌤️ 過ごしやすい気温です")
+        elif temp >= 5:
+            advice.append("🧥 軽めの上着があると良いでしょう")
+        else:
+            advice.append("🧥 防寒対策をしっかりと")
+
+        # 湿度に基づくアドバイス
+        if humidity >= 80:
+            advice.append("💧 湿度が高めです")
+        elif humidity <= 30:
+            advice.append("🌵 乾燥しています、水分補給を")
+
+        # 風速に基づくアドバイス
+        if wind_speed >= 10:
+            advice.append("💨 風が強いのでご注意を")
+
+        # 天気に基づくアドバイス
+        if '雨' in description:
+            advice.append("☔ 雨の予報です、傘をお忘れなく")
+        elif '雪' in description:
+            advice.append("❄️ 雪の予報です、足元にご注意を")
+
+        return "・".join(advice) if advice else "良い天気をお楽しみください！"
+
+    def _get_forecast_advice(self, forecast_data: List[Dict]) -> str:
+        """予報データに基づくアドバイスを生成"""
+        if not forecast_data:
+            return "予報データがありません"
+
+        max_pop = max([f.get('pop', 0) for f in forecast_data])
+        temps = [f.get('temperature', 0) for f in forecast_data]
+        max_temp = max(temps) if temps else 0
+        min_temp = min(temps) if temps else 0
+
+        advice = []
+
+        # 降水確率に基づくアドバイス
+        if max_pop >= 70:
+            advice.append("☔ 雨の可能性が高いです、傘をお持ちください")
+        elif max_pop >= 30:
+            advice.append("🌦️ 雨の可能性があります、折りたたみ傘があると安心")
+
+        # 気温変化に基づくアドバイス
+        temp_diff = max_temp - min_temp
+        if temp_diff >= 10:
+            advice.append("🌡️ 気温差が大きいです、調節しやすい服装を")
+
+        if max_temp >= 30:
+            advice.append("🌡️ 暑くなりそうです、水分補給をお忘れなく")
+        elif min_temp <= 5:
+            advice.append("🧥 冷え込みそうです、暖かい服装を")
+
+        return "・".join(advice) if advice else "快適な一日になりそうです！"
 
     def _create_error_flex(self, error_message: str) -> Dict:
-        """エラー用のFlex Messageを作成"""
+        """エラー用Flex Messageを作成"""
         return {
-            "type": "flex",
-            "altText": "天気情報エラー",
-            "contents": {
-                "type": "bubble",
-                "body": {
-                    "type": "box",
-                    "layout": "vertical",
-                    "contents": [
-                        {
-                            "type": "text",
-                            "text": "⚠️ エラー",
-                            "weight": "bold",
-                            "size": "xl",
-                            "color": "#FF6B6B",
-                            "align": "center"
-                        },
-                        {
-                            "type": "text",
-                            "text": error_message,
-                            "wrap": True,
-                            "margin": "md",
-                            "align": "center"
-                        }
-                    ]
-                }
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "paddingAll": "20px",
+                "spacing": "md",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "❌ エラー",
+                        "size": "xl",
+                        "weight": "bold",
+                        "color": "#FF0000",
+                        "align": "center"
+                    },
+                    {
+                        "type": "text",
+                        "text": error_message,
+                        "size": "md",
+                        "color": "#666666",
+                        "align": "center",
+                        "wrap": True,
+                        "margin": "md"
+                    }
+                ]
             }
         }
 
-    def _get_mock_weather_data(self, location: str) -> Dict:
-        """モックデータ（APIキーが無い場合）"""
-        return {
-            'location': location.split(',')[0],
-            'country': 'JP',
-            'temperature': 21,
-            'feels_like': 20,
-            'temp_min': 14,
-            'temp_max': 25,
-            'humidity': 65,
-            'pressure': 1013,
-            'description': '曇り時々晴れ',
-            'main': 'Clouds',
-            'icon': '03d',
-            'wind_speed': 3.2,
-            'wind_direction': 180,
-            'clouds': 40,
-            'visibility': 10.0,
-            'timestamp': datetime.now()
-        }
-
-    def _get_weather_advice(self, weather_data: Dict, forecast_data: List[Dict] = None) -> str:
-        """天気に応じたアドバイスメッセージを生成"""
-        advice_parts = []
-
-        # 気温に応じたアドバイス
-        temp = weather_data.get('temperature', 20)
-        if temp >= 30:
-            advice_parts.append("🌡️ 暑いです！水分補給と熱中症対策をお忘れなく")
-        elif temp >= 25:
-            advice_parts.append("☀️ 暖かいです。軽装で快適に過ごせそうです")
-        elif temp >= 15:
-            advice_parts.append("🌤️ 過ごしやすい気温です")
-        elif temp >= 10:
-            advice_parts.append("🧥 少し肌寒いです。上着があると良いでしょう")
-        else:
-            advice_parts.append("🧊 寒いです！防寒対策をしっかりと")
-
-        # 降水確率に応じたアドバイス
-        if forecast_data:
-            max_pop = max([f.get('pop', 0) for f in forecast_data])
-        else:
-            max_pop = 0
-
-        if max_pop >= 70:
-            advice_parts.append("☔ 雨の可能性が高いです。傘をお忘れなく！")
-        elif max_pop >= 40:
-            advice_parts.append("🌦️ 雨の可能性があります。念のため傘を持参ください")
-        elif max_pop >= 20:
-            advice_parts.append("☁️ 雨の心配は少なそうです")
-
-        # 風速に応じたアドバイス
-        wind_speed = weather_data.get('wind_speed', 0)
-        if wind_speed >= 15:
-            advice_parts.append("💨 風が強いです。帽子など飛ばされないよう注意してください")
-        elif wind_speed >= 8:
-            advice_parts.append("🍃 やや風があります")
-
-        # 湿度に応じたアドバイス
-        humidity = weather_data.get('humidity', 50)
-        if humidity >= 80:
-            advice_parts.append("💧 湿度が高めです。蒸し暑く感じるかもしれません")
-        elif humidity <= 30:
-            advice_parts.append("🏜️ 乾燥しています。のど飴や保湿対策があると良いでしょう")
-
-        return " | ".join(advice_parts) if advice_parts else "🌤️ 良い天気をお楽しみください！"
-
-    def _get_mock_forecast_data(self, location: str, target_date: str) -> List[Dict]:
-        """モック予報データ（APIキーが無い場合）"""
-        base_date = datetime.strptime(target_date, "%Y-%m-%d")
-        forecasts = []
-
-        for hour in [9, 12, 15, 18, 21]:
-            forecast_time = base_date.replace(hour=hour, minute=0, second=0)
-            forecasts.append({
-                "time": forecast_time.strftime("%Y-%m-%d %H:%M:%S"),
-                "datetime": forecast_time,
-                "weather": "曇り時々晴れ",
-                "main": "Clouds",
-                "icon": "03d",
-                "temperature": 21 + (hour - 12) // 3,  # 時間により気温変化
-                "feels_like": 20 + (hour - 12) // 3,
-                "temp_min": 18,
-                "temp_max": 24,
-                "humidity": 65,
-                "pressure": 1013,
-                "wind_speed": 3.2,
-                "wind_direction": 180,
-                "clouds": 40,
-                "pop": 20,  # 降水確率20%
-                "rain": 0,
-                "snow": 0
-            })
-
-        return forecasts
-# 便利関数
-def create_weather_flex(location: str, date: Optional[str] = None, weather_type: str = "current") -> Dict:
-    """
-    天気情報のFlex Messageを作成する便利関数
-
-    Args:
-        location: 場所
-        date: 日付（YYYY-MM-DD形式、Noneの場合は現在の天気）
-        weather_type: "current", "forecast", "detailed"
-
-    Returns:
-        Dict: Flex Message
-    """
-    template = WeatherFlexTemplate()
-
-    if weather_type == "current" or date is None:
-        return template.create_current_weather_flex(location)
-    elif weather_type == "detailed":
-        return template.create_detailed_forecast_flex(location, date)
-    else:  # forecast
-        return template.create_forecast_flex(location, date)
-
-
+# テスト用の実行部分
 if __name__ == "__main__":
-    # テスト実行
-    print("=== 天気情報Flex Messageテンプレート テスト ===")
-
     template = WeatherFlexTemplate()
 
-    # 1. 現在の天気
-    print("\n1. 現在の天気情報:")
-    current_flex = template.create_current_weather_flex("東京都大田区")
-    print(f"   タイプ: {current_flex['type']}")
-    print(f"   代替テキスト: {current_flex['altText']}")
+    # 現在の天気をテスト
+    current_flex = template.create_current_weather_flex("Tokyo,JP")
+    print("=== 現在の天気 Flex Message ===")
+    print(json.dumps(current_flex, ensure_ascii=False, indent=2))
 
-    # 2. 指定日の天気予報
-    print("\n2. 指定日の天気予報:")
-    target_date = "2025-10-30"
-    forecast_flex = template.create_forecast_flex("Ota,JP", target_date)
-    print(f"   タイプ: {forecast_flex['type']}")
-    print(f"   代替テキスト: {forecast_flex['altText']}")
-
-    # 3. 詳細な時間別予報
-    print("\n3. 詳細な時間別予報:")
-    detailed_flex = template.create_detailed_forecast_flex("Ota,JP", target_date)
-    print(f"   タイプ: {detailed_flex['type']}")
-    print(f"   代替テキスト: {detailed_flex['altText']}")
-
-    print("\n=== テスト完了 ===")
+    # 明日の天気予報をテスト
+    tomorrow = (datetime.now() + timedelta(days=1)).strftime("%Y-%m-%d")
+    forecast_flex = template.create_forecast_flex("Tokyo,JP", tomorrow)
+    print(f"\n=== {tomorrow} 天気予報 Flex Message ===")
+    print(json.dumps(forecast_flex, ensure_ascii=False, indent=2))

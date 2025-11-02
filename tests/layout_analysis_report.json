@@ -1,0 +1,5892 @@
+{
+  "generated_at": "2025-10-31T09:15:28.479632",
+  "total_scenarios": 7,
+  "color_analysis": {
+    "total_colors": 15,
+    "color_usage": {
+      "#FFFFFF": 14,
+      "#FF5722": 2,
+      "#666666": 14,
+      "#333333": 14,
+      "#555555": 14,
+      "#4A5568": 7,
+      "#2D3748": 21,
+      "#718096": 14,
+      "#2B6CB0": 7,
+      "#A0AEC0": 7,
+      "#999999": 7,
+      "#FF9800": 2,
+      "#4CAF50": 2,
+      "#777777": 1,
+      "#2196F3": 1
+    }
+  },
+  "message_patterns": {
+    "緊急系": 3,
+    "確認系": 7,
+    "案内系": 3,
+    "天候系": 7
+  },
+  "detailed_results": [
+    {
+      "scenario": {
+        "name": "本日締切（緊急）",
+        "note": {
+          "content": "東京都小学生男子ソフトボール秋季大会\n場所：東京都立川市総合運動場\n集合時間：17:45（試合開始18:00）\n持ち物：グローブ、バット、飲み物、タオル\n注意事項：雨天の場合は中止\n連絡先：田中太郎",
+          "date": "2025-10-31 09:15:12.918508",
+          "days_until": 0,
+          "is_input_deadline": true
+        },
+        "description": "本日が参加回答期限の緊急案件"
+      },
+      "layout_analysis": {
+        "structure": {
+          "type": "flex",
+          "altText": "【調整さん】📝 参加可否のご回答をお願いします（本日期限） - 2025年10月31日(金)",
+          "bubble_size": "mega",
+          "sections": [
+            {
+              "name": "header",
+              "layout": "vertical",
+              "background_color": "#FF5722",
+              "padding": "20px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "🚨 調整さん確認依頼...",
+                  "size": "lg",
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📝 参加可否のご回答をお願いします（本日期限）...",
+                  "size": "sm",
+                  "color": "#FFFFFF",
+                  "weight": "regular"
+                }
+              ]
+            },
+            {
+              "name": "body",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": null,
+              "elements_count": 19,
+              "text_elements": [
+                {
+                  "text": "🚨 参加・欠席のご回答期限が迫っています...",
+                  "size": "md",
+                  "color": "#FF5722",
+                  "weight": "bold"
+                },
+                {
+                  "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": null
+                },
+                {
+                  "text": "📅...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "2025年10月31日(金)...",
+                  "size": "md",
+                  "color": "#333333",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "東京都立川市総合運動場...",
+                  "size": "sm",
+                  "color": "#333333",
+                  "weight": null
+                },
+                {
+                  "text": "• 集合時間：17:45（試合開始18:00）...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 持ち物：グローブ、バット、飲み物、タオル...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 注意事項：雨天の場合は中止...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "🌤️ 会場の天候予報（参考情報）...",
+                  "size": "sm",
+                  "color": "#4A5568",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "東京都: 15.3°C...",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": null
+                },
+                {
+                  "text": "💧 湿度...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "65%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "☔ 降水確率...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "0%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "💡...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "天候に応じた準備をお願いします...",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "weight": null
+                },
+                {
+                  "text": "※ 天候により変更の可能性があります...",
+                  "size": "xxs",
+                  "color": "#A0AEC0",
+                  "weight": null
+                }
+              ]
+            },
+            {
+              "name": "footer",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": "15px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "⚠️ 入力期限が迫っています...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold"
+                },
+                {
+                  "text": "詳細は個別にご確認ください（田中太郎）...",
+                  "size": "xs",
+                  "color": "#999999",
+                  "weight": null
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [],
+        "fonts": [],
+        "spacing": []
+      },
+      "text_content": {
+        "header_texts": [
+          {
+            "text": "🚨 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "📝 参加可否のご回答をお願いします（本日期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          }
+        ],
+        "body_texts": [
+          {
+            "text": "🚨 参加・欠席のご回答期限が迫っています",
+            "section": "body",
+            "size": "md",
+            "color": "#FF5722",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年10月31日(金)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "東京都立川市総合運動場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 集合時間：17:45（試合開始18:00）",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 持ち物：グローブ、バット、飲み物、タオル",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 注意事項：雨天の場合は中止",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "東京都: 15.3°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "65%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "footer_texts": [
+          {
+            "text": "⚠️ 入力期限が迫っています",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（田中太郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "all_texts": [
+          {
+            "text": "🚨 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "📝 参加可否のご回答をお願いします（本日期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          },
+          {
+            "text": "🚨 参加・欠席のご回答期限が迫っています",
+            "section": "body",
+            "size": "md",
+            "color": "#FF5722",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年10月31日(金)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "東京都立川市総合運動場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 集合時間：17:45（試合開始18:00）",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 持ち物：グローブ、バット、飲み物、タオル",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 注意事項：雨天の場合は中止",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "東京都: 15.3°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "65%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "⚠️ 入力期限が迫っています",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（田中太郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ]
+      },
+      "flex_message": {
+        "type": "flex",
+        "altText": "【調整さん】📝 参加可否のご回答をお願いします（本日期限） - 2025年10月31日(金)",
+        "contents": {
+          "type": "bubble",
+          "size": "mega",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "🚨 調整さん確認依頼",
+                "weight": "bold",
+                "size": "lg",
+                "color": "#FFFFFF",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "📝 参加可否のご回答をお願いします（本日期限）",
+                "weight": "regular",
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": true,
+                "align": "center",
+                "margin": "sm"
+              }
+            ],
+            "backgroundColor": "#FF5722",
+            "paddingAll": "20px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🚨 参加・欠席のご回答期限が迫っています",
+                    "size": "md",
+                    "weight": "bold",
+                    "color": "#FF5722",
+                    "align": "center"
+                  },
+                  {
+                    "type": "text",
+                    "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。",
+                    "size": "sm",
+                    "color": "#666666",
+                    "align": "center",
+                    "wrap": true,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "📅",
+                            "size": "md",
+                            "flex": 1
+                          },
+                          {
+                            "type": "text",
+                            "text": "2025年10月31日(金)",
+                            "size": "md",
+                            "weight": "bold",
+                            "color": "#333333",
+                            "flex": 6
+                          }
+                        ]
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "15px",
+                    "cornerRadius": "8px",
+                    "margin": "md"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "md",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "東京都立川市総合運動場",
+                        "size": "sm",
+                        "color": "#333333",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "12px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "• 集合時間：17:45（試合開始18:00）",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 持ち物：グローブ、バット、飲み物、タオル",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 注意事項：雨天の場合は中止",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#FAFAFA",
+                    "paddingAll": "10px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤️ 会場の天候予報（参考情報）",
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#4A5568"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "東京都: 15.3°C",
+                        "size": "xs",
+                        "color": "#2D3748",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "💧 湿度",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "65%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "☔ 降水確率",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "0%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💡",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "天候に応じた準備をお願いします",
+                        "size": "xs",
+                        "color": "#2B6CB0",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "※ 天候により変更の可能性があります",
+                    "size": "xxs",
+                    "color": "#A0AEC0",
+                    "align": "center",
+                    "margin": "sm"
+                  }
+                ],
+                "backgroundColor": "#F7FAFC",
+                "paddingAll": "12px",
+                "cornerRadius": "6px"
+              }
+            ]
+          },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "⚠️ 入力期限が迫っています",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "詳細は個別にご確認ください（田中太郎）",
+                "size": "xs",
+                "color": "#999999",
+                "align": "center",
+                "margin": "xs"
+              }
+            ],
+            "paddingAll": "15px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "明日締切（警告）",
+        "note": {
+          "content": "神奈川県少年野球リーグ戦\n会場：横浜スタジアム第2球場\n時間：午前9時開始\n持参物：ユニフォーム、スパイク、弁当\n費用：参加費2000円（当日徴収）\n担当：佐藤花子",
+          "date": "2025-11-01 09:15:12.918508",
+          "days_until": 1,
+          "is_input_deadline": true
+        },
+        "description": "明日が期限の参加回答依頼"
+      },
+      "layout_analysis": {
+        "structure": {
+          "type": "flex",
+          "altText": "【調整さん】📝 参加可否のご回答をお願いします（明日期限） - 2025年11月01日(土)",
+          "bubble_size": "mega",
+          "sections": [
+            {
+              "name": "header",
+              "layout": "vertical",
+              "background_color": "#FF5722",
+              "padding": "20px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "🚨 調整さん確認依頼...",
+                  "size": "lg",
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📝 参加可否のご回答をお願いします（明日期限）...",
+                  "size": "sm",
+                  "color": "#FFFFFF",
+                  "weight": "regular"
+                }
+              ]
+            },
+            {
+              "name": "body",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": null,
+              "elements_count": 18,
+              "text_elements": [
+                {
+                  "text": "🚨 参加・欠席のご回答期限が迫っています...",
+                  "size": "md",
+                  "color": "#FF5722",
+                  "weight": "bold"
+                },
+                {
+                  "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": null
+                },
+                {
+                  "text": "📅...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "2025年11月01日(土)...",
+                  "size": "md",
+                  "color": "#333333",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "横浜スタジアム第2球場...",
+                  "size": "sm",
+                  "color": "#333333",
+                  "weight": null
+                },
+                {
+                  "text": "• 時間：午前9時開始...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 費用：参加費2000円（当日徴収）...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "🌤️ 会場の天候予報（参考情報）...",
+                  "size": "sm",
+                  "color": "#4A5568",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "神奈川県: 16.1°C...",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": null
+                },
+                {
+                  "text": "💧 湿度...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "53%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "☔ 降水確率...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "0%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "💡...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "天候に応じた準備をお願いします...",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "weight": null
+                },
+                {
+                  "text": "※ 天候により変更の可能性があります...",
+                  "size": "xxs",
+                  "color": "#A0AEC0",
+                  "weight": null
+                }
+              ]
+            },
+            {
+              "name": "footer",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": "15px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "⚠️ 入力期限が迫っています...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold"
+                },
+                {
+                  "text": "詳細は個別にご確認ください（佐藤花子）...",
+                  "size": "xs",
+                  "color": "#999999",
+                  "weight": null
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [],
+        "fonts": [],
+        "spacing": []
+      },
+      "text_content": {
+        "header_texts": [
+          {
+            "text": "🚨 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "📝 参加可否のご回答をお願いします（明日期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          }
+        ],
+        "body_texts": [
+          {
+            "text": "🚨 参加・欠席のご回答期限が迫っています",
+            "section": "body",
+            "size": "md",
+            "color": "#FF5722",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月01日(土)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "横浜スタジアム第2球場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 時間：午前9時開始",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 費用：参加費2000円（当日徴収）",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "神奈川県: 16.1°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "53%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "footer_texts": [
+          {
+            "text": "⚠️ 入力期限が迫っています",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（佐藤花子）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "all_texts": [
+          {
+            "text": "🚨 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "📝 参加可否のご回答をお願いします（明日期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          },
+          {
+            "text": "🚨 参加・欠席のご回答期限が迫っています",
+            "section": "body",
+            "size": "md",
+            "color": "#FF5722",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月01日(土)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "横浜スタジアム第2球場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 時間：午前9時開始",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 費用：参加費2000円（当日徴収）",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "神奈川県: 16.1°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "53%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "⚠️ 入力期限が迫っています",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（佐藤花子）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ]
+      },
+      "flex_message": {
+        "type": "flex",
+        "altText": "【調整さん】📝 参加可否のご回答をお願いします（明日期限） - 2025年11月01日(土)",
+        "contents": {
+          "type": "bubble",
+          "size": "mega",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "🚨 調整さん確認依頼",
+                "weight": "bold",
+                "size": "lg",
+                "color": "#FFFFFF",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "📝 参加可否のご回答をお願いします（明日期限）",
+                "weight": "regular",
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": true,
+                "align": "center",
+                "margin": "sm"
+              }
+            ],
+            "backgroundColor": "#FF5722",
+            "paddingAll": "20px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🚨 参加・欠席のご回答期限が迫っています",
+                    "size": "md",
+                    "weight": "bold",
+                    "color": "#FF5722",
+                    "align": "center"
+                  },
+                  {
+                    "type": "text",
+                    "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。",
+                    "size": "sm",
+                    "color": "#666666",
+                    "align": "center",
+                    "wrap": true,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "📅",
+                            "size": "md",
+                            "flex": 1
+                          },
+                          {
+                            "type": "text",
+                            "text": "2025年11月01日(土)",
+                            "size": "md",
+                            "weight": "bold",
+                            "color": "#333333",
+                            "flex": 6
+                          }
+                        ]
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "15px",
+                    "cornerRadius": "8px",
+                    "margin": "md"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "md",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "横浜スタジアム第2球場",
+                        "size": "sm",
+                        "color": "#333333",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "12px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "• 時間：午前9時開始",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 費用：参加費2000円（当日徴収）",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#FAFAFA",
+                    "paddingAll": "10px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤️ 会場の天候予報（参考情報）",
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#4A5568"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "神奈川県: 16.1°C",
+                        "size": "xs",
+                        "color": "#2D3748",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "💧 湿度",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "53%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "☔ 降水確率",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "0%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💡",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "天候に応じた準備をお願いします",
+                        "size": "xs",
+                        "color": "#2B6CB0",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "※ 天候により変更の可能性があります",
+                    "size": "xxs",
+                    "color": "#A0AEC0",
+                    "align": "center",
+                    "margin": "sm"
+                  }
+                ],
+                "backgroundColor": "#F7FAFC",
+                "paddingAll": "12px",
+                "cornerRadius": "6px"
+              }
+            ]
+          },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "⚠️ 入力期限が迫っています",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "詳細は個別にご確認ください（佐藤花子）",
+                "size": "xs",
+                "color": "#999999",
+                "align": "center",
+                "margin": "xs"
+              }
+            ],
+            "paddingAll": "15px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "3日後締切（通常）",
+        "note": {
+          "content": "千葉県夏季大会予選\n開催地：千葉市美浜区海浜公園野球場\n集合：午後2時30分\n試合開始：午後3時\n雨天時：翌日同時刻に順延\n問い合わせ：山田次郎",
+          "date": "2025-11-03 09:15:12.918508",
+          "days_until": 3,
+          "is_input_deadline": true
+        },
+        "description": "3日後期限の余裕のある回答依頼"
+      },
+      "layout_analysis": {
+        "structure": {
+          "type": "flex",
+          "altText": "【調整さん】� 参加可否のご回答をお願いします（3日後期限） - 2025年11月03日(月)",
+          "bubble_size": "mega",
+          "sections": [
+            {
+              "name": "header",
+              "layout": "vertical",
+              "background_color": "#FF9800",
+              "padding": "20px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "⏰ 調整さん確認依頼...",
+                  "size": "lg",
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                },
+                {
+                  "text": "� 参加可否のご回答をお願いします（3日後期限）...",
+                  "size": "sm",
+                  "color": "#FFFFFF",
+                  "weight": "regular"
+                }
+              ]
+            },
+            {
+              "name": "body",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": null,
+              "elements_count": 17,
+              "text_elements": [
+                {
+                  "text": "📝 参加・欠席のご回答をお願いします...",
+                  "size": "md",
+                  "color": "#FF9800",
+                  "weight": "bold"
+                },
+                {
+                  "text": "期限まで3日です。ご都合をお聞かせください。...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": null
+                },
+                {
+                  "text": "📅...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "2025年11月03日(月)...",
+                  "size": "md",
+                  "color": "#333333",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "千葉市美浜区海浜公園野球場...",
+                  "size": "sm",
+                  "color": "#333333",
+                  "weight": null
+                },
+                {
+                  "text": "• 集合：午後2時30分...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "🌤️ 会場の天候予報（参考情報）...",
+                  "size": "sm",
+                  "color": "#4A5568",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "千葉県: 15.9°C...",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": null
+                },
+                {
+                  "text": "💧 湿度...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "61%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "☔ 降水確率...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "0%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "💡...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "天候に応じた準備をお願いします...",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "weight": null
+                },
+                {
+                  "text": "※ 天候により変更の可能性があります...",
+                  "size": "xxs",
+                  "color": "#A0AEC0",
+                  "weight": null
+                }
+              ]
+            },
+            {
+              "name": "footer",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": "15px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "🙏 参加可否のご確認をお願いします...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold"
+                },
+                {
+                  "text": "詳細は個別にご確認ください（山田次郎）...",
+                  "size": "xs",
+                  "color": "#999999",
+                  "weight": null
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [],
+        "fonts": [],
+        "spacing": []
+      },
+      "text_content": {
+        "header_texts": [
+          {
+            "text": "⏰ 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "� 参加可否のご回答をお願いします（3日後期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          }
+        ],
+        "body_texts": [
+          {
+            "text": "📝 参加・欠席のご回答をお願いします",
+            "section": "body",
+            "size": "md",
+            "color": "#FF9800",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "期限まで3日です。ご都合をお聞かせください。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月03日(月)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "千葉市美浜区海浜公園野球場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 集合：午後2時30分",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "千葉県: 15.9°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "61%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "footer_texts": [
+          {
+            "text": "🙏 参加可否のご確認をお願いします",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（山田次郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "all_texts": [
+          {
+            "text": "⏰ 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "� 参加可否のご回答をお願いします（3日後期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          },
+          {
+            "text": "📝 参加・欠席のご回答をお願いします",
+            "section": "body",
+            "size": "md",
+            "color": "#FF9800",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "期限まで3日です。ご都合をお聞かせください。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月03日(月)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "千葉市美浜区海浜公園野球場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 集合：午後2時30分",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "千葉県: 15.9°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "61%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "🙏 参加可否のご確認をお願いします",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（山田次郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ]
+      },
+      "flex_message": {
+        "type": "flex",
+        "altText": "【調整さん】� 参加可否のご回答をお願いします（3日後期限） - 2025年11月03日(月)",
+        "contents": {
+          "type": "bubble",
+          "size": "mega",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "⏰ 調整さん確認依頼",
+                "weight": "bold",
+                "size": "lg",
+                "color": "#FFFFFF",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "� 参加可否のご回答をお願いします（3日後期限）",
+                "weight": "regular",
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": true,
+                "align": "center",
+                "margin": "sm"
+              }
+            ],
+            "backgroundColor": "#FF9800",
+            "paddingAll": "20px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "📝 参加・欠席のご回答をお願いします",
+                    "size": "md",
+                    "weight": "bold",
+                    "color": "#FF9800",
+                    "align": "center"
+                  },
+                  {
+                    "type": "text",
+                    "text": "期限まで3日です。ご都合をお聞かせください。",
+                    "size": "sm",
+                    "color": "#666666",
+                    "align": "center",
+                    "wrap": true,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "📅",
+                            "size": "md",
+                            "flex": 1
+                          },
+                          {
+                            "type": "text",
+                            "text": "2025年11月03日(月)",
+                            "size": "md",
+                            "weight": "bold",
+                            "color": "#333333",
+                            "flex": 6
+                          }
+                        ]
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "15px",
+                    "cornerRadius": "8px",
+                    "margin": "md"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "md",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "千葉市美浜区海浜公園野球場",
+                        "size": "sm",
+                        "color": "#333333",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "12px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "• 集合：午後2時30分",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#FAFAFA",
+                    "paddingAll": "10px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤️ 会場の天候予報（参考情報）",
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#4A5568"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "千葉県: 15.9°C",
+                        "size": "xs",
+                        "color": "#2D3748",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "💧 湿度",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "61%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "☔ 降水確率",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "0%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💡",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "天候に応じた準備をお願いします",
+                        "size": "xs",
+                        "color": "#2B6CB0",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "※ 天候により変更の可能性があります",
+                    "size": "xxs",
+                    "color": "#A0AEC0",
+                    "align": "center",
+                    "margin": "sm"
+                  }
+                ],
+                "backgroundColor": "#F7FAFC",
+                "paddingAll": "12px",
+                "cornerRadius": "6px"
+              }
+            ]
+          },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "🙏 参加可否のご確認をお願いします",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "詳細は個別にご確認ください（山田次郎）",
+                "size": "xs",
+                "color": "#999999",
+                "align": "center",
+                "margin": "xs"
+              }
+            ],
+            "paddingAll": "15px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "本日開催（当日）",
+        "note": {
+          "content": "埼玉県親善試合\n場所：さいたま市営球場A面\n時間：10:00〜15:00\n持ち物：ユニフォーム、グローブ、昼食\n注意：駐車場は先着順\n連絡先：鈴木一郎",
+          "date": "2025-10-31 09:15:12.918508",
+          "days_until": 0,
+          "is_input_deadline": false
+        },
+        "description": "本日開催のイベント最終確認"
+      },
+      "layout_analysis": {
+        "structure": {
+          "type": "flex",
+          "altText": "【調整さん】🎯 本日開催予定のイベントについて - 2025年10月31日(金)",
+          "bubble_size": "mega",
+          "sections": [
+            {
+              "name": "header",
+              "layout": "vertical",
+              "background_color": "#4CAF50",
+              "padding": "20px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "📢 調整さん確認依頼...",
+                  "size": "lg",
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                },
+                {
+                  "text": "🎯 本日開催予定のイベントについて...",
+                  "size": "sm",
+                  "color": "#FFFFFF",
+                  "weight": "regular"
+                }
+              ]
+            },
+            {
+              "name": "body",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": null,
+              "elements_count": 19,
+              "text_elements": [
+                {
+                  "text": "🎯 本日開催予定です...",
+                  "size": "md",
+                  "color": "#4CAF50",
+                  "weight": "bold"
+                },
+                {
+                  "text": "最終確認として、参加予定の方は準備をお願いします。...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": null
+                },
+                {
+                  "text": "📅...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "2025年10月31日(金)...",
+                  "size": "md",
+                  "color": "#333333",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "さいたま市営球場A面...",
+                  "size": "sm",
+                  "color": "#333333",
+                  "weight": null
+                },
+                {
+                  "text": "• 時間：10:00〜15:00...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 持ち物：ユニフォーム、グローブ、昼食...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 注意：駐車場は先着順...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "🌤️ 会場の天候予報（参考情報）...",
+                  "size": "sm",
+                  "color": "#4A5568",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "埼玉県: 15.1°C...",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": null
+                },
+                {
+                  "text": "💧 湿度...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "64%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "☔ 降水確率...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "0%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "💡...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "天候に応じた準備をお願いします...",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "weight": null
+                },
+                {
+                  "text": "※ 天候により変更の可能性があります...",
+                  "size": "xxs",
+                  "color": "#A0AEC0",
+                  "weight": null
+                }
+              ]
+            },
+            {
+              "name": "footer",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": "15px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "🎯 本日開催です...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold"
+                },
+                {
+                  "text": "詳細は個別にご確認ください（鈴木一郎）...",
+                  "size": "xs",
+                  "color": "#999999",
+                  "weight": null
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [],
+        "fonts": [],
+        "spacing": []
+      },
+      "text_content": {
+        "header_texts": [
+          {
+            "text": "📢 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "🎯 本日開催予定のイベントについて",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          }
+        ],
+        "body_texts": [
+          {
+            "text": "🎯 本日開催予定です",
+            "section": "body",
+            "size": "md",
+            "color": "#4CAF50",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "最終確認として、参加予定の方は準備をお願いします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年10月31日(金)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "さいたま市営球場A面",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 時間：10:00〜15:00",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 持ち物：ユニフォーム、グローブ、昼食",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 注意：駐車場は先着順",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "埼玉県: 15.1°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "64%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "footer_texts": [
+          {
+            "text": "🎯 本日開催です",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（鈴木一郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "all_texts": [
+          {
+            "text": "📢 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "🎯 本日開催予定のイベントについて",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          },
+          {
+            "text": "🎯 本日開催予定です",
+            "section": "body",
+            "size": "md",
+            "color": "#4CAF50",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "最終確認として、参加予定の方は準備をお願いします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年10月31日(金)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "さいたま市営球場A面",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 時間：10:00〜15:00",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 持ち物：ユニフォーム、グローブ、昼食",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 注意：駐車場は先着順",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "埼玉県: 15.1°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "64%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "🎯 本日開催です",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（鈴木一郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ]
+      },
+      "flex_message": {
+        "type": "flex",
+        "altText": "【調整さん】🎯 本日開催予定のイベントについて - 2025年10月31日(金)",
+        "contents": {
+          "type": "bubble",
+          "size": "mega",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "📢 調整さん確認依頼",
+                "weight": "bold",
+                "size": "lg",
+                "color": "#FFFFFF",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "🎯 本日開催予定のイベントについて",
+                "weight": "regular",
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": true,
+                "align": "center",
+                "margin": "sm"
+              }
+            ],
+            "backgroundColor": "#4CAF50",
+            "paddingAll": "20px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🎯 本日開催予定です",
+                    "size": "md",
+                    "weight": "bold",
+                    "color": "#4CAF50",
+                    "align": "center"
+                  },
+                  {
+                    "type": "text",
+                    "text": "最終確認として、参加予定の方は準備をお願いします。",
+                    "size": "sm",
+                    "color": "#666666",
+                    "align": "center",
+                    "wrap": true,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "📅",
+                            "size": "md",
+                            "flex": 1
+                          },
+                          {
+                            "type": "text",
+                            "text": "2025年10月31日(金)",
+                            "size": "md",
+                            "weight": "bold",
+                            "color": "#333333",
+                            "flex": 6
+                          }
+                        ]
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "15px",
+                    "cornerRadius": "8px",
+                    "margin": "md"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "md",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "さいたま市営球場A面",
+                        "size": "sm",
+                        "color": "#333333",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "12px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "• 時間：10:00〜15:00",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 持ち物：ユニフォーム、グローブ、昼食",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 注意：駐車場は先着順",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#FAFAFA",
+                    "paddingAll": "10px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤️ 会場の天候予報（参考情報）",
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#4A5568"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "埼玉県: 15.1°C",
+                        "size": "xs",
+                        "color": "#2D3748",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "💧 湿度",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "64%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "☔ 降水確率",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "0%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💡",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "天候に応じた準備をお願いします",
+                        "size": "xs",
+                        "color": "#2B6CB0",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "※ 天候により変更の可能性があります",
+                    "size": "xxs",
+                    "color": "#A0AEC0",
+                    "align": "center",
+                    "margin": "sm"
+                  }
+                ],
+                "backgroundColor": "#F7FAFC",
+                "paddingAll": "12px",
+                "cornerRadius": "6px"
+              }
+            ]
+          },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "🎯 本日開催です",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "詳細は個別にご確認ください（鈴木一郎）",
+                "size": "xs",
+                "color": "#999999",
+                "align": "center",
+                "margin": "xs"
+              }
+            ],
+            "paddingAll": "15px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "明日開催（直前）",
+        "note": {
+          "content": "大阪府秋季トーナメント\n会場：大阪ドーム第3グラウンド\n開始：朝8時受付、9時試合開始\n持参：ユニフォーム、道具一式、保険証\n駐車場：有料（1日500円）\n主催：大阪野球連盟",
+          "date": "2025-11-01 09:15:12.918508",
+          "days_until": 1,
+          "is_input_deadline": false
+        },
+        "description": "明日開催の準備確認"
+      },
+      "layout_analysis": {
+        "structure": {
+          "type": "flex",
+          "altText": "【調整さん】🎯 明日開催予定のイベントについて - 2025年11月01日(土)",
+          "bubble_size": "mega",
+          "sections": [
+            {
+              "name": "header",
+              "layout": "vertical",
+              "background_color": "#4CAF50",
+              "padding": "20px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "📢 調整さん確認依頼...",
+                  "size": "lg",
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                },
+                {
+                  "text": "🎯 明日開催予定のイベントについて...",
+                  "size": "sm",
+                  "color": "#FFFFFF",
+                  "weight": "regular"
+                }
+              ]
+            },
+            {
+              "name": "body",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": null,
+              "elements_count": 17,
+              "text_elements": [
+                {
+                  "text": "🎯 明日開催予定です...",
+                  "size": "md",
+                  "color": "#4CAF50",
+                  "weight": "bold"
+                },
+                {
+                  "text": "最終確認として、参加予定の方は準備をお願いします。...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": null
+                },
+                {
+                  "text": "📅...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "2025年11月01日(土)...",
+                  "size": "md",
+                  "color": "#333333",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "大阪ドーム第3グラウンド...",
+                  "size": "sm",
+                  "color": "#333333",
+                  "weight": null
+                },
+                {
+                  "text": "• 大阪府秋季トーナメント...",
+                  "size": "xs",
+                  "color": "#777777",
+                  "weight": null
+                },
+                {
+                  "text": "🌤️ 会場の天候予報（参考情報）...",
+                  "size": "sm",
+                  "color": "#4A5568",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "大阪府: 16.6°C...",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": null
+                },
+                {
+                  "text": "💧 湿度...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "52%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "☔ 降水確率...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "0%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "💡...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "天候に応じた準備をお願いします...",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "weight": null
+                },
+                {
+                  "text": "※ 天候により変更の可能性があります...",
+                  "size": "xxs",
+                  "color": "#A0AEC0",
+                  "weight": null
+                }
+              ]
+            },
+            {
+              "name": "footer",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": "15px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "🎯 明日開催です...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold"
+                },
+                {
+                  "text": "詳細は個別にご確認ください（大阪野球連盟）...",
+                  "size": "xs",
+                  "color": "#999999",
+                  "weight": null
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [],
+        "fonts": [],
+        "spacing": []
+      },
+      "text_content": {
+        "header_texts": [
+          {
+            "text": "📢 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "🎯 明日開催予定のイベントについて",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          }
+        ],
+        "body_texts": [
+          {
+            "text": "🎯 明日開催予定です",
+            "section": "body",
+            "size": "md",
+            "color": "#4CAF50",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "最終確認として、参加予定の方は準備をお願いします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月01日(土)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "大阪ドーム第3グラウンド",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 大阪府秋季トーナメント",
+            "section": "body",
+            "size": "xs",
+            "color": "#777777",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "大阪府: 16.6°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "52%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "footer_texts": [
+          {
+            "text": "🎯 明日開催です",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（大阪野球連盟）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "all_texts": [
+          {
+            "text": "📢 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "🎯 明日開催予定のイベントについて",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          },
+          {
+            "text": "🎯 明日開催予定です",
+            "section": "body",
+            "size": "md",
+            "color": "#4CAF50",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "最終確認として、参加予定の方は準備をお願いします。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月01日(土)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "大阪ドーム第3グラウンド",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 大阪府秋季トーナメント",
+            "section": "body",
+            "size": "xs",
+            "color": "#777777",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "大阪府: 16.6°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "52%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "🎯 明日開催です",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（大阪野球連盟）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ]
+      },
+      "flex_message": {
+        "type": "flex",
+        "altText": "【調整さん】🎯 明日開催予定のイベントについて - 2025年11月01日(土)",
+        "contents": {
+          "type": "bubble",
+          "size": "mega",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "📢 調整さん確認依頼",
+                "weight": "bold",
+                "size": "lg",
+                "color": "#FFFFFF",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "🎯 明日開催予定のイベントについて",
+                "weight": "regular",
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": true,
+                "align": "center",
+                "margin": "sm"
+              }
+            ],
+            "backgroundColor": "#4CAF50",
+            "paddingAll": "20px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🎯 明日開催予定です",
+                    "size": "md",
+                    "weight": "bold",
+                    "color": "#4CAF50",
+                    "align": "center"
+                  },
+                  {
+                    "type": "text",
+                    "text": "最終確認として、参加予定の方は準備をお願いします。",
+                    "size": "sm",
+                    "color": "#666666",
+                    "align": "center",
+                    "wrap": true,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "📅",
+                            "size": "md",
+                            "flex": 1
+                          },
+                          {
+                            "type": "text",
+                            "text": "2025年11月01日(土)",
+                            "size": "md",
+                            "weight": "bold",
+                            "color": "#333333",
+                            "flex": 6
+                          }
+                        ]
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "15px",
+                    "cornerRadius": "8px",
+                    "margin": "md"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "md",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "大阪ドーム第3グラウンド",
+                        "size": "sm",
+                        "color": "#333333",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "12px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "• 大阪府秋季トーナメント",
+                        "size": "xs",
+                        "color": "#777777",
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#FAFAFA",
+                    "paddingAll": "10px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤️ 会場の天候予報（参考情報）",
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#4A5568"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "大阪府: 16.6°C",
+                        "size": "xs",
+                        "color": "#2D3748",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "💧 湿度",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "52%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "☔ 降水確率",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "0%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💡",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "天候に応じた準備をお願いします",
+                        "size": "xs",
+                        "color": "#2B6CB0",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "※ 天候により変更の可能性があります",
+                    "size": "xxs",
+                    "color": "#A0AEC0",
+                    "align": "center",
+                    "margin": "sm"
+                  }
+                ],
+                "backgroundColor": "#F7FAFC",
+                "paddingAll": "12px",
+                "cornerRadius": "6px"
+              }
+            ]
+          },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "🎯 明日開催です",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "詳細は個別にご確認ください（大阪野球連盟）",
+                "size": "xs",
+                "color": "#999999",
+                "align": "center",
+                "margin": "xs"
+              }
+            ],
+            "paddingAll": "15px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "1週間後開催",
+        "note": {
+          "content": "愛知県選手権大会\n場所：名古屋ドーム練習場\n日時：来週土曜日 午後1時〜\n参加費：1人1500円\n締切：今週金曜日まで\n連絡：名古屋野球クラブ事務局",
+          "date": "2025-11-07 09:15:12.918508",
+          "days_until": 7,
+          "is_input_deadline": false
+        },
+        "description": "1週間後開催の余裕のある案内"
+      },
+      "layout_analysis": {
+        "structure": {
+          "type": "flex",
+          "altText": "【調整さん】📅 7日後開催予定のイベントについて - 2025年11月07日(金)",
+          "bubble_size": "mega",
+          "sections": [
+            {
+              "name": "header",
+              "layout": "vertical",
+              "background_color": "#2196F3",
+              "padding": "20px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "📋 調整さん確認依頼...",
+                  "size": "lg",
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📅 7日後開催予定のイベントについて...",
+                  "size": "sm",
+                  "color": "#FFFFFF",
+                  "weight": "regular"
+                }
+              ]
+            },
+            {
+              "name": "body",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": null,
+              "elements_count": 18,
+              "text_elements": [
+                {
+                  "text": "📅 7日後に開催予定です...",
+                  "size": "md",
+                  "color": "#2196F3",
+                  "weight": "bold"
+                },
+                {
+                  "text": "参加可否をまだご回答いただいていない方は、お早めにお知らせください。...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": null
+                },
+                {
+                  "text": "📅...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "2025年11月07日(金)...",
+                  "size": "md",
+                  "color": "#333333",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "名古屋ドーム練習場...",
+                  "size": "sm",
+                  "color": "#333333",
+                  "weight": null
+                },
+                {
+                  "text": "• 締切：今週金曜日まで...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 連絡：名古屋野球クラブ事務局...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "🌤️ 会場の天候予報（参考情報）...",
+                  "size": "sm",
+                  "color": "#4A5568",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "愛知県: 16.6°C...",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": null
+                },
+                {
+                  "text": "💧 湿度...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "66%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "☔ 降水確率...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "0%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "💡...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "天候に応じた準備をお願いします...",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "weight": null
+                },
+                {
+                  "text": "※ 天候により変更の可能性があります...",
+                  "size": "xxs",
+                  "color": "#A0AEC0",
+                  "weight": null
+                }
+              ]
+            },
+            {
+              "name": "footer",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": "15px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "📅 7日後開催予定...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold"
+                },
+                {
+                  "text": "詳細は個別にご確認ください（投稿者）...",
+                  "size": "xs",
+                  "color": "#999999",
+                  "weight": null
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [],
+        "fonts": [],
+        "spacing": []
+      },
+      "text_content": {
+        "header_texts": [
+          {
+            "text": "📋 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "📅 7日後開催予定のイベントについて",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          }
+        ],
+        "body_texts": [
+          {
+            "text": "📅 7日後に開催予定です",
+            "section": "body",
+            "size": "md",
+            "color": "#2196F3",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "参加可否をまだご回答いただいていない方は、お早めにお知らせください。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月07日(金)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "名古屋ドーム練習場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 締切：今週金曜日まで",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 連絡：名古屋野球クラブ事務局",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "愛知県: 16.6°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "66%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "footer_texts": [
+          {
+            "text": "📅 7日後開催予定",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（投稿者）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "all_texts": [
+          {
+            "text": "📋 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "📅 7日後開催予定のイベントについて",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          },
+          {
+            "text": "📅 7日後に開催予定です",
+            "section": "body",
+            "size": "md",
+            "color": "#2196F3",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "参加可否をまだご回答いただいていない方は、お早めにお知らせください。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月07日(金)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "名古屋ドーム練習場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 締切：今週金曜日まで",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 連絡：名古屋野球クラブ事務局",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "愛知県: 16.6°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "66%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅 7日後開催予定",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（投稿者）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ]
+      },
+      "flex_message": {
+        "type": "flex",
+        "altText": "【調整さん】📅 7日後開催予定のイベントについて - 2025年11月07日(金)",
+        "contents": {
+          "type": "bubble",
+          "size": "mega",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "📋 調整さん確認依頼",
+                "weight": "bold",
+                "size": "lg",
+                "color": "#FFFFFF",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "📅 7日後開催予定のイベントについて",
+                "weight": "regular",
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": true,
+                "align": "center",
+                "margin": "sm"
+              }
+            ],
+            "backgroundColor": "#2196F3",
+            "paddingAll": "20px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "📅 7日後に開催予定です",
+                    "size": "md",
+                    "weight": "bold",
+                    "color": "#2196F3",
+                    "align": "center"
+                  },
+                  {
+                    "type": "text",
+                    "text": "参加可否をまだご回答いただいていない方は、お早めにお知らせください。",
+                    "size": "sm",
+                    "color": "#666666",
+                    "align": "center",
+                    "wrap": true,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "📅",
+                            "size": "md",
+                            "flex": 1
+                          },
+                          {
+                            "type": "text",
+                            "text": "2025年11月07日(金)",
+                            "size": "md",
+                            "weight": "bold",
+                            "color": "#333333",
+                            "flex": 6
+                          }
+                        ]
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "15px",
+                    "cornerRadius": "8px",
+                    "margin": "md"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "md",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "名古屋ドーム練習場",
+                        "size": "sm",
+                        "color": "#333333",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "12px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "• 締切：今週金曜日まで",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 連絡：名古屋野球クラブ事務局",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#FAFAFA",
+                    "paddingAll": "10px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤️ 会場の天候予報（参考情報）",
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#4A5568"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "愛知県: 16.6°C",
+                        "size": "xs",
+                        "color": "#2D3748",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "💧 湿度",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "66%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "☔ 降水確率",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "0%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💡",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "天候に応じた準備をお願いします",
+                        "size": "xs",
+                        "color": "#2B6CB0",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "※ 天候により変更の可能性があります",
+                    "size": "xxs",
+                    "color": "#A0AEC0",
+                    "align": "center",
+                    "margin": "sm"
+                  }
+                ],
+                "backgroundColor": "#F7FAFC",
+                "paddingAll": "12px",
+                "cornerRadius": "6px"
+              }
+            ]
+          },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "📅 7日後開催予定",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "詳細は個別にご確認ください（投稿者）",
+                "size": "xs",
+                "color": "#999999",
+                "align": "center",
+                "margin": "xs"
+              }
+            ],
+            "paddingAll": "15px"
+          }
+        }
+      }
+    },
+    {
+      "scenario": {
+        "name": "調整さんURL含む（除外テスト）",
+        "note": {
+          "content": "福岡県春季大会\n場所：福岡ドーム第2球場\n調整さんURL: https://chouseisan.com/s?h=example123\n↑必ずご入力ください\n時間：午前10時集合\n持ち物：ユニフォーム、グローブ\n連絡先：福岡太郎",
+          "date": "2025-11-05 09:15:12.918508",
+          "days_until": 5,
+          "is_input_deadline": true
+        },
+        "description": "調整さん関連情報の除外機能テスト"
+      },
+      "layout_analysis": {
+        "structure": {
+          "type": "flex",
+          "altText": "【調整さん】� 参加可否のご回答をお願いします（5日後期限） - 2025年11月05日(水)",
+          "bubble_size": "mega",
+          "sections": [
+            {
+              "name": "header",
+              "layout": "vertical",
+              "background_color": "#FF9800",
+              "padding": "20px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "⏰ 調整さん確認依頼...",
+                  "size": "lg",
+                  "color": "#FFFFFF",
+                  "weight": "bold"
+                },
+                {
+                  "text": "� 参加可否のご回答をお願いします（5日後期限）...",
+                  "size": "sm",
+                  "color": "#FFFFFF",
+                  "weight": "regular"
+                }
+              ]
+            },
+            {
+              "name": "body",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": null,
+              "elements_count": 19,
+              "text_elements": [
+                {
+                  "text": "📝 参加・欠席のご回答をお願いします...",
+                  "size": "md",
+                  "color": "#FF9800",
+                  "weight": "bold"
+                },
+                {
+                  "text": "期限まで5日です。ご都合をお聞かせください。...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": null
+                },
+                {
+                  "text": "📅...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "2025年11月05日(水)...",
+                  "size": "md",
+                  "color": "#333333",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "md",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "福岡ドーム第2球場...",
+                  "size": "sm",
+                  "color": "#333333",
+                  "weight": null
+                },
+                {
+                  "text": "• 時間：午前10時集合...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 持ち物：ユニフォーム、グローブ...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "• 連絡先：福岡太郎...",
+                  "size": "xs",
+                  "color": "#555555",
+                  "weight": null
+                },
+                {
+                  "text": "🌤️ 会場の天候予報（参考情報）...",
+                  "size": "sm",
+                  "color": "#4A5568",
+                  "weight": "bold"
+                },
+                {
+                  "text": "📍...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "福岡県: 14.7°C...",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": null
+                },
+                {
+                  "text": "💧 湿度...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "66%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "☔ 降水確率...",
+                  "size": "xxs",
+                  "color": "#718096",
+                  "weight": null
+                },
+                {
+                  "text": "0%...",
+                  "size": "xxs",
+                  "color": "#2D3748",
+                  "weight": "bold"
+                },
+                {
+                  "text": "💡...",
+                  "size": "xs",
+                  "color": null,
+                  "weight": null
+                },
+                {
+                  "text": "天候に応じた準備をお願いします...",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "weight": null
+                },
+                {
+                  "text": "※ 天候により変更の可能性があります...",
+                  "size": "xxs",
+                  "color": "#A0AEC0",
+                  "weight": null
+                }
+              ]
+            },
+            {
+              "name": "footer",
+              "layout": "vertical",
+              "background_color": null,
+              "padding": "15px",
+              "elements_count": 2,
+              "text_elements": [
+                {
+                  "text": "🙏 参加可否のご確認をお願いします...",
+                  "size": "sm",
+                  "color": "#666666",
+                  "weight": "bold"
+                },
+                {
+                  "text": "詳細は個別にご確認ください（福岡太郎）...",
+                  "size": "xs",
+                  "color": "#999999",
+                  "weight": null
+                }
+              ]
+            }
+          ]
+        },
+        "colors": [],
+        "fonts": [],
+        "spacing": []
+      },
+      "text_content": {
+        "header_texts": [
+          {
+            "text": "⏰ 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "� 参加可否のご回答をお願いします（5日後期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          }
+        ],
+        "body_texts": [
+          {
+            "text": "📝 参加・欠席のご回答をお願いします",
+            "section": "body",
+            "size": "md",
+            "color": "#FF9800",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "期限まで5日です。ご都合をお聞かせください。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月05日(水)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "福岡ドーム第2球場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 時間：午前10時集合",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 持ち物：ユニフォーム、グローブ",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 連絡先：福岡太郎",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "福岡県: 14.7°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "66%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "footer_texts": [
+          {
+            "text": "🙏 参加可否のご確認をお願いします",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（福岡太郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ],
+        "all_texts": [
+          {
+            "text": "⏰ 調整さん確認依頼",
+            "section": "header",
+            "size": "lg",
+            "color": "#FFFFFF",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "� 参加可否のご回答をお願いします（5日後期限）",
+            "section": "header",
+            "size": "sm",
+            "color": "#FFFFFF",
+            "weight": "regular",
+            "align": "center"
+          },
+          {
+            "text": "📝 参加・欠席のご回答をお願いします",
+            "section": "body",
+            "size": "md",
+            "color": "#FF9800",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "期限まで5日です。ご都合をお聞かせください。",
+            "section": "body",
+            "size": "sm",
+            "color": "#666666",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "📅",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "2025年11月05日(水)",
+            "section": "body",
+            "size": "md",
+            "color": "#333333",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "md",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "福岡ドーム第2球場",
+            "section": "body",
+            "size": "sm",
+            "color": "#333333",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 時間：午前10時集合",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 持ち物：ユニフォーム、グローブ",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "• 連絡先：福岡太郎",
+            "section": "body",
+            "size": "xs",
+            "color": "#555555",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "🌤️ 会場の天候予報（参考情報）",
+            "section": "body",
+            "size": "sm",
+            "color": "#4A5568",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "📍",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "福岡県: 14.7°C",
+            "section": "body",
+            "size": "xs",
+            "color": "#2D3748",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "💧 湿度",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "66%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "☔ 降水確率",
+            "section": "body",
+            "size": "xxs",
+            "color": "#718096",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "0%",
+            "section": "body",
+            "size": "xxs",
+            "color": "#2D3748",
+            "weight": "bold",
+            "align": null
+          },
+          {
+            "text": "💡",
+            "section": "body",
+            "size": "xs",
+            "color": null,
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "天候に応じた準備をお願いします",
+            "section": "body",
+            "size": "xs",
+            "color": "#2B6CB0",
+            "weight": null,
+            "align": null
+          },
+          {
+            "text": "※ 天候により変更の可能性があります",
+            "section": "body",
+            "size": "xxs",
+            "color": "#A0AEC0",
+            "weight": null,
+            "align": "center"
+          },
+          {
+            "text": "🙏 参加可否のご確認をお願いします",
+            "section": "footer",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold",
+            "align": "center"
+          },
+          {
+            "text": "詳細は個別にご確認ください（福岡太郎）",
+            "section": "footer",
+            "size": "xs",
+            "color": "#999999",
+            "weight": null,
+            "align": "center"
+          }
+        ]
+      },
+      "flex_message": {
+        "type": "flex",
+        "altText": "【調整さん】� 参加可否のご回答をお願いします（5日後期限） - 2025年11月05日(水)",
+        "contents": {
+          "type": "bubble",
+          "size": "mega",
+          "header": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "⏰ 調整さん確認依頼",
+                "weight": "bold",
+                "size": "lg",
+                "color": "#FFFFFF",
+                "align": "center"
+              },
+              {
+                "type": "text",
+                "text": "� 参加可否のご回答をお願いします（5日後期限）",
+                "weight": "regular",
+                "size": "sm",
+                "color": "#FFFFFF",
+                "wrap": true,
+                "align": "center",
+                "margin": "sm"
+              }
+            ],
+            "backgroundColor": "#FF9800",
+            "paddingAll": "20px"
+          },
+          "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "lg",
+            "contents": [
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "md",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "📝 参加・欠席のご回答をお願いします",
+                    "size": "md",
+                    "weight": "bold",
+                    "color": "#FF9800",
+                    "align": "center"
+                  },
+                  {
+                    "type": "text",
+                    "text": "期限まで5日です。ご都合をお聞かせください。",
+                    "size": "sm",
+                    "color": "#666666",
+                    "align": "center",
+                    "wrap": true,
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "sm",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "horizontal",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "📅",
+                            "size": "md",
+                            "flex": 1
+                          },
+                          {
+                            "type": "text",
+                            "text": "2025年11月05日(水)",
+                            "size": "md",
+                            "weight": "bold",
+                            "color": "#333333",
+                            "flex": 6
+                          }
+                        ]
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "15px",
+                    "cornerRadius": "8px",
+                    "margin": "md"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "md",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "福岡ドーム第2球場",
+                        "size": "sm",
+                        "color": "#333333",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#F5F5F5",
+                    "paddingAll": "12px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "vertical",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "• 時間：午前10時集合",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 持ち物：ユニフォーム、グローブ",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      },
+                      {
+                        "type": "text",
+                        "text": "• 連絡先：福岡太郎",
+                        "size": "xs",
+                        "color": "#555555",
+                        "wrap": true
+                      }
+                    ],
+                    "backgroundColor": "#FAFAFA",
+                    "paddingAll": "10px",
+                    "cornerRadius": "6px",
+                    "margin": "sm"
+                  }
+                ]
+              },
+              {
+                "type": "separator",
+                "margin": "lg"
+              },
+              {
+                "type": "box",
+                "layout": "vertical",
+                "spacing": "sm",
+                "contents": [
+                  {
+                    "type": "text",
+                    "text": "🌤️ 会場の天候予報（参考情報）",
+                    "size": "sm",
+                    "weight": "bold",
+                    "color": "#4A5568"
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "📍",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "福岡県: 14.7°C",
+                        "size": "xs",
+                        "color": "#2D3748",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "sm",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "💧 湿度",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "66%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "box",
+                        "layout": "vertical",
+                        "flex": 1,
+                        "contents": [
+                          {
+                            "type": "text",
+                            "text": "☔ 降水確率",
+                            "size": "xxs",
+                            "color": "#718096"
+                          },
+                          {
+                            "type": "text",
+                            "text": "0%",
+                            "size": "xxs",
+                            "color": "#2D3748",
+                            "weight": "bold"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "xs",
+                    "margin": "xs",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "text": "💡",
+                        "size": "xs",
+                        "flex": 1
+                      },
+                      {
+                        "type": "text",
+                        "text": "天候に応じた準備をお願いします",
+                        "size": "xs",
+                        "color": "#2B6CB0",
+                        "flex": 6,
+                        "wrap": true
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "text": "※ 天候により変更の可能性があります",
+                    "size": "xxs",
+                    "color": "#A0AEC0",
+                    "align": "center",
+                    "margin": "sm"
+                  }
+                ],
+                "backgroundColor": "#F7FAFC",
+                "paddingAll": "12px",
+                "cornerRadius": "6px"
+              }
+            ]
+          },
+          "footer": {
+            "type": "box",
+            "layout": "vertical",
+            "contents": [
+              {
+                "type": "text",
+                "text": "🙏 参加可否のご確認をお願いします",
+                "size": "sm",
+                "color": "#666666",
+                "align": "center",
+                "weight": "bold"
+              },
+              {
+                "type": "text",
+                "text": "詳細は個別にご確認ください（福岡太郎）",
+                "size": "xs",
+                "color": "#999999",
+                "align": "center",
+                "margin": "xs"
+              }
+            ],
+            "paddingAll": "15px"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,220 @@
+{
+  "type": "flex",
+  "altText": "【調整さん】🎯 明日開催予定のイベントについて - 2025年10月31日(金)",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📢 調整さん確認依頼",
+          "weight": "bold",
+          "size": "lg",
+          "color": "#FFFFFF",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "text": "🎯 明日開催予定のイベントについて",
+          "weight": "regular",
+          "size": "sm",
+          "color": "#FFFFFF",
+          "wrap": true,
+          "align": "center",
+          "margin": "sm"
+        }
+      ],
+      "backgroundColor": "#4CAF50",
+      "paddingAll": "20px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "lg",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🎯 明日開催予定です",
+              "size": "md",
+              "weight": "bold",
+              "color": "#4CAF50",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "最終確認として、参加予定の方は準備をお願いします。",
+              "size": "sm",
+              "color": "#666666",
+              "align": "center",
+              "wrap": true,
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "📅",
+                      "size": "md",
+                      "flex": 1
+                    },
+                    {
+                      "type": "text",
+                      "text": "2025年10月31日(金)",
+                      "size": "md",
+                      "weight": "bold",
+                      "color": "#333333",
+                      "flex": 6
+                    }
+                  ]
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "15px",
+              "cornerRadius": "8px",
+              "margin": "md"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍",
+                  "size": "md",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "萩中公園野球場",
+                  "size": "sm",
+                  "color": "#333333",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "12px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "• 集合時間：13:00",
+                  "size": "xs",
+                  "color": "#555555",
+                  "wrap": true
+                },
+                {
+                  "type": "text",
+                  "text": "• 注意事項：雨天中止の場合あり",
+                  "size": "xs",
+                  "color": "#555555",
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#FAFAFA",
+              "paddingAll": "10px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "xs",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🌤️ 参考：当日の天候予報",
+              "size": "xs",
+              "weight": "bold",
+              "color": "#888888"
+            },
+            {
+              "type": "text",
+              "text": "萩中公園野球場: 天候情報をご確認ください",
+              "size": "xs",
+              "color": "#666666",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "※ 天候により変更の可能性があります",
+              "size": "xxs",
+              "color": "#AAAAAA",
+              "margin": "xs"
+            }
+          ],
+          "backgroundColor": "#F8F9FA",
+          "paddingAll": "8px",
+          "cornerRadius": "4px"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "text",
+              "text": "明日開催",
+              "size": "sm",
+              "color": "#FF6B6B",
+              "weight": "bold",
+              "flex": 1
+            },
+            {
+              "type": "text",
+              "text": "調整さんリマインダー",
+              "size": "xs",
+              "color": "#999999",
+              "align": "end",
+              "flex": 1
+            }
+          ]
+        },
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "message",
+            "label": "📝 了解しました",
+            "text": "了解しました。準備して参加します。"
+          },
+          "margin": "md"
+        }
+      ],
+      "paddingAll": "15px"
+    }
+  }
+}

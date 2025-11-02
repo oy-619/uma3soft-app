@@ -18,7 +18,7 @@ def test_openweather_service():
     print("=== OpenWeatherMap サービステスト ===")
 
     try:
-        from openweather_service import get_weather_for_location
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import get_weather_for_location
 
         test_locations = [
             ("東京都", "代々木公園"),
@@ -236,3 +236,4 @@ if __name__ == "__main__":
     display_summary()
 
     print("\n🏁 全テスト完了")
+

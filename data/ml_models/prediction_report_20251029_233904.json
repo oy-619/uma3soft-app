@@ -1,0 +1,327 @@
+{
+  "analysis_summary": {
+    "total_texts_analyzed": 10,
+    "timestamp": "2025-10-29T23:39:04.836470",
+    "average_confidence": 0.7780000000000001,
+    "min_confidence": 0.76,
+    "max_confidence": 0.78
+  },
+  "category_distribution": {
+    "その他": 10
+  },
+  "cluster_distribution": {
+    "0": 10
+  },
+  "detailed_results": [
+    {
+      "text_id": 0,
+      "input_text": "翔平選手の成績を教えてください",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "翔平選手の成績を教えてください",
+        "timestamp": "2025-10-29T23:39:04.286295"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 15.280246223209451,
+        "all_distances": [
+          15.280246223209451,
+          55.55745759573435,
+          49.796444630878135,
+          41.37954564917803,
+          38.22838182493287
+        ],
+        "input_text": "翔平選手の成績を教えてください",
+        "timestamp": "2025-10-29T23:39:04.579558"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.579558"
+    },
+    {
+      "text_id": 1,
+      "input_text": "Q: 次の練習はいつですか？",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "Q: 次の練習はいつですか？",
+        "timestamp": "2025-10-29T23:39:04.601017"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 14.437099763149877,
+        "all_distances": [
+          14.437099763149877,
+          55.31376006793591,
+          49.52841508170005,
+          41.24730666655602,
+          37.81367377388846
+        ],
+        "input_text": "Q: 次の練習はいつですか？",
+        "timestamp": "2025-10-29T23:39:04.603302"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.603302"
+    },
+    {
+      "text_id": 2,
+      "input_text": "A: 練習は毎週土曜日に実施されます",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "A: 練習は毎週土曜日に実施されます",
+        "timestamp": "2025-10-29T23:39:04.619929"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 18.372569325906284,
+        "all_distances": [
+          18.372569325906284,
+          56.26643925434682,
+          50.614564772960385,
+          42.413054703164846,
+          39.38699740592194
+        ],
+        "input_text": "A: 練習は毎週土曜日に実施されます",
+        "timestamp": "2025-10-29T23:39:04.621941"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.621941"
+    },
+    {
+      "text_id": 3,
+      "input_text": "馬三ソフトは素晴らしいチームです",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "馬三ソフトは素晴らしいチームです",
+        "timestamp": "2025-10-29T23:39:04.640664"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 16.27145819896117,
+        "all_distances": [
+          16.27145819896117,
+          55.78807462176774,
+          50.05978032975669,
+          41.66235309916158,
+          38.611885853600754
+        ],
+        "input_text": "馬三ソフトは素晴らしいチームです",
+        "timestamp": "2025-10-29T23:39:04.641666"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.641666"
+    },
+    {
+      "text_id": 4,
+      "input_text": "試合の結果を報告します",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "試合の結果を報告します",
+        "timestamp": "2025-10-29T23:39:04.659999"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 11.330406906629648,
+        "all_distances": [
+          11.330406906629648,
+          54.80849380692668,
+          48.93419728183044,
+          40.56703609141529,
+          36.834416912465755
+        ],
+        "input_text": "試合の結果を報告します",
+        "timestamp": "2025-10-29T23:39:04.662212"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.662212"
+    },
+    {
+      "text_id": 5,
+      "input_text": "３年生の選手は6名います",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.76,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.14,
+          "チーム情報": 0.76
+        },
+        "input_text": "３年生の選手は6名います",
+        "timestamp": "2025-10-29T23:39:04.684253"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 12.443751387876844,
+        "all_distances": [
+          12.443751387876844,
+          54.91012677495107,
+          49.082178983222974,
+          40.81159650822402,
+          37.18377437021234
+        ],
+        "input_text": "３年生の選手は6名います",
+        "timestamp": "2025-10-29T23:39:04.686320"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.686320"
+    },
+    {
+      "text_id": 6,
+      "input_text": "キャプテンは誰ですか？",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "キャプテンは誰ですか？",
+        "timestamp": "2025-10-29T23:39:04.710384"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 11.326680386145608,
+        "all_distances": [
+          11.326680386145608,
+          54.80633791996963,
+          48.93178257974138,
+          40.56412331181547,
+          36.92358665924555
+        ],
+        "input_text": "キャプテンは誰ですか？",
+        "timestamp": "2025-10-29T23:39:04.712395"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.712395"
+    },
+    {
+      "text_id": 7,
+      "input_text": "練習メニューを確認したい",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "練習メニューを確認したい",
+        "timestamp": "2025-10-29T23:39:04.734965"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 12.314728902758471,
+        "all_distances": [
+          12.314728902758471,
+          54.969529458473865,
+          49.120783507640475,
+          40.7574445331034,
+          37.124692880884275
+        ],
+        "input_text": "練習メニューを確認したい",
+        "timestamp": "2025-10-29T23:39:04.737884"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.737884"
+    },
+    {
+      "text_id": 8,
+      "input_text": "聡太選手は内野手です",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "聡太選手は内野手です",
+        "timestamp": "2025-10-29T23:39:04.765147"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 10.349579133894121,
+        "all_distances": [
+          10.349579133894121,
+          54.66479870072963,
+          48.7668673787767,
+          40.30933465090138,
+          36.661511369004906
+        ],
+        "input_text": "聡太選手は内野手です",
+        "timestamp": "2025-10-29T23:39:04.767848"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.767848"
+    },
+    {
+      "text_id": 9,
+      "input_text": "チームの目標は県大会出場です",
+      "classification": {
+        "predicted_category": "その他",
+        "predicted_label": 4,
+        "confidence": 0.78,
+        "all_probabilities": {
+          "選手情報": 0.04,
+          "質問": 0.06,
+          "回答": 0.12,
+          "チーム情報": 0.78
+        },
+        "input_text": "チームの目標は県大会出場です",
+        "timestamp": "2025-10-29T23:39:04.805682"
+      },
+      "clustering": {
+        "predicted_cluster": 0,
+        "distance_to_center": 14.290258827721514,
+        "all_distances": [
+          14.290258827721514,
+          55.34395106061469,
+          49.55189390011979,
+          41.11911879534383,
+          37.86740847660718
+        ],
+        "input_text": "チームの目標は県大会出場です",
+        "timestamp": "2025-10-29T23:39:04.807694"
+      },
+      "analysis_timestamp": "2025-10-29T23:39:04.807694"
+    }
+  ]
+}

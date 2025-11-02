@@ -1,0 +1,310 @@
+{
+  "type": "flex",
+  "altText": "【調整さん】📝 参加可否のご回答をお願いします（明日期限） - 2025年11月03日(月)",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "🚨 調整さん確認依頼",
+          "weight": "bold",
+          "size": "lg",
+          "color": "#FFFFFF",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "text": "📝 参加可否のご回答をお願いします（明日期限）",
+          "weight": "regular",
+          "size": "sm",
+          "color": "#FFFFFF",
+          "wrap": true,
+          "align": "center",
+          "margin": "sm"
+        }
+      ],
+      "backgroundColor": "#FF5722",
+      "paddingAll": "20px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "lg",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🚨 参加・欠席のご回答期限が迫っています",
+              "size": "md",
+              "weight": "bold",
+              "color": "#FF5722",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "お忙しい中恐れ入りますが、参加可否のご回答をお願いいたします。",
+              "size": "sm",
+              "color": "#666666",
+              "align": "center",
+              "wrap": true,
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "📅",
+                      "size": "md",
+                      "flex": 1
+                    },
+                    {
+                      "type": "text",
+                      "text": "2025年11月03日(月)",
+                      "size": "md",
+                      "weight": "bold",
+                      "color": "#333333",
+                      "flex": 6
+                    }
+                  ]
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "15px",
+              "cornerRadius": "8px",
+              "margin": "md"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📋 イベント詳細",
+                  "size": "sm",
+                  "weight": "bold",
+                  "color": "#4A5568",
+                  "margin": "none"
+                },
+                {
+                  "type": "text",
+                  "text": "横浜市青葉区春季大会\n会場：横浜市青葉区総合運動場野球場\n時間：午後2時開始\n持参：ユニフォーム、スパイク\n費用：1000円\n連絡先：青葉花子",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "wrap": true,
+                  "margin": "sm"
+                }
+              ],
+              "backgroundColor": "#F8F9FA",
+              "paddingAll": "12px",
+              "cornerRadius": "8px",
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍",
+                  "size": "md",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "横浜市青葉区総合運動場野球場",
+                  "size": "sm",
+                  "color": "#333333",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "12px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "⚽ スポーツ向け天候情報",
+              "size": "sm",
+              "weight": "bold",
+              "color": "#4A5568"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍 会場:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "東京都",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "🌡️ 気温:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "16.2°C",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "💧 湿度:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "69%",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "☔ 降水確率:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "0%",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "margin": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "💡",
+                  "size": "xs",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "🧥 少し肌寒いです。ウォーミングアップをしっかり行い、体を温めてから運動開始を",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "※ 天候により変更の可能性があります",
+              "size": "xxs",
+              "color": "#A0AEC0",
+              "align": "center",
+              "margin": "sm"
+            }
+          ],
+          "backgroundColor": "#F7FAFC",
+          "paddingAll": "12px",
+          "cornerRadius": "6px"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "⚠️ 入力期限が迫っています",
+          "size": "sm",
+          "color": "#666666",
+          "align": "center",
+          "weight": "bold"
+        },
+        {
+          "type": "text",
+          "text": "詳細は個別にご確認ください（青葉花子）",
+          "size": "xs",
+          "color": "#999999",
+          "align": "center",
+          "margin": "xs"
+        }
+      ],
+      "paddingAll": "15px"
+    }
+  }
+}

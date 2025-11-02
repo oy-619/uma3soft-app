@@ -20,7 +20,7 @@ def test_november_1st_reminder():
 
     try:
         from enhanced_reminder_messages import generate_weather_flex_card, generate_enhanced_reminder_message
-        from openweather_service import get_weather_for_location
+        import sys; import os; sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src', 'archive')); from openweather_service import get_weather_for_location
 
         # 2025年11月1日のイベント
         event_november_1st = {
@@ -188,3 +188,4 @@ def test_november_1st_reminder():
 
 if __name__ == "__main__":
     test_november_1st_reminder()
+

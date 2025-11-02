@@ -47,17 +47,17 @@ except ImportError as e:
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DEFAULT_CHROMA_PERSIST_DIRECTORY = os.path.join(PROJECT_ROOT, "db", "chroma_store")
 
-    # フォールバック クラス定義
-    class Response:
-        def __init__(self, response: str, source_nodes=None, metadata=None):
-            self.response = response
-            self.source_nodes = source_nodes or []
-            self.metadata = metadata or {}
+# フォールバック クラス定義
+class Response:
+    def __init__(self, response: str, source_nodes=None, metadata=None):
+        self.response = response
+        self.source_nodes = source_nodes or []
+        self.metadata = metadata or {}
 
-    class NodeWithScore:
-        def __init__(self, node, score: float = 0.0):
-            self.node = node
-            self.score = score
+class NodeWithScore:
+    def __init__(self, node, score: float = 0.0):
+        self.node = node
+        self.score = score
 
 # 内部モジュール
 from uma3_llama_index_engine import Uma3LlamaIndexEngine, LlamaIndexLangChainBridge

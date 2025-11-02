@@ -16,6 +16,73 @@ os.environ["TO_USER_ID"] = "C42ebf9338d5017559f0007dd0b52529c"
 # 設定ファイルのパス（実行ディレクトリからの相対パス）
 CONFIG_FILE = os.path.join("Lesson25", "uma3soft-app", "src", "reminder_config.json")
 
+def clean_location_name_for_weather_api(raw_location: str) -> str:
+    """
+    場所名をクリーンアップして天気API用に最適化
+
+    Args:
+        raw_location (str): 生の場所名
+
+    Returns:
+        str: クリーンアップされた場所名
+    """
+    if not raw_location:
+        return "東京都"
+
+    # 都道府県名を抽出
+    prefecture_patterns = [
+        r'(東京都)',
+        r'(神奈川県)',
+        r'(千葉県)',
+        r'(埼玉県)',
+        r'(大阪府)',
+        r'(愛知県)',
+        r'(福岡県)',
+        r'(北海道)',
+        r'([^県都府道]+県)',
+        r'([^県都府道]+府)',
+        r'([^県都府道]+都)'
+    ]
+
+    for pattern in prefecture_patterns:
+        match = re.search(pattern, raw_location)
+        if match:
+            return match.group(1)
+
+    # 主要都市名を抽出
+    city_patterns = [
+        r'(横浜|川崎|相模原)',  # 神奈川
+        r'(千葉|船橋|松戸)',    # 千葉
+        r'(さいたま|川口|所沢)', # 埼玉
+        r'(大阪|堺|東大阪)',    # 大阪
+        r'(名古屋|豊田|岡崎)',  # 愛知
+        r'(福岡|北九州|久留米)', # 福岡
+        r'(札幌|函館|旭川)'     # 北海道
+    ]
+
+    for pattern in city_patterns:
+        match = re.search(pattern, raw_location)
+        if match:
+            city = match.group(1)
+            # 市名に対応する都道府県を返す
+            if city in ['横浜', '川崎', '相模原']:
+                return '神奈川県'
+            elif city in ['千葉', '船橋', '松戸']:
+                return '千葉県'
+            elif city in ['さいたま', '川口', '所沢']:
+                return '埼玉県'
+            elif city in ['大阪', '堺', '東大阪']:
+                return '大阪府'
+            elif city in ['名古屋', '豊田', '岡崎']:
+                return '愛知県'
+            elif city in ['福岡', '北九州', '久留米']:
+                return '福岡県'
+            elif city in ['札幌', '函館', '旭川']:
+                return '北海道'
+
+    # デフォルトは東京都
+    return "東京都"
+
 # デフォルト設定
 DEFAULT_CONFIG = {
     "target_ids": [],
@@ -647,8 +714,13 @@ def create_flex_reminder_message(note):
     """
     try:
         # 天気情報Flex Messageテンプレートシステムとカスタマイザーを使用
-        from src.weather_flex_template import WeatherFlexTemplate
-        from src.reminder_flex_customizer import ReminderFlexCustomizer
+        try:
+            from src.weather_flex_template import WeatherFlexTemplate
+            from src.reminder_flex_customizer import ReminderFlexCustomizer
+        except ImportError:
+            # 直接インポートを試行
+            from weather_flex_template import WeatherFlexTemplate
+            from reminder_flex_customizer import ReminderFlexCustomizer
 
         # 天気情報テンプレート生成器とカスタマイザーを初期化
         weather_template = WeatherFlexTemplate()
@@ -657,6 +729,15 @@ def create_flex_reminder_message(note):
         # ノートからイベント情報を抽出
         event_content = note['content']
         event_date = note["date"]
+
+        # days_untilが存在しない場合は計算する
+        if "days_until" not in note:
+            today = datetime.now().date()
+            note_date = note["date"]
+            if isinstance(note_date, str):
+                note_date = datetime.strptime(note_date, "%Y-%m-%d").date()
+            note["days_until"] = (note_date - today).days
+
         days_until = note["days_until"]
         is_input_deadline = note.get("is_input_deadline", False)
 
@@ -665,18 +746,31 @@ def create_flex_reminder_message(note):
 
         # ノート内容から場所を抽出する試行
         location_patterns = [
+            r'@([^\s\n（）【】]+)',  # @記号の後の場所
             r'場所[：:]\s*([^\n]+)',
             r'会場[：:]\s*([^\n]+)',
             r'開催地[：:]\s*([^\n]+)',
-            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*球場',
-            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*グラウンド',
-            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)'
+            r'(平和島|萩中|ガス橋|馬三小|池雪小|糀谷中|北蒲広場)[^\n]*',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*?[区市町村][^\n]*?球場',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*?[区市町村]'
         ]
 
         for pattern in location_patterns:
             match = re.search(pattern, event_content)
             if match:
-                if pattern.startswith('場所') or pattern.startswith('会場') or pattern.startswith('開催地'):
+                if pattern.startswith('@'):
+                    # @記号の場合は取得したものをそのまま使用
+                    extracted_location = match.group(1).strip()
+                    # 特定の場所名の場合は地域を追加
+                    if any(place in extracted_location for place in ['平和島', '萩中', 'ガス橋']):
+                        location = "東京都大田区"
+                    elif any(place in extracted_location for place in ['馬三小', '池雪小']):
+                        location = "東京都大田区"
+                    elif '糀谷中' in extracted_location:
+                        location = "東京都大田区"
+                    else:
+                        location = f"東京都{extracted_location[:10]}"  # 最大10文字
+                elif pattern.startswith('場所') or pattern.startswith('会場') or pattern.startswith('開催地'):
                     extracted_location = match.group(1).strip()
                     # 場所情報が長すぎる場合は短縮
                     if len(extracted_location) > 30:
@@ -685,12 +779,17 @@ def create_flex_reminder_message(note):
                         if city_match:
                             location = city_match.group(0)
                         else:
-                            location = extracted_location[:20]  # 最大20文字
+                            location = extracted_location[:15]  # 最大15文字
                     else:
                         location = extracted_location
                 else:
-                    location = match.group(0)
-                break        # メッセージタイトルを生成
+                    location = match.group(0)[:15]  # 最大15文字
+                break
+
+        # 場所名をクリーンアップ（天気API用に最適化）
+        location = clean_location_name_for_weather_api(location)
+
+        # メッセージタイトルを生成
         if is_input_deadline:
             if days_until <= 1:
                 title = f"⏰ 入力期限のご案内（{'本日' if days_until == 0 else '明日'}期限）"
@@ -703,7 +802,10 @@ def create_flex_reminder_message(note):
                 title = f"📅 イベント開催のご案内（{days_until}日後開催）"
 
         # 日付文字列を生成
-        date_str = event_date.strftime('%Y-%m-%d')
+        if isinstance(event_date, str):
+            date_str = event_date
+        else:
+            date_str = event_date.strftime('%Y-%m-%d')
 
         # 適切な天気Flex Messageテンプレートを選択
         if days_until == 0:
@@ -744,6 +846,14 @@ def create_flex_reminder_message_basic(note):
     Returns:
         dict: Flex Message形式のメッセージデータ
     """
+    # days_untilが存在しない場合は計算する
+    if "days_until" not in note:
+        today = datetime.now().date()
+        note_date = note["date"]
+        if isinstance(note_date, str):
+            note_date = datetime.strptime(note_date, "%Y-%m-%d").date()
+        note["days_until"] = (note_date - today).days
+
     days_until = note["days_until"]
     is_input_deadline = note.get("is_input_deadline", False)
     date_info = note["date"]
@@ -934,18 +1044,31 @@ def format_single_reminder_message(note, notification_type="standard"):
         # 場所情報を抽出
         location = "東京都"
         location_patterns = [
+            r'@([^\s\n（）【】]+)',  # @記号の後の場所
             r'場所[：:]\s*([^\n]+)',
             r'会場[：:]\s*([^\n]+)',
             r'開催地[：:]\s*([^\n]+)',
-            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*球場',
-            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*グラウンド',
-            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)'
+            r'(平和島|萩中|ガス橋|馬三小|池雪小|糀谷中|北蒲広場)[^\n]*',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*?[区市町村][^\n]*?球場',
+            r'(東京都|神奈川県|千葉県|埼玉県|大阪府|愛知県|福岡県)[^\n]*?[区市町村]'
         ]
 
         for pattern in location_patterns:
             match = re.search(pattern, event_content)
             if match:
-                if pattern.startswith('場所') or pattern.startswith('会場') or pattern.startswith('開催地'):
+                if pattern.startswith('@'):
+                    # @記号の場合は取得したものをそのまま使用
+                    extracted_location = match.group(1).strip()
+                    # 特定の場所名の場合は地域を追加
+                    if any(place in extracted_location for place in ['平和島', '萩中', 'ガス橋']):
+                        location = "東京都大田区"
+                    elif any(place in extracted_location for place in ['馬三小', '池雪小']):
+                        location = "東京都大田区"
+                    elif '糀谷中' in extracted_location:
+                        location = "東京都大田区"
+                    else:
+                        location = f"東京都{extracted_location[:10]}"  # 最大10文字
+                elif pattern.startswith('場所') or pattern.startswith('会場') or pattern.startswith('開催地'):
                     extracted_location = match.group(1).strip()
                     # 場所情報が長すぎる場合は短縮
                     if len(extracted_location) > 30:
@@ -954,11 +1077,11 @@ def format_single_reminder_message(note, notification_type="standard"):
                         if city_match:
                             location = city_match.group(0)
                         else:
-                            location = extracted_location[:20]  # 最大20文字
+                            location = extracted_location[:15]  # 最大15文字
                     else:
                         location = extracted_location
                 else:
-                    location = match.group(0)
+                    location = match.group(0)[:15]  # 最大15文字
                 break        # 基本的な挨拶とメッセージ開始
         current_hour = datetime.now().hour
         if current_hour < 10:

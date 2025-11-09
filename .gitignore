@@ -144,6 +144,20 @@ ENV/
 env.bak/
 venv.bak/
 
+# Environment variables and secrets
+.env.*
+*.env
+*.key
+
+# Railway sensitive files
+.railway/
+railway.toml
+.env.railway
+
+# Gas deployment files with secrets
+gas/deployment/gas_environment_setup.js
+gas/code/Code.gs
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -182,9 +196,9 @@ cython_debug/
 .abstra/
 
 # Visual Studio Code
-#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore 
+#  Visual Studio Code specific template is maintained in a separate VisualStudioCode.gitignore
 #  that can be found at https://github.com/github/gitignore/blob/main/Global/VisualStudioCode.gitignore
-#  and can be added to the global gitignore or merged into this file. However, if you prefer, 
+#  and can be added to the global gitignore or merged into this file. However, if you prefer,
 #  you could uncomment the following to ignore the entire vscode folder
 # .vscode/
 

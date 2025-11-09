@@ -1,0 +1,248 @@
+{
+  "type": "flex",
+  "altText": "【調整さん】� 参加可否のご回答をお願いします（2日後期限） - 2025年11月01日(土)",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "⏰ 調整さん確認依頼",
+          "weight": "bold",
+          "size": "lg",
+          "color": "#FFFFFF",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "text": "� 参加可否のご回答をお願いします（2日後期限）",
+          "weight": "regular",
+          "size": "sm",
+          "color": "#FFFFFF",
+          "wrap": true,
+          "align": "center",
+          "margin": "sm"
+        }
+      ],
+      "backgroundColor": "#FF9800",
+      "paddingAll": "20px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "lg",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📝 参加・欠席のご回答をお願いします",
+              "size": "md",
+              "weight": "bold",
+              "color": "#FF9800",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "期限まで2日です。ご都合をお聞かせください。",
+              "size": "sm",
+              "color": "#666666",
+              "align": "center",
+              "wrap": true,
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "📅",
+                      "size": "md",
+                      "flex": 1
+                    },
+                    {
+                      "type": "text",
+                      "text": "2025年11月01日(土)",
+                      "size": "md",
+                      "weight": "bold",
+                      "color": "#333333",
+                      "flex": 6
+                    }
+                  ]
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "15px",
+              "cornerRadius": "8px",
+              "margin": "md"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍",
+                  "size": "md",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "平和島公園野球場",
+                  "size": "sm",
+                  "color": "#333333",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "12px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "• 時間：9:00集合、9:30試合開始",
+                  "size": "xs",
+                  "color": "#555555",
+                  "wrap": true
+                },
+                {
+                  "type": "text",
+                  "text": "• 持ち物：グローブ、スパイク、帽子、水筒",
+                  "size": "xs",
+                  "color": "#555555",
+                  "wrap": true
+                },
+                {
+                  "type": "text",
+                  "text": "• 費用：参加費500円",
+                  "size": "xs",
+                  "color": "#555555",
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#FAFAFA",
+              "paddingAll": "10px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "xs",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🌤️ 参考：当日の天候予報",
+              "size": "xs",
+              "weight": "bold",
+              "color": "#888888"
+            },
+            {
+              "type": "text",
+              "text": "平和島公園野球場: 天候情報をご確認ください",
+              "size": "xs",
+              "color": "#666666",
+              "wrap": true
+            },
+            {
+              "type": "text",
+              "text": "※ 天候により変更の可能性があります",
+              "size": "xxs",
+              "color": "#AAAAAA",
+              "margin": "xs"
+            }
+          ],
+          "backgroundColor": "#F8F9FA",
+          "paddingAll": "8px",
+          "cornerRadius": "4px"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "🙏 ご回答をお願いします",
+          "size": "sm",
+          "color": "#666666",
+          "align": "center",
+          "margin": "md"
+        },
+        {
+          "type": "box",
+          "layout": "horizontal",
+          "contents": [
+            {
+              "type": "button",
+              "style": "primary",
+              "height": "sm",
+              "action": {
+                "type": "message",
+                "label": "✅ 参加します",
+                "text": "参加します！よろしくお願いします。"
+              },
+              "color": "#4CAF50",
+              "flex": 1
+            },
+            {
+              "type": "separator",
+              "margin": "sm"
+            },
+            {
+              "type": "button",
+              "style": "secondary",
+              "height": "sm",
+              "action": {
+                "type": "message",
+                "label": "❌ 欠席します",
+                "text": "申し訳ありませんが、欠席させていただきます。"
+              },
+              "flex": 1
+            }
+          ],
+          "spacing": "sm",
+          "margin": "md"
+        },
+        {
+          "type": "button",
+          "style": "link",
+          "height": "sm",
+          "action": {
+            "type": "message",
+            "label": "🤔 検討中です",
+            "text": "検討中です。後日必ずご回答いたします。"
+          },
+          "margin": "sm"
+        }
+      ],
+      "paddingAll": "15px"
+    }
+  }
+}

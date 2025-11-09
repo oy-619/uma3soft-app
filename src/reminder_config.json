@@ -1,0 +1,25 @@
+{
+    "target_ids": [
+        "C1234567890abcdef1234567890abcdef"
+    ],
+    "fallback_user_id": "U2b1bb2a638b714727085c7317a3b54a0",
+    "auto_discovery": true,
+    "notification_times": [
+        {
+            "hour": 9,
+            "minute": 35
+        },
+        {
+            "hour": 12,
+            "minute": 30
+        },
+        {
+            "hour": 19,
+            "minute": 0
+        },
+        {
+            "hour": 21,
+            "minute": 0
+        }
+    ]
+}

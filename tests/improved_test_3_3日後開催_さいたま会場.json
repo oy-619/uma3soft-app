@@ -1,0 +1,310 @@
+{
+  "type": "flex",
+  "altText": "【調整さん】📅 3日後開催予定のイベントについて - 2025年11月05日(水)",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📋 調整さん確認依頼",
+          "weight": "bold",
+          "size": "lg",
+          "color": "#FFFFFF",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "text": "📅 3日後開催予定のイベントについて",
+          "weight": "regular",
+          "size": "sm",
+          "color": "#FFFFFF",
+          "wrap": true,
+          "align": "center",
+          "margin": "sm"
+        }
+      ],
+      "backgroundColor": "#2196F3",
+      "paddingAll": "20px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "lg",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "📅 3日後に開催予定です",
+              "size": "md",
+              "weight": "bold",
+              "color": "#2196F3",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "参加可否をまだご回答いただいていない方は、お早めにお知らせください。",
+              "size": "sm",
+              "color": "#666666",
+              "align": "center",
+              "wrap": true,
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "📅",
+                      "size": "md",
+                      "flex": 1
+                    },
+                    {
+                      "type": "text",
+                      "text": "2025年11月05日(水)",
+                      "size": "md",
+                      "weight": "bold",
+                      "color": "#333333",
+                      "flex": 6
+                    }
+                  ]
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "15px",
+              "cornerRadius": "8px",
+              "margin": "md"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📋 イベント詳細",
+                  "size": "sm",
+                  "weight": "bold",
+                  "color": "#4A5568",
+                  "margin": "none"
+                },
+                {
+                  "type": "text",
+                  "text": "さいたま市大宮区秋季リーグ戦\n開催地：さいたま市大宮区営球場A面\n集合：午前10時30分\n試合開始：午前11時\n持ち物：ユニフォーム一式、グローブ、バット\n雨天：中止（延期なし）\n問い合わせ：大宮次郎",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "wrap": true,
+                  "margin": "sm"
+                }
+              ],
+              "backgroundColor": "#F8F9FA",
+              "paddingAll": "12px",
+              "cornerRadius": "8px",
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍",
+                  "size": "md",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "さいたま市大宮区営球場A面",
+                  "size": "sm",
+                  "color": "#333333",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "12px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "⚽ スポーツ向け天候情報",
+              "size": "sm",
+              "weight": "bold",
+              "color": "#4A5568"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍 会場:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "東京都",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "🌡️ 気温:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "16.2°C",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "💧 湿度:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "69%",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "☔ 降水確率:",
+                  "size": "xs",
+                  "color": "#718096",
+                  "flex": 2
+                },
+                {
+                  "type": "text",
+                  "text": "0%",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "weight": "bold",
+                  "flex": 5
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "margin": "sm",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "💡",
+                  "size": "xs",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "🧥 少し肌寒いです。ウォーミングアップをしっかり行い、体を温めてから運動開始を",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "※ 天候により変更の可能性があります",
+              "size": "xxs",
+              "color": "#A0AEC0",
+              "align": "center",
+              "margin": "sm"
+            }
+          ],
+          "backgroundColor": "#F7FAFC",
+          "paddingAll": "12px",
+          "cornerRadius": "6px"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📅 3日後開催予定",
+          "size": "sm",
+          "color": "#666666",
+          "align": "center",
+          "weight": "bold"
+        },
+        {
+          "type": "text",
+          "text": "詳細は個別にご確認ください（大宮次郎）",
+          "size": "xs",
+          "color": "#999999",
+          "align": "center",
+          "margin": "xs"
+        }
+      ],
+      "paddingAll": "15px"
+    }
+  }
+}

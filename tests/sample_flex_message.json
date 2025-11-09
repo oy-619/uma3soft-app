@@ -1,0 +1,109 @@
+{
+  "type": "bubble",
+  "header": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "text",
+        "text": "⏰ 入力期限（明日）",
+        "weight": "bold",
+        "size": "md",
+        "color": "#FFFFFF"
+      }
+    ],
+    "backgroundColor": "#FFA726",
+    "paddingAll": "15px"
+  },
+  "body": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "📅 日時",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold"
+          },
+          {
+            "type": "text",
+            "text": "2025年10月30日(木)",
+            "size": "lg",
+            "weight": "bold",
+            "color": "#FFA726",
+            "margin": "xs"
+          }
+        ],
+        "margin": "none"
+      },
+      {
+        "type": "separator",
+        "margin": "md"
+      },
+      {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "📋 内容",
+            "size": "sm",
+            "color": "#666666",
+            "weight": "bold"
+          },
+          {
+            "type": "text",
+            "text": "野球大会 11/15(土) 13:00-17:00",
+            "size": "md",
+            "wrap": true,
+            "margin": "xs"
+          }
+        ],
+        "margin": "md"
+      },
+      {
+        "type": "text",
+        "text": "場所：総合運動公園\n出欠確認をお願いします",
+        "size": "sm",
+        "color": "#666666",
+        "wrap": true,
+        "margin": "sm"
+      }
+    ],
+    "paddingAll": "15px"
+  },
+  "footer": {
+    "type": "box",
+    "layout": "vertical",
+    "contents": [
+      {
+        "type": "box",
+        "layout": "horizontal",
+        "contents": [
+          {
+            "type": "text",
+            "text": "明日期限",
+            "size": "sm",
+            "color": "#FFA726",
+            "weight": "bold",
+            "flex": 1
+          },
+          {
+            "type": "text",
+            "text": "UMA3リマインダー",
+            "size": "xs",
+            "color": "#999999",
+            "align": "end",
+            "flex": 1
+          }
+        ]
+      }
+    ],
+    "paddingAll": "10px"
+  }
+}

@@ -1,0 +1,281 @@
+{
+  "type": "flex",
+  "altText": "【調整さん】🎯 明日開催予定のイベントについて - 2025年11月01日(土)",
+  "contents": {
+    "type": "bubble",
+    "size": "mega",
+    "header": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "📢 調整さん確認依頼",
+          "weight": "bold",
+          "size": "lg",
+          "color": "#FFFFFF",
+          "align": "center"
+        },
+        {
+          "type": "text",
+          "text": "🎯 明日開催予定のイベントについて",
+          "weight": "regular",
+          "size": "sm",
+          "color": "#FFFFFF",
+          "wrap": true,
+          "align": "center",
+          "margin": "sm"
+        }
+      ],
+      "backgroundColor": "#4CAF50",
+      "paddingAll": "20px"
+    },
+    "body": {
+      "type": "box",
+      "layout": "vertical",
+      "spacing": "lg",
+      "contents": [
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🎯 明日開催予定です",
+              "size": "md",
+              "weight": "bold",
+              "color": "#4CAF50",
+              "align": "center"
+            },
+            {
+              "type": "text",
+              "text": "最終確認として、参加予定の方は準備をお願いします。",
+              "size": "sm",
+              "color": "#666666",
+              "align": "center",
+              "wrap": true,
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "📅",
+                      "size": "md",
+                      "flex": 1
+                    },
+                    {
+                      "type": "text",
+                      "text": "2025年11月01日(土)",
+                      "size": "md",
+                      "weight": "bold",
+                      "color": "#333333",
+                      "flex": 6
+                    }
+                  ]
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "15px",
+              "cornerRadius": "8px",
+              "margin": "md"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍",
+                  "size": "md",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "大阪ドーム第3グラウンド",
+                  "size": "sm",
+                  "color": "#333333",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#F5F5F5",
+              "paddingAll": "12px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "• 大阪府秋季トーナメント",
+                  "size": "xs",
+                  "color": "#777777",
+                  "wrap": true
+                }
+              ],
+              "backgroundColor": "#FAFAFA",
+              "paddingAll": "10px",
+              "cornerRadius": "6px",
+              "margin": "sm"
+            }
+          ]
+        },
+        {
+          "type": "separator",
+          "margin": "lg"
+        },
+        {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "sm",
+          "contents": [
+            {
+              "type": "text",
+              "text": "🌤️ 会場の天候予報（参考情報）",
+              "size": "sm",
+              "weight": "bold",
+              "color": "#4A5568"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "📍",
+                  "size": "xs",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "大阪府: 16.6°C",
+                  "size": "xs",
+                  "color": "#2D3748",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "sm",
+              "margin": "xs",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "flex": 1,
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "💧 湿度",
+                      "size": "xxs",
+                      "color": "#718096"
+                    },
+                    {
+                      "type": "text",
+                      "text": "52%",
+                      "size": "xxs",
+                      "color": "#2D3748",
+                      "weight": "bold"
+                    }
+                  ]
+                },
+                {
+                  "type": "box",
+                  "layout": "vertical",
+                  "flex": 1,
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "☔ 降水確率",
+                      "size": "xxs",
+                      "color": "#718096"
+                    },
+                    {
+                      "type": "text",
+                      "text": "0%",
+                      "size": "xxs",
+                      "color": "#2D3748",
+                      "weight": "bold"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "spacing": "xs",
+              "margin": "xs",
+              "contents": [
+                {
+                  "type": "text",
+                  "text": "💡",
+                  "size": "xs",
+                  "flex": 1
+                },
+                {
+                  "type": "text",
+                  "text": "天候に応じた準備をお願いします",
+                  "size": "xs",
+                  "color": "#2B6CB0",
+                  "flex": 6,
+                  "wrap": true
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "text": "※ 天候により変更の可能性があります",
+              "size": "xxs",
+              "color": "#A0AEC0",
+              "align": "center",
+              "margin": "sm"
+            }
+          ],
+          "backgroundColor": "#F7FAFC",
+          "paddingAll": "12px",
+          "cornerRadius": "6px"
+        }
+      ]
+    },
+    "footer": {
+      "type": "box",
+      "layout": "vertical",
+      "contents": [
+        {
+          "type": "text",
+          "text": "🎯 明日開催です",
+          "size": "sm",
+          "color": "#666666",
+          "align": "center",
+          "weight": "bold"
+        },
+        {
+          "type": "text",
+          "text": "詳細は個別にご確認ください（大阪野球連盟）",
+          "size": "xs",
+          "color": "#999999",
+          "align": "center",
+          "margin": "xs"
+        }
+      ],
+      "paddingAll": "15px"
+    }
+  }
+}

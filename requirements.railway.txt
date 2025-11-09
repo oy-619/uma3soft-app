@@ -1,0 +1,58 @@
+# Railway最適化版 requirements.txt
+# UMA3 LINE Bot用 - 完全機能版
+
+# Core frameworks
+flask==3.0.0
+fastapi==0.116.1
+
+# LangChain core
+langchain==0.3.27
+langchain-community==0.3.29
+langchain-core==0.3.75
+langchain-openai==0.3.3
+langchain-chroma==0.1.4
+langchain-text-splitters==0.3.11
+langchain-huggingface==0.1.0
+
+# AI/ML libraries
+openai==1.81.0
+tiktoken==0.8.0
+
+# Vector database
+chromadb==0.5.23
+
+# LINE Bot SDK
+line-bot-sdk==3.15.0
+
+# Data processing
+pandas==2.2.3
+numpy>=1.26.0,<2.0.0
+
+# Web handling
+requests==2.32.5
+httpx==0.28.1
+
+# Environment & configuration
+python-dotenv==1.1.1
+pydantic==2.11.7
+pydantic-settings==2.10.1
+
+# Async support
+asyncio
+aiohttp==3.12.15
+anyio==4.10.0
+
+# Utilities
+tqdm==4.67.1
+PyYAML==6.0.2
+python-dateutil==2.9.0.post0
+
+# Railway deployment
+gunicorn==21.2.0
+uvicorn==0.25.0
+
+# Additional dependencies for uma3.py
+sentence-transformers==3.2.1
+transformers==4.46.3
+torch==2.5.1
+scikit-learn==1.5.2

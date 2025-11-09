@@ -444,29 +444,40 @@ import sys
 import traceback
 from datetime import datetime, timedelta
 
-# 環境変数の読み込み（ルートディレクトリからの実行を前提）
+# Railway環境対応の環境変数読み込み
 from dotenv import load_dotenv
 
-# .envファイルのパスを設定（ルートディレクトリからの相対パス）
-current_dir = os.getcwd()
-root_dir = current_dir
+# Railway環境検出
+RAILWAY_ENVIRONMENT = os.getenv('RAILWAY_ENVIRONMENT')
+IS_RAILWAY = RAILWAY_ENVIRONMENT == 'production'
 
-# ルートディレクトリかどうかの判定
-if os.path.basename(current_dir) == "src":
-    # srcディレクトリから実行された場合はルートディレクトリに移動
-    root_dir = os.path.join(current_dir, "..", "..", "..")
-    root_dir = os.path.abspath(root_dir)
-    os.chdir(root_dir)
-    print(f"[INFO] Working directory changed to root: {root_dir}")
+print(f"[INIT] Environment: {'Railway' if IS_RAILWAY else 'Local'}")
 
-# .envファイルのパス設定
-env_file_path = os.path.join("Lesson25", "uma3soft-app", ".env")
-if os.path.exists(env_file_path):
-    load_dotenv(env_file_path)
-    print(f"[INFO] Loaded .env from: {env_file_path}")
+if IS_RAILWAY:
+    # Railway環境：環境変数から直接読み込み
+    print("[INFO] Railway environment detected - using environment variables")
+    # Railway では環境変数が自動設定されるため load_dotenv は不要
 else:
-    load_dotenv()  # 通常のロード
-    print("[INFO] Loaded .env from default location")
+    # ローカル環境：.envファイルを探して読み込み
+    current_dir = os.getcwd()
+    root_dir = current_dir
+
+    # ルートディレクトリかどうかの判定
+    if os.path.basename(current_dir) == "src":
+        # srcディレクトリから実行された場合はルートディレクトリに移動
+        root_dir = os.path.join(current_dir, "..", "..", "..")
+        root_dir = os.path.abspath(root_dir)
+        os.chdir(root_dir)
+        print(f"[INFO] Working directory changed to root: {root_dir}")
+
+    # .envファイルのパス設定
+    env_file_path = os.path.join("Lesson25", "uma3soft-app", ".env")
+    if os.path.exists(env_file_path):
+        load_dotenv(env_file_path)
+        print(f"[INFO] Loaded .env from: {env_file_path}")
+    else:
+        load_dotenv()  # 通常のロード
+        print("[INFO] Loaded .env from default location")
 
 # パスの設定（ルートディレクトリからの実行を前提）
 src_path = os.path.join("Lesson25", "uma3soft-app", "src")
@@ -518,17 +529,43 @@ if "OPENAI_API_KEY" not in os.environ:
     print("⚠️ OPENAI_API_KEYの環境変数を設定してください")
     sys.exit(1)
 
-# ChromaDBの保存ディレクトリ定数（絶対パス方式）
-PERSIST_DIRECTORY = os.path.join(PROJECT_ROOT, 'db', 'chroma_store')
-CONVERSATION_DB_PATH = os.path.join(PROJECT_ROOT, 'db', 'conversation_history.db')
+# ChromaDBの保存ディレクトリ設定（Railway対応）
+if IS_RAILWAY:
+    # Railway環境：一時ディレクトリを使用
+    PERSIST_DIRECTORY = os.getenv('PERSIST_DIRECTORY', '/tmp/chroma_store')
+    CONVERSATION_DB_PATH = os.getenv('CONVERSATION_DB_PATH', '/tmp/conversation_history.db')
+    print(f"[RAILWAY] Using temporary storage: {PERSIST_DIRECTORY}")
+else:
+    # ローカル環境：通常のパス
+    PERSIST_DIRECTORY = os.path.join(PROJECT_ROOT, 'db', 'chroma_store')
+    CONVERSATION_DB_PATH = os.path.join(PROJECT_ROOT, 'db', 'conversation_history.db')
+    print(f"[LOCAL] Using persistent storage: {PERSIST_DIRECTORY}")
 
 # BotのユーザーID（環境変数から取得）
 BOT_USER_ID = os.getenv("BOT_USER_ID", "U2b1bb2a638b714727085c7317a3b54a0")
+
+# Railway対応: 応答制御設定（環境変数で制御可能）
+RESPONSE_KEYWORDS = os.getenv('RESPONSE_KEYWORDS', 'ボット,Bot,bot,教えて,質問,どう,何,選手,チーム,馬三ソフト').split(',')
+ALWAYS_RESPOND_DM = os.getenv('ALWAYS_RESPOND_DM', 'true').lower() == 'true'
+REQUIRE_MENTION_IN_GROUP = os.getenv('REQUIRE_MENTION_IN_GROUP', 'false').lower() == 'true'
+
+print(f"[CONFIG] Response keywords: {len(RESPONSE_KEYWORDS)} keywords loaded")
+print(f"[CONFIG] Always respond DM: {ALWAYS_RESPOND_DM}")
+print(f"[CONFIG] Require mention in group: {REQUIRE_MENTION_IN_GROUP}")
 
 # グローバル変数の初期化
 CHAT_HISTORY = []
 
 app = Flask(__name__)
+
+# Railway対応のポート設定
+PORT = int(os.getenv('PORT', 5000))
+DEBUG_MODE = os.getenv('FLASK_DEBUG', 'false').lower() == 'true'
+USE_RELOADER = os.getenv('FLASK_USE_RELOADER', 'false').lower() == 'true'
+
+print(f"[CONFIG] Server port: {PORT}")
+print(f"[CONFIG] Debug mode: {DEBUG_MODE}")
+print(f"[CONFIG] Use reloader: {USE_RELOADER}")
 
 # LINE Bot設定（環境変数から取得）
 ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN")
@@ -610,9 +647,20 @@ os.environ["CHROMA_CLIENT_SETTINGS"] = '{"telemetry": {"enabled": false}}'
 # ChromaDBファイルロック状況の確認（プロセス終了なし）
 chromadb_accessible = check_chromadb_file_locks()
 
-# ChromaDBの安全な初期化
+# ChromaDBの安全な初期化（Railway対応強化版）
 print("[INIT] Initializing ChromaDB...")
 vector_db = None
+
+# Railway環境では一時ディレクトリを強制使用
+if IS_RAILWAY:
+    import tempfile
+    import uuid
+
+    # Railway用の一時ディレクトリを作成
+    temp_base = "/tmp" if os.path.exists("/tmp") else tempfile.gettempdir()
+    PERSIST_DIRECTORY = os.path.join(temp_base, f"uma3_chroma_{uuid.uuid4().hex[:8]}")
+    os.makedirs(PERSIST_DIRECTORY, exist_ok=True)
+    print(f"[RAILWAY] Created temporary ChromaDB directory: {PERSIST_DIRECTORY}")
 
 # 元のディレクトリパスを保存
 original_persist_directory = PERSIST_DIRECTORY
@@ -775,6 +823,60 @@ print("🚀 Server starting on port 5000...")
 print("=" * 80 + "\n")
 
 
+def should_respond_to_message(event, user_message):
+    """
+    Railway対応：メッセージに応答すべきかどうかを判定
+    - ダイレクトメッセージの場合: 設定に基づいて応答
+    - グループチャットの場合: @メンション、設定、またはキーワードで応答
+    """
+    # ダイレクトメッセージかグループチャットかを判定
+    if hasattr(event.source, 'type'):
+        # 1:1チャット（ダイレクトメッセージ）の場合
+        if event.source.type == 'user':
+            if ALWAYS_RESPOND_DM:
+                print("[RESPOND] ダイレクトメッセージのため応答")
+                return True
+            else:
+                # DM でもキーワードチェック
+                if any(keyword.strip() in user_message for keyword in RESPONSE_KEYWORDS):
+                    print("[RESPOND] DMでキーワード検出のため応答")
+                    return True
+                print("[RESPOND] DMでキーワードなし、スキップ")
+                return False
+
+        # グループまたはルームの場合
+        if event.source.type in ['group', 'room']:
+            # 厳格にメンション必須の場合
+            if REQUIRE_MENTION_IN_GROUP:
+                if '@' in user_message:
+                    print("[RESPOND] グループで@メンション検出のため応答")
+                    return True
+                print("[RESPOND] グループで@メンション必須設定、スキップ")
+                return False
+
+            # @マークが含まれている場合（メンション）
+            if '@' in user_message:
+                print("[RESPOND] @メンションがあるため応答")
+                return True
+
+            # 応答キーワードが含まれている場合
+            if any(keyword.strip() in user_message for keyword in RESPONSE_KEYWORDS):
+                print(f"[RESPOND] 応答キーワード検出のため応答: {user_message[:30]}")
+                return True
+
+            print("[RESPOND] グループチャットでメンション・キーワードなし、スキップ")
+            return False
+
+    # source.typeが取得できない場合
+    # この場合も安全にキーワードベースで判定
+    if any(keyword.strip() in user_message for keyword in RESPONSE_KEYWORDS) or '@' in user_message:
+        print("[RESPOND] source.type不明、キーワード/メンション検出で応答")
+        return True
+
+    print("[RESPOND] source.type不明、条件なしのためスキップ")
+    return False
+
+
 def format_message_for_mobile(text):
     """
     スマートフォンで見やすい形式にメッセージを整形する
@@ -918,10 +1020,10 @@ def split_long_message(text, max_length=1000):
 @app.route("/")
 def health_check():
     """
-    アプリケーションの動作確認用エンドポイント。
+    Railway対応：アプリケーションの動作確認用エンドポイント。
 
     Returns:
-        str: アプリケーションの状態
+        dict: アプリケーションの状態
     """
     import datetime
 
@@ -932,12 +1034,59 @@ def health_check():
 
     status_info = {
         "status": "running",
+        "service": "UMA3 LINE Bot",
+        "environment": "Railway" if IS_RAILWAY else "Local",
+        "version": "2.0.0-railway",
         "timestamp": current_time,
         "webhook_url": "/callback",
         "chromadb_path": PERSIST_DIRECTORY,
+        "features": {
+            "chromadb": bool(vector_db),
+            "chroma_improver": bool(chroma_improver),
+            "hybrid_rag": bool(hybrid_rag_engine),
+            "integrated_system": bool(integrated_conversation_system),
+            "agent_router": bool(agent_router)
+        },
+        "config": {
+            "port": PORT,
+            "debug": DEBUG_MODE,
+            "always_respond_dm": ALWAYS_RESPOND_DM,
+            "require_mention_group": REQUIRE_MENTION_IN_GROUP,
+            "response_keywords_count": len(RESPONSE_KEYWORDS)
+        }
     }
 
-    return f"LINE Bot Application is running!\nStatus: {status_info}", 200
+    if IS_RAILWAY:
+        # Railway環境では簡潔な応答
+        return status_info
+    else:
+        # ローカル環境では詳細表示
+        return f"UMA3 LINE Bot Application is running!\nStatus: {status_info}", 200
+
+@app.route("/health")
+def railway_health():
+    """Railway専用ヘルスチェック"""
+    return {"status": "healthy", "service": "UMA3 LINE Bot"}
+
+@app.route("/stats")
+def system_stats():
+    """システム統計情報"""
+    if not IS_RAILWAY:
+        return {"error": "Stats endpoint only available in Railway environment"}, 403
+
+    stats = {
+        "environment": "Railway",
+        "components": {
+            "chromadb": "OK" if vector_db else "FAILED",
+            "agent_router": "OK" if agent_router else "FAILED",
+            "custom_tools": len(custom_tools) if custom_tools else 0
+        },
+        "storage": {
+            "persist_directory": PERSIST_DIRECTORY,
+            "conversation_db": CONVERSATION_DB_PATH
+        }
+    }
+    return stats
 
 
 @app.route("/callback", methods=["POST"])
@@ -1137,6 +1286,19 @@ def handle_message(event):
             print(f"[ERROR] ノート検出エラー: {e}")
             import traceback
             traceback.print_exc()
+
+        # Railway対応：応答判定チェック
+        if not should_respond_to_message(event, text):
+            # 応答しない場合も履歴には保存
+            try:
+                integrated_conversation_system.history_manager.save_conversation(
+                    user_id, text, "",  # 応答なしなので空文字
+                    metadata={"source": "line_message_no_response", "no_response": True}
+                )
+                print(f"[HISTORY] Saved user message to conversation history (no response)")
+            except Exception as e:
+                print(f"[WARNING] Failed to save to conversation history: {e}")
+            return
 
         # メンション情報の取得
         mention = getattr(event.message, "mention", None)
@@ -1843,82 +2005,72 @@ def get_next_note_for_reminder():
 
 
 if __name__ == "__main__":
-    print("Starting Flask application...")
-    print(f"Access token: {ACCESS_TOKEN[:20]}...")
-    print(f"Channel secret: {CHANNEL_SECRET[:10]}...")
-    print("Webhook endpoint: http://localhost:5000/callback")
-    print("Health check endpoint: http://localhost:5000/")
-    print("Flask app is now ready to receive requests!")
+    print("=" * 80)
+    print("🚀 UMA3 LINE BOT - Railway対応版 起動中")
+    print("=" * 80)
+    print(f"🌍 Environment: {'Railway Production' if IS_RAILWAY else 'Local Development'}")
+    print(f"🔧 Port: {PORT}")
+    print(f"📊 System Status:")
+    print(f"   ✅ ChromaDB: {'OK' if vector_db else 'FAILED'}")
+    print(f"   ✅ ChromaImprover: {'OK' if chroma_improver else 'FAILED'}")
+    print(f"   ✅ HybridRAG: {'OK' if hybrid_rag_engine else 'FAILED'}")
+    print(f"   ✅ IntegratedSystem: {'OK' if integrated_conversation_system else 'FAILED'}")
+    print(f"   ✅ AgentRouter: {'OK' if agent_router else 'FAILED'}")
+    print(f"🔧 Custom Tools: {len(custom_tools) if custom_tools else 0} tools loaded")
+    print(f"🤖 Response Settings:")
+    print(f"   📱 DM Auto Response: {ALWAYS_RESPOND_DM}")
+    print(f"   👥 Group Mention Required: {REQUIRE_MENTION_IN_GROUP}")
+    print(f"   🔑 Keywords: {len(RESPONSE_KEYWORDS)} configured")
+    print("=" * 80)
 
-    # 開発環境での安定性向上のためリローダーを無効化
-    debug_mode = os.getenv("FLASK_DEBUG", "True").lower() == "true"
-    use_reloader = os.getenv("FLASK_USE_RELOADER", "False").lower() == "true"
+    if not IS_RAILWAY:
+        print("Access token: {ACCESS_TOKEN[:20]}...")
+        print("Channel secret: {CHANNEL_SECRET[:10]}...")
+        print(f"Webhook endpoint: http://localhost:{PORT}/callback")
+        print(f"Health check endpoint: http://localhost:{PORT}/")
 
-    # チャット履歴をChromaDBにロード
-    debug_info = f"""
-    [UMA3 DEBUG] Before load_chathistory_to_chromadb:
-    CWD: {os.getcwd()}
-    __file__: {__file__}
-    sys.path[0]: {sys.path[0] if sys.path else 'None'}
-    """
-    print(debug_info)
+    # Railway環境での安定性向上のためリローダーを無効化
+    if IS_RAILWAY:
+        DEBUG_MODE = False
+        USE_RELOADER = False
+        print("🚀 Railway環境：最適化設定で起動")
 
-    # デバッグ情報をファイルにも保存
-    with open("debug_uma3_f5.log", "w", encoding="utf-8") as f:
-        f.write(debug_info + "\n")
+    # チャット履歴をChromaDBにロード（ローカル環境のみ）
+    if not IS_RAILWAY:
+        debug_info = f"""
+        [UMA3 DEBUG] Before load_chathistory_to_chromadb:
+        CWD: {os.getcwd()}
+        __file__: {__file__}
+        sys.path[0]: {sys.path[0] if sys.path else 'None'}
+        """
+        print(debug_info)
 
-    load_chathistory_to_chromadb()
+        load_chathistory_to_chromadb()
 
-    after_debug = f"[UMA3 DEBUG] After load_chathistory_to_chromadb: CWD={os.getcwd()}"
-    print(after_debug)
+        after_debug = f"[UMA3 DEBUG] After load_chathistory_to_chromadb: CWD={os.getcwd()}"
+        print(after_debug)
 
-    # 完了をファイルに記録
-    with open("debug_uma3_f5.log", "a", encoding="utf-8") as f:
-        f.write(after_debug + "\n")
-        f.write("load_chathistory_to_chromadb() completed successfully\n")
+        # monitoring_historyfile.py をサブプロセスでバックグラウンド起動
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        monitoring_script = os.path.join(current_dir, "monitoring_historyfile.py")
 
-    # monitoring_historyfile.py をサブプロセスでバックグラウンド起動
-    import subprocess
-
-    # 現在のファイルからの相対パスで監視スクリプトを特定
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    monitoring_script = os.path.join(current_dir, "monitoring_historyfile.py")
-
-    print(f"[DEBUG] Looking for monitoring script at: {monitoring_script}")
-
-    if os.path.exists(monitoring_script):
-        try:
-            # バックグラウンドプロセスとして起動（コンソールウィンドウを表示しない）
-            creation_flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
-            process = subprocess.Popen(
-                [sys.executable, monitoring_script],
-                cwd=current_dir,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                creationflags=creation_flags
-            )
-            print(f"[INFO] Started monitoring script: {monitoring_script} (PID: {process.pid})")
-        except Exception as e:
-            print(f"[ERROR] Failed to start monitoring script: {e}")
-    else:
-        print(f"[WARNING] Monitoring script not found: {monitoring_script}")
-        # 代替パスを試行
-        alt_script = os.path.join(os.path.dirname(current_dir), "src", "monitoring_historyfile.py")
-        if os.path.exists(alt_script):
+        if os.path.exists(monitoring_script):
             try:
                 creation_flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
                 process = subprocess.Popen(
-                    [sys.executable, alt_script],
-                    cwd=os.path.dirname(alt_script),
+                    [sys.executable, monitoring_script],
+                    cwd=current_dir,
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     creationflags=creation_flags
                 )
-                print(f"[INFO] Started monitoring script (alt path): {alt_script} (PID: {process.pid})")
+                print(f"[INFO] Started monitoring script: {monitoring_script} (PID: {process.pid})")
             except Exception as e:
-                print(f"[ERROR] Failed to start monitoring script (alt path): {e}")
-        else:
-            print(f"[WARNING] Alternative monitoring script not found: {alt_script}")
+                print(f"[ERROR] Failed to start monitoring script: {e}")
+    else:
+        print("🚀 Railway環境：履歴ロード・監視スクリプトをスキップ")
+
+    print("🚀 Flask application starting...")
 
     # Flaskアプリ起動
-    app.run(host="0.0.0.0", port=5000, debug=debug_mode, use_reloader=use_reloader)
+    app.run(host="0.0.0.0", port=PORT, debug=DEBUG_MODE, use_reloader=USE_RELOADER)

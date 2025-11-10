@@ -490,7 +490,7 @@ from integrated_conversation_system import IntegratedConversationSystem
 from langchain_chroma import Chroma
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_huggingface import HuggingFaceEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings  # Railway軽量化のためコメントアウト
 
 # ChromaDBのログとテレメトリー設定
 import logging
@@ -589,19 +589,20 @@ handler = WebhookHandler(CHANNEL_SECRET)
 # 埋め込みモデルとベクトルデータベースの初期化
 print("[INIT] Initializing embedding model...")
 try:
-    from langchain_huggingface import HuggingFaceEmbeddings
-    embedding_model = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
-    print("[INIT] Using HuggingFace embeddings")
+    from langchain_openai import OpenAIEmbeddings
+    embedding_model = OpenAIEmbeddings()
+    print("[INIT] Using OpenAI embeddings")
 except Exception as e:
-    print(f"[WARNING] HuggingFace embeddings failed: {e}")
-    print("[INIT] Using OpenAI embeddings as fallback")
+    print(f"[WARNING] OpenAI embeddings failed: {e}")
+    print("[INIT] Trying HuggingFace embeddings as fallback...")
     try:
-        from langchain_openai import OpenAIEmbeddings
-        embedding_model = OpenAIEmbeddings()
+        from langchain_huggingface import HuggingFaceEmbeddings
+        embedding_model = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-MiniLM-L6-v2"
+        )
+        print("[INIT] Using HuggingFace embeddings")
     except Exception as oe:
-        print(f"[ERROR] OpenAI embeddings also failed: {oe}")
+        print(f"[ERROR] HuggingFace embeddings also failed: {oe}")
         print("[INIT] Creating minimal embedding function...")
         # 最小限の埋め込み関数を作成
         class MinimalEmbeddings:

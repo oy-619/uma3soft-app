@@ -1,0 +1,71 @@
+# Ignore development files
+.git
+.gitignore
+README.md
+.env.*
+*.env
+
+# Ignore large data directories
+data/
+db/
+logs/
+tests/
+docs/
+exports/
+gas/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Ignore virtual environments
+venv/
+ENV/
+env/
+.venv/
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary files
+*.tmp
+*.temp
+.cache/
+
+# Ignore archive directory
+src/archive/
+
+# Keep only essential files for Railway deployment
+!src/uma3.py
+!src/conversation_history_manager.py
+!src/integrated_conversation_system.py
+!src/uma3_agent_router.py
+!src/uma3_chroma_improver.py
+!src/uma3_custom_tools.py
+!src/reminder_flex_customizer.py
+!src/weather_flex_template.py
+!requirements.railway.txt
+!Procfile

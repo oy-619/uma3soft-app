@@ -10,8 +10,8 @@ from typing import Dict, List, Optional
 from conversation_history_manager import ConversationHistoryManager, ConversationContextGenerator
 from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_openai import ChatOpenAI
+from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings  # Railway軽量化のためコメントアウト
 from uma3_chroma_improver import Uma3ChromaDBImprover
 
 
@@ -21,16 +21,13 @@ class IntegratedConversationSystem:
     def __init__(self,
                  chroma_persist_directory: str,
                  conversation_db_path: str = "conversation_history.db",
-                 embeddings_model: HuggingFaceEmbeddings = None):
+                 embeddings_model = None):
 
         self.chroma_persist_directory = chroma_persist_directory
         self.conversation_db_path = conversation_db_path
 
         # 埋め込みモデルの初期化
-        self.embedding_model = embeddings_model or HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2"
-        )
-
+        self.embedding_model = embeddings_model or OpenAIEmbeddings()
         # ChromaDBベクトルデータベースの初期化
         self.vector_db = Chroma(
             persist_directory=chroma_persist_directory,

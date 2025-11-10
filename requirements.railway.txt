@@ -42,6 +42,7 @@ tqdm==4.67.1
 PyYAML==6.0.2
 python-dateutil==2.9.0.post0
 APScheduler==3.10.4
+watchdog==4.0.0
 
 # Railway deployment
 gunicorn==21.2.0

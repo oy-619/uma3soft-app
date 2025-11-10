@@ -2037,19 +2037,23 @@ if __name__ == "__main__":
         print("🚀 Railway環境：最適化設定で起動")
 
     # チャット履歴をChromaDBにロード（ローカル環境のみ）
-    if not IS_RAILWAY:
-        debug_info = f"""
-        [UMA3 DEBUG] Before load_chathistory_to_chromadb:
-        CWD: {os.getcwd()}
-        __file__: {__file__}
-        sys.path[0]: {sys.path[0] if sys.path else 'None'}
-        """
-        print(debug_info)
+    # 履歴ロードと監視機能の起動（全環境で実行）
+    try:
+        if not IS_RAILWAY:
+            debug_info = f"""
+            [UMA3 DEBUG] Before load_chathistory_to_chromadb:
+            CWD: {os.getcwd()}
+            __file__: {__file__}
+            sys.path[0]: {sys.path[0] if sys.path else 'None'}
+            """
+            print(debug_info)
 
+        # ChromaDBへの履歴ロード実行
         load_chathistory_to_chromadb()
 
-        after_debug = f"[UMA3 DEBUG] After load_chathistory_to_chromadb: CWD={os.getcwd()}"
-        print(after_debug)
+        if not IS_RAILWAY:
+            after_debug = f"[UMA3 DEBUG] After load_chathistory_to_chromadb: CWD={os.getcwd()}"
+            print(after_debug)
 
         # monitoring_historyfile.py をサブプロセスでバックグラウンド起動
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -2057,19 +2061,39 @@ if __name__ == "__main__":
 
         if os.path.exists(monitoring_script):
             try:
-                creation_flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
-                process = subprocess.Popen(
-                    [sys.executable, monitoring_script],
-                    cwd=current_dir,
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    creationflags=creation_flags
-                )
-                print(f"[INFO] Started monitoring script: {monitoring_script} (PID: {process.pid})")
+                if IS_RAILWAY:
+                    print("🚀 Railway環境：ファイル監視機能を有効化中...")
+                    # Railway環境用の設定
+                    process = subprocess.Popen(
+                        [sys.executable, monitoring_script],
+                        cwd=current_dir,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE
+                    )
+                else:
+                    # ローカル環境用の設定
+                    creation_flags = subprocess.CREATE_NO_WINDOW if os.name == 'nt' else 0
+                    process = subprocess.Popen(
+                        [sys.executable, monitoring_script],
+                        cwd=current_dir,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        creationflags=creation_flags
+                    )
+
+                environment_type = "Railway" if IS_RAILWAY else "Local"
+                print(f"[INFO] Started monitoring script in {environment_type} environment: {monitoring_script} (PID: {process.pid})")
             except Exception as e:
                 print(f"[ERROR] Failed to start monitoring script: {e}")
-    else:
-        print("🚀 Railway環境：履歴ロード・監視スクリプトをスキップ")
+        else:
+            print(f"[WARNING] Monitoring script not found: {monitoring_script}")
+
+    except Exception as e:
+        print(f"[ERROR] Error in history loading/monitoring setup: {e}")
+        if IS_RAILWAY:
+            print("🚀 Railway環境：監視機能エラーのため基本機能のみで継続")
+        else:
+            print("🚀 ローカル環境：監視機能エラーのため基本機能のみで継続")
 
     print("🚀 Flask application starting...")
 

@@ -41,6 +41,7 @@ aiohttp==3.12.15
 tqdm==4.67.1
 PyYAML==6.0.2
 python-dateutil==2.9.0.post0
+APScheduler==3.10.4
 
 # Railway deployment
 gunicorn==21.2.0
@@ -50,6 +51,6 @@ scikit-learn==1.5.2
 
 # Note: Heavy dependencies removed for Railway deployment
 # - sentence-transformers (saves ~1GB)
-# - transformers (saves ~1GB) 
+# - transformers (saves ~1GB)
 # - torch (saves ~2GB)
 # - langchain-huggingface (saves ~500MB)

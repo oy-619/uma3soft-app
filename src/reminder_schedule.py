@@ -8,7 +8,8 @@ import requests
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from langchain_chroma import Chroma
-from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
+# from langchain_huggingface import HuggingFaceEmbeddings  # Railway軽量化のためコメントアウト
 
 # グループID
 os.environ["TO_USER_ID"] = "C42ebf9338d5017559f0007dd0b52529c"
@@ -107,9 +108,7 @@ def get_vector_db():
     """ChromaDBを必要時に初期化して返す"""
     global _embedding_model, _vector_db
     if _vector_db is None:
-        _embedding_model = HuggingFaceEmbeddings(
-            model_name="sentence-transformers/all-MiniLM-L6-v2"
-        )
+        _embedding_model = OpenAIEmbeddings()
         _vector_db = Chroma(
             persist_directory=PERSIST_DIRECTORY, embedding_function=_embedding_model
         )
